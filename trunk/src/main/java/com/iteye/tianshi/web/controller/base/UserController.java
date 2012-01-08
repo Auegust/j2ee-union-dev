@@ -24,7 +24,7 @@ import com.iteye.tianshi.web.model.base.User;
 import com.iteye.tianshi.web.service.base.UserService;
 
 /**
- * 用户Controller
+ * 用户管理
  *
  * @datetime 2010-8-8 下午04:47:03
  * @author jiangzx@yahoo.com
