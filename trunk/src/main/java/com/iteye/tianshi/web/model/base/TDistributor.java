@@ -37,25 +37,20 @@ public class TDistributor extends BaseEntity implements Serializable {
 
 	private String telephone;
 
-	//bi-directional many-to-one association to TDistributorRank
     @ManyToOne
 	@JoinColumn(name="rank_id")
 	private TDistributorRank TDistributorRank;
 
-	//bi-directional many-to-one association to TShopInfo
     @ManyToOne
 	@JoinColumn(name="shop_id")
 	private TShopInfo TShopInfo;
 
-	//bi-directional many-to-one association to TDistributorBoun
 	@OneToMany(mappedBy="TDistributor")
 	private Set<TDistributorBoun> TDistributorBouns;
 
-	//bi-directional many-to-one association to TDistributorGrade
 	@OneToMany(mappedBy="TDistributor")
 	private Set<TDistributorGrade> TDistributorGrades;
 
-	//bi-directional many-to-one association to TProductList
 	@OneToMany(mappedBy="TDistributor")
 	private Set<TProductDetail> TProductLists;
 

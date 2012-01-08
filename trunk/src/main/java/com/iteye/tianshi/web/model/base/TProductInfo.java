@@ -35,7 +35,6 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 	private String remark;
 
-	//bi-directional many-to-one association to TProductList
 	@OneToMany(mappedBy="TProductInfo")
 	private Set<TProductDetail> TProductLists;
 
