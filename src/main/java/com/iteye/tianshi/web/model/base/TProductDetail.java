@@ -9,12 +9,12 @@ import java.util.Date;
 
 
 /**
- * 产品销售明细表
+ * 经销商销售明细表
  * 
  */
 @Entity
 @Table(name="t_product_list")
-public class TProductList extends BaseEntity  implements Serializable {
+public class TProductDetail extends BaseEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="check_flag")
@@ -49,7 +49,7 @@ public class TProductList extends BaseEntity  implements Serializable {
 	@JoinColumn(name="distributor_id")
 	private TDistributor TDistributor;
 
-    public TProductList() {
+    public TProductDetail() {
     }
 
 	public String getCheckFlag() {

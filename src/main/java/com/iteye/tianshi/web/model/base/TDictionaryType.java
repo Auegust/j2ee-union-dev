@@ -1,8 +1,15 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -23,7 +30,7 @@ public class TDictionaryType implements Serializable {
 	private String dictTypeName;
 
 	@OneToMany(mappedBy="TDictionaryType")
-	private Set<TDictionary> TDictionaries;
+	private List<TDictionary> TDictionaries;
 
     public TDictionaryType() {
     }
@@ -36,7 +43,7 @@ public class TDictionaryType implements Serializable {
 		this.dictTypeName = dictTypeName;
 	}
 
-	public Set<TDictionary> getTDictionaries() {
+	public List<TDictionary> getTDictionaries() {
 		return this.TDictionaries;
 	}
 
@@ -48,7 +55,7 @@ public class TDictionaryType implements Serializable {
 		this.id = id;
 	}
 
-	public void setTDictionaries(Set<TDictionary> TDictionaries) {
+	public void setTDictionaries(List<TDictionary> TDictionaries) {
 		this.TDictionaries = TDictionaries;
 	}
 	

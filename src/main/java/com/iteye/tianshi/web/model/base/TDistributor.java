@@ -57,7 +57,7 @@ public class TDistributor extends BaseEntity implements Serializable {
 
 	//bi-directional many-to-one association to TProductList
 	@OneToMany(mappedBy="TDistributor")
-	private Set<TProductList> TProductLists;
+	private Set<TProductDetail> TProductLists;
 
     public TDistributor() {
     }
@@ -149,11 +149,11 @@ public class TDistributor extends BaseEntity implements Serializable {
 		this.TDistributorGrades = TDistributorGrades;
 	}
 	
-	public Set<TProductList> getTProductLists() {
+	public Set<TProductDetail> getTProductLists() {
 		return this.TProductLists;
 	}
 
-	public void setTProductLists(Set<TProductList> TProductLists) {
+	public void setTProductLists(Set<TProductDetail> TProductLists) {
 		this.TProductLists = TProductLists;
 	}
 	
