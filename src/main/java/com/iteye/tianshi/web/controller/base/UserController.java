@@ -24,7 +24,7 @@ import com.iteye.tianshi.web.model.base.User;
 import com.iteye.tianshi.web.service.base.UserService;
 
 /**
- * 用户管理
+ * 用户管理界面的业务方法
  *
  * @datetime 2010-8-8 下午04:47:03
  * @author jiangzx@yahoo.com
@@ -59,8 +59,8 @@ public class UserController extends BaseController {
 			pageRequest.setSortColumns(sort + " " + dir);
 		
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
-		if(StringUtils.hasText(user.getUserName()))
-			likeFilters.put("userName", user.getUserName());
+		if(StringUtils.hasText(user.getUsername()))
+			likeFilters.put("userName", user.getUsername());
 		Page<User> page = userService.findAllForPage(pageRequest);
 		return page;
 	}
@@ -80,7 +80,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * 加载用户, 只接受POST请求
+	 * 查询用户, 只接受POST请求
 	 * 
 	 * @param id
 	 * @return User
@@ -103,7 +103,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ResponseData updateUser(User user) {
 		User oldUser = userService.findEntity(user.getId());
-		oldUser.setUserName(user.getUserName());
+		oldUser.setUsername(user.getUsername());
 		userService.updateEntity(oldUser);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -128,14 +128,14 @@ public class UserController extends BaseController {
 		String userName = request.getParameter("j_username");
 		String password = request.getParameter("j_password");
 		
-		List<User> list  =userService.findByProperty("userName", userName);
+		List<User> list  =userService.findByProperty("username", userName);
 		
 		if(list.size() == 0) {
 			return new ResponseData(false, "UsernameNotFound", "用户【" + userName + "】不存在.");
 		} else if(!password.equals(list.get(0).getPassword())) {
 			return new ResponseData(false, "BadCredentials", "密码不正确，请重新输入.");
 		} else {
-			user.setUserName("admin");
+			user.setUsername("admin");
 			HttpSession session = request.getSession();
 			session.setAttribute("__SESSIONKEY__", user);
 			return ResponseData.SUCCESS_NO_DATA;
