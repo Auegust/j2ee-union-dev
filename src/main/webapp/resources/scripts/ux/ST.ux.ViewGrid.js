@@ -15,7 +15,6 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     editTitle: "更新数据",
     gridTitle: "数据列表",
     displayEast: false,
-    autoExpandColumn: "descn",
     dialogLabelWidth: 70,
     addButtonOnToolbar: function(toolbar, index){},
     //加载combobox的时候对选项进行选择
@@ -60,7 +59,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 				iconCls:'query',
 				handler: this.queryData,
 				scope: this
-			},{ 
+			},{xtype:'spacer'},{ 
 				text: '重置', 
 				type:'reset', 
 				id:'clear', 
@@ -184,10 +183,10 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
        		plugins: this.rowExpander,
 	        columns: this.columnHeaders,
 	        stripeRows: true,
-	        autoExpandColumn: this.autoExpandColumn,
 	        loadMask:"正在加载表格数据,请稍等...",
 	        title: this.gridTitle,
 	        bbar: paging,
+	        tbar:{},
 	        scope:this
 	    });
 	    var index = 11;
@@ -196,10 +195,12 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	    	this.grid.getBottomToolbar().insertButton(index++, pageSizeCombo);
 
 	    if(this.displayButton) {
-	    	this.grid.getBottomToolbar().insertButton(index++,'-');
-	    	this.grid.getBottomToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:'addEntity', disabled: this.authOperations[0]}));
-	    	this.grid.getBottomToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:'editEntity', disabled: this.authOperations[1]}));
-	    	this.grid.getBottomToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:'delEntity', disabled: this.authOperations[2]}));
+	    	this.grid.getTopToolbar().insertButton(index++,'-');
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:'addEntity', disabled: this.authOperations[0]}));
+	    	this.grid.getTopToolbar().insertButton(index++,'-');
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:'editEntity', disabled: this.authOperations[1]}));
+	    	this.grid.getTopToolbar().insertButton(index++,'-');
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:'delEntity', disabled: this.authOperations[2]}));
 	    }
 	    this.addButtonOnToolbar(this.grid.getBottomToolbar(), index);
 	    
