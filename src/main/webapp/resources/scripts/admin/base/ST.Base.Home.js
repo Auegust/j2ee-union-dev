@@ -188,9 +188,29 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			},
 			rootVisible: false
 		});
+		var panel4 =  new Ext.tree.TreePanel({
+			title: '用户管理',
+			layout: "fit",
+			animate: true,
+			border: false,
+			expandable:true,
+			autoScroll: true,
+			root: new Ext.tree.AsyncTreeNode({
+				children : [{
+	                text : "用户管理",  
+	                action: "./user/index",
+	                leaf : true
+	            }]
+			}),
+			listeners: {
+				"click": Home.ClickTopTab
+			},
+			rootVisible: false
+		}); 
 		westPanel.add(panel1);
 		westPanel.add(panel2);
 		westPanel.add(panel3);
+		westPanel.add(panel4);
 		westPanel.doLayout();
 	}
 });
