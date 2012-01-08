@@ -24,7 +24,6 @@ public class TDictionary implements Serializable {
 	@Column(name="busi_status")
 	private String busiStatus;
 
-	//bi-directional many-to-one association to TDictionaryType
     @ManyToOne
 	@JoinColumn(name="dict_type_id")
 	private TDictionaryType TDictionaryType;
