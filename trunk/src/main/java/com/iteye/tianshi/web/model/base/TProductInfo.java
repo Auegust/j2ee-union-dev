@@ -1,0 +1,101 @@
+package com.iteye.tianshi.web.model.base;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+import com.iteye.tianshi.core.web.model.BaseEntity;
+
+import java.util.Set;
+
+
+/**
+ * 产品信息表
+ * 
+ */
+@Entity
+@Table(name="t_product_info")
+public class TProductInfo extends BaseEntity  implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+
+	@Column(name="product_bv")
+	private Integer productBv;
+
+	@Column(name="product_code")
+	private String productCode;
+
+	@Column(name="product_name")
+	private String productName;
+
+	@Column(name="product_price")
+	private Integer productPrice;
+
+	@Column(name="product_pv")
+	private Integer productPv;
+
+	private String remark;
+
+	//bi-directional many-to-one association to TProductList
+	@OneToMany(mappedBy="TProductInfo")
+	private Set<TProductList> TProductLists;
+
+    public TProductInfo() {
+    }
+
+	public Integer getProductBv() {
+		return this.productBv;
+	}
+
+	public void setProductBv(Integer productBv) {
+		this.productBv = productBv;
+	}
+
+	public String getProductCode() {
+		return this.productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getProductName() {
+		return this.productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public Integer getProductPrice() {
+		return this.productPrice;
+	}
+
+	public void setProductPrice(Integer productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public Integer getProductPv() {
+		return this.productPv;
+	}
+
+	public void setProductPv(Integer productPv) {
+		this.productPv = productPv;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Set<TProductList> getTProductLists() {
+		return this.TProductLists;
+	}
+
+	public void setTProductLists(Set<TProductList> TProductLists) {
+		this.TProductLists = TProductLists;
+	}
+	
+}
