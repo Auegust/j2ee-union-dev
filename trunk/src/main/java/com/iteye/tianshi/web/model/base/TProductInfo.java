@@ -37,7 +37,7 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 	//bi-directional many-to-one association to TProductList
 	@OneToMany(mappedBy="TProductInfo")
-	private Set<TProductList> TProductLists;
+	private Set<TProductDetail> TProductLists;
 
     public TProductInfo() {
     }
@@ -90,11 +90,11 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 		this.remark = remark;
 	}
 
-	public Set<TProductList> getTProductLists() {
+	public Set<TProductDetail> getTProductLists() {
 		return this.TProductLists;
 	}
 
-	public void setTProductLists(Set<TProductList> TProductLists) {
+	public void setTProductLists(Set<TProductDetail> TProductLists) {
 		this.TProductLists = TProductLists;
 	}
 	
