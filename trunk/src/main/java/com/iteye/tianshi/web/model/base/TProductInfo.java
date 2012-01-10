@@ -32,9 +32,13 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 	@Column(name="product_pv")
 	private Integer productPv;
-
+	
+	@Column(name="remark")
 	private String remark;
-
+	
+	@Column(name="status")
+	private String status;
+	
 	@OneToMany(mappedBy="TProductInfo")
 	private Set<TProductDetail> TProductLists;
 
@@ -88,7 +92,15 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	public Set<TProductDetail> getTProductLists() {
 		return this.TProductLists;
 	}
