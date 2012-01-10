@@ -33,7 +33,7 @@ public class TDistributor extends BaseEntity implements Serializable {
 	private String remark;
 
 	@Column(name="sponsor_id")
-	private Long sponsorId;
+	private String sponsorId;
 
 	private String telephone;
 
@@ -96,11 +96,11 @@ public class TDistributor extends BaseEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public Long getSponsorId() {
+	public String getSponsorId() {
 		return this.sponsorId;
 	}
 
-	public void setSponsorId(Long sponsorId) {
+	public void setSponsorId(String sponsorId) {
 		this.sponsorId = sponsorId;
 	}
 
