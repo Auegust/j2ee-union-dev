@@ -41,17 +41,29 @@ public class TDistributor extends BaseEntity implements Serializable {
 	private String sponsorId;
 	
 	@Transient
-	private String sponsorName;
+	private String sponsor_Name;
 
 	private String telephone;
 
 	@Column(name="rank_id")
 	private Long  rankId;
+	
+	@Transient
+	private String rank_Name;
 
 	@Column(name="shop_id")
 	private Long shopId;
+	
+	@Transient
+	private String shop_Name;
 
-    public TDistributor() {
+    public String getShop_Name() {
+		return shop_Name;
+	}
+	public void setShop_Name(String shop_Name) {
+		this.shop_Name = shop_Name;
+	}
+	public TDistributor() {
     }
 	public String getAddress() {
 		return this.address;
@@ -109,11 +121,11 @@ public class TDistributor extends BaseEntity implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public void setSponsorName(String sponsorName) {
-		this.sponsorName = sponsorName;
+	public String getSponsor_Name() {
+		return sponsor_Name;
 	}
-	public String getSponsorName() {
-		return sponsorName;
+	public void setSponsor_Name(String sponsor_Name) {
+		this.sponsor_Name = sponsor_Name;
 	}
 	public void setRankId(Long rankId) {
 		this.rankId = rankId;
@@ -126,6 +138,12 @@ public class TDistributor extends BaseEntity implements Serializable {
 	}
 	public Long getShopId() {
 		return shopId;
+	}
+	public void setRank_Name(String rank_Name) {
+		this.rank_Name = rank_Name;
+	}
+	public String getRank_Name() {
+		return rank_Name;
 	}
 	
 }
