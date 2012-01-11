@@ -139,23 +139,24 @@ public class CustomSQL {
 			} else {
 				String id = sqlElement.attributeValue("id");
 				String sqlType = sqlElement.attributeValue("sqlType");
-				String tempateType = sqlElement.attributeValue("tempateType");
+				String templateType = sqlElement.attributeValue("templateType");
 				
-				if("simple".equals(tempateType) || "freeMarker".equals(tempateType)) {
+				if("simple".equals(templateType) || "freeMarker".equals(templateType)) {
 					String content = transform(sqlElement.getText());
 					
 					SQLBean bean = new SQLBean();
-					bean.setTempateType(tempateType);
+					bean.setTempateType(templateType);
 					bean.setSqlType(sqlType);
 					bean.setContent(content);
 					
-					if("freeMarker".equals(tempateType))
+					if("freeMarker".equals(templateType))
 						stringTemplateLoader.putTemplate(id, content);
 					
 					_sqlPool.put(id, bean);
 				} else {
 					logger.warn("{} 对应 tempateType 值 {} 不正确，可选值为：simple和freeMarker", id, sqlType);
-				}			}
+				}		
+			}
 		}
 	}
 

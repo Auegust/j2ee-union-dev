@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<custom-sql>
+	<sql id="com.iteye.tianshi.web.service.base.TDistributorService.hasZeroRecord" sqlType="SQL" templateType="simple">
+		<![CDATA[
+		 	select count(*) from tianshi.t_distributor
+		]]>
+	</sql>
+</custom-sql>

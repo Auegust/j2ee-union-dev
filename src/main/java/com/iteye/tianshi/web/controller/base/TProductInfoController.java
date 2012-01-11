@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,8 @@ import com.iteye.tianshi.web.service.base.TProductInfoService;
  * @datetime 2012-01-10 19:30:33
  * @author chenfengming456@163.com
  */
+@Controller
+@RequestMapping("/product")
 public class TProductInfoController extends BaseController {
 	@Autowired
 	TProductInfoService tProductInfoService;

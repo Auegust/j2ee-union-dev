@@ -27,6 +27,7 @@ import com.iteye.tianshi.web.service.base.UserService;
 @ContextConfiguration(locations = { "resource-core-context.xml" })
 @TransactionConfiguration(defaultRollback=false)
 public class TransactionTestApp extends AbstractTransactionalJUnit4SpringContextTests{
+	private final static String sqlCount = "select count(*) from tianshi.t_distributor";
 	//你可以在这里注入
 	@Autowired
 	private UserService userService;
@@ -35,17 +36,19 @@ public class TransactionTestApp extends AbstractTransactionalJUnit4SpringContext
 	//你可以在这个方法里测试注入的Service或者Dao
 	@Test
 	public void transactionTestApp() {
-		//插入一个简单的对象
-		User user = new User();
-		user.setUsername("test1");
-		user.setPassword("test");
-		userService.insertEntity(user);
-		//System.out.println("新增成功,回滚测试"); //需要设置  defaultRollback=true
-		//jdbcTemplate 用法
-		List<Map<String,Object>> results = userdao.getJdbcTemplate().queryForList(CommonSQL.getUser, "test");
-		if(!results.isEmpty()){
-			System.out.println("test用户的密码是"+results.get(0).get("PASSWORD"));
-		}
+//		//插入一个简单的对象
+//		User user = new User();
+//		user.setUsername("test1");
+//		user.setPassword("test");
+//		userService.insertEntity(user);
+//		//System.out.println("新增成功,回滚测试"); //需要设置  defaultRollback=true
+//		//jdbcTemplate 用法
+//		List<Map<String,Object>> results = userdao.getJdbcTemplate().queryForList(CommonSQL.getUser, "test");
+//		if(!results.isEmpty()){
+//			System.out.println("test用户的密码是"+results.get(0).get("PASSWORD"));
+//		}
+		int count = userdao.getJdbcTemplate().queryForInt(sqlCount);
+		System.out.println(count);
 		
 	}
 	

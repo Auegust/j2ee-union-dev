@@ -14,6 +14,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     addTitle: "增加数据",
     editTitle: "更新数据",
     gridTitle: "数据列表",
+    formbarTitle:"查询条件",
     displayEast: false,
     dialogLabelWidth: 70,
     addButtonOnToolbar: function(toolbar, index){},
@@ -42,7 +43,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	createForm : function() {
 		this.queryForm = new Ext.form.FormPanel({ 
 			region: 'north',
-		    title: "查询条件", 
+		    title: this.formbarTitle, 
 		    id: "form-panel",
 		    frame : true,
 		    collapsible: true,
@@ -53,14 +54,14 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 		    plugins: [Ext.ux.PanelCollapsedTitle],
 		    scope: this,
 		    buttons: [{ 
-				text: '查询', 
+				text: '模糊查询', 
 				type:'button', 
 				id:'login', 
 				iconCls:'query',
 				handler: this.queryData,
 				scope: this
 			},{xtype:'spacer'},{ 
-				text: '重置', 
+				text: '重 置', 
 				type:'reset', 
 				id:'clear', 
 				iconCls:'redo',
@@ -213,7 +214,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     center: null,
     
     queryData: function() {
-		Ext.apply(this.store.lastOptions.params, this.queryForm.getForm().getFieldValues());
+    	Ext.apply(this.store.lastOptions.params, this.queryForm.getForm().getFieldValues());
 		this.grid.store.reload();
 		if(this.east != null) {
 			if(this.east.getXType() == "grid")
@@ -221,6 +222,9 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 			else
 				this.east.getRootNode().removeAll(true);  
 		}
+    },
+    AjaxValidFormFuc:function(form,action){
+    	return true;
     },
     
     reset: function() {
@@ -318,12 +322,14 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
                     if (this.addFormPanel.getForm().isValid()) {
                         this.addFormPanel.getForm().submit({
                         	waitMsg : '正在处理，请稍等...',
-                            success: function(a, b) {
-                                this.addDialog.close();
-                                this.grid.store.reload();
+                            success: function(form, action) {
+                            	if(this.AjaxValidFormFuc(form,action)){
+                                    this.addDialog.close();
+                                    this.grid.store.reload();   
+                            	}
                             },
-                            failure: function(a, b) {
-								Ext.MessageBox.alert("提示", b.result.message);
+                            failure: function(form, action) {
+								Ext.MessageBox.alert("提示", action.result.message);
                             },
                             scope: this
                         });
@@ -375,9 +381,9 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
                     if (this.editFormPanel.getForm().isValid()) {
                         this.editFormPanel.getForm().submit({
                         	waitMsg : '正在处理，请稍等...',
-                            success: function() {
-                                this.editDialog.close();
-                                this.grid.store.reload();
+                            success: function(form,action) {
+                            	 this.editDialog.close();
+                                 this.grid.store.reload();
                             },
                             failure: function(a, b) {
                             	Ext.MessageBox.alert("提示", b.result.message);

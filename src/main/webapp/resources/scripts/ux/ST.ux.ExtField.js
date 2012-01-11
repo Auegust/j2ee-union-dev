@@ -24,6 +24,7 @@ ST.ux.ExtField.ClearableComboBox = Ext.extend(Ext.form.ComboBox, {
 });
 Ext.reg('clearcombo', ST.ux.ExtField.ClearableComboBox);
 
+
 ST.ux.ExtField.ComboBox = Ext.extend(ST.ux.ExtField.ClearableComboBox, {
     store : new Ext.data.JsonStore({  //填充的数据
     	url : "./../dict/queryDictionarys.json",
@@ -37,7 +38,7 @@ ST.ux.ExtField.ComboBox = Ext.extend(ST.ux.ExtField.ClearableComboBox, {
     forceSelection: true,
     mode:'local', 
     triggerAction: 'all',
-    emptyText:'请选择...',
+    emptyText:'请选择字典类型',
     selectOnFocus:true,
     autoLoad:true,
     listeners: {
@@ -55,48 +56,53 @@ ST.ux.ExtField.ComboBox = Ext.extend(ST.ux.ExtField.ClearableComboBox, {
     }
 });
 
-//预览
-ST.ux.DisplayIconField = Ext.extend(Ext.BoxComponent,{
-	height : 100,
-	boxMaxWidth: 125,
-	autoEl : {
-	    tag : 'img',
-	    src : Ext.BLANK_AVATER_URL,  
-	    style : 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);'
-}});
-Ext.reg('slotfield', ST.ux.DisplayIconField);
 
-//截图上传
-ST.ux.ScreenCutUploadField = Ext.extend(Ext.form.Field,{
-	inputType :'file',
-	listeners : {
-		'render':function(){
-			var img_reg = /\.([jJ][pP][gG]){1}$|\.([jJ][pP][eE][gG]){1}$|\.([gG][iI][fF]){1}$|\.([pP][nN][gG]){1}$|\.([bB][mM][pP]){1}$/;
-			this.on('change',function(field,newValue,oldValue){
-			         var picPath = this.getValue();
-			         var url = 'file:///' + picPath;
-			         if(img_reg.test(url)){  //格式验证
-			        	  if(Ext.isIE){
-                              var image = Ext.get(this.id_slot).dom;  
-    				          //image.src = Ext.BLANK_AVATER_URL;
-    				          image.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = url; 
-    			         }else{
-    				          //仅支持ff7.0+
-    			        	  Ext.get(this.id_slot).dom.src = window.URL.createObjectURL(this.getEl().dom.files.item(0));
-    			         }
-			         }else{
-			        	 Ext.MessageBox.alert('提示','格式不正确，请重新选择图片');
-			        	 this.reset(); //reset 
-			         }
-	        },this);
-         }
-	}
-//	onRender : function(ct, position){
-//		ST.ux.ScreenCutUploadField.superclass.onRender.call(this, ct, position);
-//		 this.wrap = this.el.wrap();
-//		 //this.el.setWidth(2);
-//	}
+/********
+ * 查询星级
+ */
+var rankCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
+	valueField  :'id',
+    displayField:'rankName',
+    mode  :'remote', 
+ 	emptyText:'职级列表',
+ 	store:new Ext.data.Store({
+		proxy  : new Ext.data.HttpProxy({url: './../web/findAllRank.json'}),
+	    reader : new Ext.data.JsonReader({
+	        fields: [
+	        	{name: 'id'},
+		        {name: 'rankName'},
+		    ]
+	    })
+	}),
+  	listeners: {
+  		afterRender: function(combo) {
+	           combo.setValue(102001);               
+	           combo.setRawValue('一星');
+	         }  
+  	}
 });
-Ext.reg('snapfield', ST.ux.ScreenCutUploadField);
+Ext.reg('rankCombo', rankCombo);
+
+/********
+ * 查询所属专卖店
+ */
+var shopCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
+	hiddenName:'shopId',
+	valueField  :'id',
+    displayField:'shopName',
+    mode  :'remote', 
+ 	emptyText:'专卖店列表',
+ 	store:new Ext.data.Store({
+		proxy  : new Ext.data.HttpProxy({url: './../shop/findShopInfo.json'}),
+	    reader : new Ext.data.JsonReader({
+	        fields: [
+	        	{name: 'id'},
+		        {name: 'shopName'},
+		    ]
+	    })
+	}),
+  	listeners: {}
+});
+Ext.reg('shopCombo', shopCombo);
 
 

@@ -50,7 +50,6 @@ public class TShopInfo extends BaseEntity  implements Serializable {
     public TShopInfo() {
     }
 
-
 	public Date getCreateTime() {
 		return this.createTime;
 	}

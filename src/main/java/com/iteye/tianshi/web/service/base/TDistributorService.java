@@ -9,5 +9,11 @@ import com.iteye.tianshi.web.model.base.TDistributor;
  * @author jiangzx@yahoo.com
  */
 public interface TDistributorService extends BaseService<TDistributor, Long> {
+	/***
+	 * 查询表无记录
+	 * @return
+	 */
+    public final static String SQL_COUNT = TDistributorService.class.getName()+".hasZeroRecord";
 
+	public boolean hasZeroRecord();
 }

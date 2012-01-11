@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
+import com.iteye.tianshi.core.util.DictionaryHolder;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
@@ -33,7 +34,6 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 public class TDistributorController extends BaseController {
 	@Autowired
 	private TDistributorService tDistributorService;
-
 	@Autowired
 	private TShopInfoService tShopInfoService;
 
@@ -75,6 +75,8 @@ public class TDistributorController extends BaseController {
 
 	/**
 	 * 新增经销商信息, 只接受POST请求
+	 * 判断上级经销商是否存在（编号不存在，插入失败返回"上级经销商编号填写有误，数据库查无记录"）
+	 * 判断数据库是否有记录，（针对插入第一个经销商的情况）
 	 * 
 	 * @param TDistributor
 	 * @return ResponseData
@@ -84,11 +86,20 @@ public class TDistributorController extends BaseController {
 	@ResponseBody
 	public ResponseData insertTDistributor(TDistributor tDistributor)
 			throws Exception {
+		//上级编号不存在且数据库有经销商记录，则报请填写上级编号的异常
+		if(!StringUtils.hasText(tDistributor.getSponsorCode())&& !tDistributorService.hasZeroRecord()){
+			return new ResponseData(true,"上级编号不得为空，请填写上级编号");
+		}
+		//上级编号是否填写正确
+		if(StringUtils.hasText(tDistributor.getSponsorCode()) && 
+				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
+			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
+		}
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
 		String distributorCode = sequenceAchieve.getDistributorCode();
 		tDistributor.setDistributorCode(distributorCode);
 		tDistributorService.insertEntity(tDistributor);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true,"ok");
 	}
 
 	/**
@@ -106,14 +117,14 @@ public class TDistributorController extends BaseController {
 
 	/**
 	 * 更新经销商信息, 只接受POST请求
-	 * 
+	 * 判断上级经销商是否存在（编号不存在，插入失败返回"上级经销商编号填写有误，数据库查无记录"）
 	 * @param TDistributor
 	 * @return ResponseData
 	 */
 	@RequestMapping(value = "/updateTDistributor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
-		tDistributorService.updateEntity(tDistributor);
+		tDistributorService.createOrUpdate(tDistributor);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
 
@@ -145,27 +156,37 @@ public class TDistributorController extends BaseController {
 			@RequestParam(required = false) String dir) {
 		PageRequest<TDistributor> pageRequest = new PageRequest<TDistributor>(
 				startIndex, pageSize);
-
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
-
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
-		if (StringUtils.hasText(tDistributor.getDistributorCode())) {
-			likeFilters.put("distributorCode", tDistributor
-					.getDistributorCode());
-		} else if (StringUtils.hasText(tDistributor.getSponsorId())) {
-			likeFilters.put("distributorCode", tDistributor.getSponsorId());
-		} else if (StringUtils.hasText(tDistributor.getTShopInfo()
-				.getShopCode())) {
-			likeFilters.put("shop_id", tDistributor.getTShopInfo()
-					.getShopCode());
-		} else if (StringUtils.hasText(tDistributor.getTShopInfo()
-				.getShopCountry())) {
-			likeFilters.put("shopCountry", tDistributor.getTShopInfo()
-					.getShopCountry());
+		//查询条件
+		String distCode = tDistributor.getDistributorCode();
+		Long shopId = tDistributor.getShopId();
+		String sponsorCode = tDistributor.getSponsorCode();
+		if (StringUtils.hasText(distCode)) {
+			//编号
+			likeFilters.put("distributorCode", distCode);
+		} else if (StringUtils.hasText(sponsorCode)) {
+			//上级编号
+			likeFilters.put("sponsorCode", sponsorCode);
+		} else if (shopId!=null) {
+			//所属店铺
+			likeFilters.put("shop_id", shopId.toString());
 		}
-		Page<TDistributor> page = tDistributorService
-				.findAllForPage(pageRequest);
+		Page<TDistributor> page = tDistributorService.findAllForPage(pageRequest);
+		//将主键ID转换成名称回显
+		for(TDistributor dist :page.getResult()){
+			if(StringUtils.hasText(sponsorCode) ){
+				String sponsor_Name = tDistributorService.findByProperty("sponsorCode", sponsorCode).get(0).getDistributorName();
+				dist.setSponsor_Name(sponsor_Name);
+			}
+			if(shopId != null){
+				String shop_Name = tShopInfoService.findEntity(shopId).getShopName();
+				dist.setShop_Name(shop_Name);
+			}
+		}
+		//将字典转换成名称回显（星级是字典项）
+		DictionaryHolder.transfercoder(page.getResult(), 102L, "getRankId");
 		return page;
 	}
 
