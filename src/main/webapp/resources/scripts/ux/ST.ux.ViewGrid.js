@@ -382,8 +382,10 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
                         this.editFormPanel.getForm().submit({
                         	waitMsg : '正在处理，请稍等...',
                             success: function(form,action) {
-                            	 this.editDialog.close();
-                                 this.grid.store.reload();
+                            	if(this.AjaxValidFormFuc(form, action)){
+	                               	 this.editDialog.close();
+	                                 this.grid.store.reload();	
+                            	}
                             },
                             failure: function(a, b) {
                             	Ext.MessageBox.alert("提示", b.result.message);

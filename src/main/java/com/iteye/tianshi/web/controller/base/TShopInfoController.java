@@ -70,18 +70,22 @@ public class TShopInfoController extends BaseController {
 
 	/**
 	 * 新增专卖店, 只接受POST请求
-	 * 
+	 * 如果经销商编码不为空的话，shopOwner必须在是经销商表里有记录
 	 * @param TShopInfo
 	 * @return ResponseData
 	 */
 	@RequestMapping(value = "/insertTShopInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTShopInfo(TShopInfo tShopInfo) throws Exception {
+		if(StringUtils.hasText(tShopInfo.getShopOwner()) 
+				&& tDistributorService.findByProperty("distributorCode", tDistributorService).isEmpty()){
+			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
+		}
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
 		String tShopCode = sequenceAchieve.getTShopInfoCode();
 		tShopInfo.setShopCode(tShopCode);
 		tShopInfoService.insertEntity(tShopInfo);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true,"ok");
 	}
 
 	/**
@@ -99,15 +103,19 @@ public class TShopInfoController extends BaseController {
 
 	/**
 	 * 更新专卖店信息, 只接受POST请求
-	 * 
+	 * 如果经销商编码不为空的话，shopOwner必须在是经销商表里有记录
 	 * @param TShopInfo
 	 * @return ResponseData
 	 */
 	@RequestMapping(value = "/updateTShopInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData updateTShopInfo(TShopInfo tShopInfo) {
+		if(StringUtils.hasText(tShopInfo.getShopOwner()) 
+				&& tDistributorService.findByProperty("distributorCode", tDistributorService).isEmpty()){
+			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
+		}
 		tShopInfoService.updateEntity(tShopInfo);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true,"ok");
 	}
 
 	/**

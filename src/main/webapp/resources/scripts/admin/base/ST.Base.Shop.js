@@ -1,7 +1,7 @@
 Ext.BLANK_IMAGE_URL = "./../resources/scripts/ext/resources/images/default/s.gif";
 
 Ext.namespace("ST.base");
-
+Ext.form.Field.prototype.msgTarget = 'under';
 ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
 	dlgWidth: 360,
 	dlgHeight: 300,
@@ -36,7 +36,17 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
 		               {xtype:'textfield', fieldLabel: '城市', name: 'shopCountry', anchor:'100%'}
 		              ]
 		    }],
-    
+	/*****
+	 * 表单输入值后台Ajax验证	   
+	 */ 
+    AjaxValidFormFuc: function(form , action){
+    	if(action.result.message == 'ok'){
+    		return true;
+    	}else{
+        	form.findField('shopOwner').markInvalid(action.result.message);
+        	return false;	
+    	}
+    },
 	constructor: function() {
 		ST.base.shopView.superclass.constructor.call(this, {});
 	}
