@@ -1,11 +1,15 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.util.Date;
 
 
 /**
@@ -50,9 +54,8 @@ public class TDistributorGrade  extends BaseEntity implements Serializable {
 
 	private String remark;
 
-    @ManyToOne
-	@JoinColumn(name="distributor_id")
-	private TDistributor TDistributor;
+	@Column(name="distributor_id")
+	private Long  distributorId;
 
     public TDistributorGrade() {
     }
@@ -146,12 +149,13 @@ public class TDistributorGrade  extends BaseEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public TDistributor getTDistributor() {
-		return this.TDistributor;
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
 	}
 
-	public void setTDistributor(TDistributor TDistributor) {
-		this.TDistributor = TDistributor;
+
+	public Long getDistributorId() {
+		return distributorId;
 	}
 	
 }

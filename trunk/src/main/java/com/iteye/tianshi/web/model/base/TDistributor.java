@@ -1,12 +1,17 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.util.Date;
-import java.util.Set;
 
 
 /**
@@ -20,8 +25,8 @@ public class TDistributor extends BaseEntity implements Serializable {
 
 	private String address;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="create_time")
+	@DateTimeFormat(iso=ISO.DATE) 
+	@Column(name="create_time" ,updatable=false)
 	private Date createTime;
 
 	@Column(name="distributor_code")
@@ -34,25 +39,17 @@ public class TDistributor extends BaseEntity implements Serializable {
 
 	@Column(name="sponsor_id")
 	private String sponsorId;
+	
+	@Transient
+	private String sponsorName;
 
 	private String telephone;
 
-    @ManyToOne
-	@JoinColumn(name="rank_id")
-	private TDistributorRank TDistributorRank;
+	@Column(name="rank_id")
+	private Long  rankId;
 
-    @ManyToOne
-	@JoinColumn(name="shop_id")
-	private TShopInfo TShopInfo;
-
-	@OneToMany(mappedBy="TDistributor")
-	private Set<TDistributorBoun> TDistributorBouns;
-
-	@OneToMany(mappedBy="TDistributor")
-	private Set<TDistributorGrade> TDistributorGrades;
-
-	@OneToMany(mappedBy="TDistributor")
-	private Set<TProductDetail> TProductLists;
+	@Column(name="shop_id")
+	private Long shopId;
 
     public TDistributor() {
     }
@@ -112,44 +109,23 @@ public class TDistributor extends BaseEntity implements Serializable {
 		this.telephone = telephone;
 	}
 
-	public TDistributorRank getTDistributorRank() {
-		return this.TDistributorRank;
+	public void setSponsorName(String sponsorName) {
+		this.sponsorName = sponsorName;
 	}
-
-	public void setTDistributorRank(TDistributorRank TDistributorRank) {
-		this.TDistributorRank = TDistributorRank;
+	public String getSponsorName() {
+		return sponsorName;
 	}
-	
-	public TShopInfo getTShopInfo() {
-		return this.TShopInfo;
+	public void setRankId(Long rankId) {
+		this.rankId = rankId;
 	}
-
-	public void setTShopInfo(TShopInfo TShopInfo) {
-		this.TShopInfo = TShopInfo;
+	public Long getRankId() {
+		return rankId;
 	}
-	
-	public Set<TDistributorBoun> getTDistributorBouns() {
-		return this.TDistributorBouns;
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
-
-	public void setTDistributorBouns(Set<TDistributorBoun> TDistributorBouns) {
-		this.TDistributorBouns = TDistributorBouns;
-	}
-	
-	public Set<TDistributorGrade> getTDistributorGrades() {
-		return this.TDistributorGrades;
-	}
-
-	public void setTDistributorGrades(Set<TDistributorGrade> TDistributorGrades) {
-		this.TDistributorGrades = TDistributorGrades;
-	}
-	
-	public Set<TProductDetail> getTProductLists() {
-		return this.TProductLists;
-	}
-
-	public void setTProductLists(Set<TProductDetail> TProductLists) {
-		this.TProductLists = TProductLists;
+	public Long getShopId() {
+		return shopId;
 	}
 	
 }

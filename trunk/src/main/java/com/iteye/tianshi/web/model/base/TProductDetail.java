@@ -1,11 +1,15 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.util.Date;
 
 
 /**
@@ -41,15 +45,29 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 	@Column(name="sale_time")
 	private Date saleTime;
 
-    @ManyToOne
-	@JoinColumn(name="product_id")
-	private TProductInfo TProductInfo;
+	@Column(name="product_id")
+	private Long  productId;
 
-    @ManyToOne
-	@JoinColumn(name="distributor_id")
-	private TDistributor TDistributor;
+	@Column(name="distributor_id")
+	private Long distributorId;
 
-    public TProductDetail() {
+    public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	public Long getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
+	}
+
+	public TProductDetail() {
     }
 
 	public String getCheckFlag() {
@@ -115,21 +133,4 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 	public void setSaleTime(Date saleTime) {
 		this.saleTime = saleTime;
 	}
-
-	public TProductInfo getTProductInfo() {
-		return this.TProductInfo;
-	}
-
-	public void setTProductInfo(TProductInfo TProductInfo) {
-		this.TProductInfo = TProductInfo;
-	}
-	
-	public TDistributor getTDistributor() {
-		return this.TDistributor;
-	}
-
-	public void setTDistributor(TDistributor TDistributor) {
-		this.TDistributor = TDistributor;
-	}
-	
 }

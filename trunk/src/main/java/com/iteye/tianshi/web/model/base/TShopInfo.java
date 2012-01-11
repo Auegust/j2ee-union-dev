@@ -1,12 +1,15 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.util.Date;
-import java.util.Set;
 
 
 /**
@@ -43,9 +46,6 @@ public class TShopInfo extends BaseEntity  implements Serializable {
 
 	@Column(name="shop_owner")
 	private String shopOwner;
-
-	@OneToMany(mappedBy="TShopInfo")
-	private Set<TDistributor> TDistributors;
 
     public TShopInfo() {
     }
@@ -122,13 +122,4 @@ public class TShopInfo extends BaseEntity  implements Serializable {
 	public void setShopOwner(String shopOwner) {
 		this.shopOwner = shopOwner;
 	}
-
-	public Set<TDistributor> getTDistributors() {
-		return this.TDistributors;
-	}
-
-	public void setTDistributors(Set<TDistributor> TDistributors) {
-		this.TDistributors = TDistributors;
-	}
-	
 }
