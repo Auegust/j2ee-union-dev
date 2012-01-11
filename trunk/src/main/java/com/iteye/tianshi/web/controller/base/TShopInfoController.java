@@ -1,11 +1,10 @@
 package com.iteye.tianshi.web.controller.base;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +27,8 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
  * @datetime 2012-01-10 14:27:09
  * @author chenfengming456@163.com
  */
+@Controller
+@RequestMapping("/shop")
 public class TShopInfoController extends BaseController {
 	@Autowired
 	TShopInfoService tShopInfoService;
@@ -37,7 +38,7 @@ public class TShopInfoController extends BaseController {
 
 	@RequestMapping("/index")
 	public String index() {
-		return "admin/base/distributor";
+		return "admin/base/shop";
 	}
 
 	/**
@@ -62,17 +63,9 @@ public class TShopInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/findShopInfo")
 	@ResponseBody
-	public List<Map<String, String>> geTShopInfos() {
-		List<TShopInfo> tShopInfoslList = tShopInfoService.findAllEntity();
-		List<Map<String, String>> tShopInfosCodes = new ArrayList<Map<String, String>>();
-		for (int i = 0; i < tShopInfoslList.size(); i++) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put(tShopInfoslList.get(i).getShopCode(), tShopInfoslList
-					.get(i).getShopName());
-			tShopInfosCodes.add(map);
-			map = null;
-		}
-		return tShopInfosCodes;
+	public List<TShopInfo> geTShopInfos() {
+		return tShopInfoService.findAllEntity();
+		
 	}
 
 	/**

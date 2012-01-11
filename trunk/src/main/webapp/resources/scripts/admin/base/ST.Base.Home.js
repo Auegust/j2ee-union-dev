@@ -117,11 +117,11 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			root: new Ext.tree.AsyncTreeNode({
 				children : [{
 	                text : "专卖店管理",  
-	                action: "./application/index",
+	                action: "./shop/index",
 	                leaf : true
 	            },{  
 	                text : "经销商管理",  
-	                action: "./notice/index",
+	                action: "./distributor/index",
 	                leaf : true 
 	            },{  
 	                text : "产品管理",  
