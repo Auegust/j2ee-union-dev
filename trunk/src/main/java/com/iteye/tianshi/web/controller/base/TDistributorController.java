@@ -124,8 +124,13 @@ public class TDistributorController extends BaseController {
 	@RequestMapping(value = "/updateTDistributor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
+		//上级编号是否填写正确
+		if(StringUtils.hasText(tDistributor.getSponsorCode()) && 
+				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
+			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
+		}
 		tDistributorService.createOrUpdate(tDistributor);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true,"ok");
 	}
 
 	/**
