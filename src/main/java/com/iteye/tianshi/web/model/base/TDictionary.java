@@ -1,7 +1,16 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -24,8 +33,8 @@ public class TDictionary implements Serializable {
 	@Column(name="busi_status")
 	private String busiStatus;
 
-    @ManyToOne
-	@JoinColumn(name="dict_type_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity=TDictionaryType.class) 
+	@JoinColumn(name="dict_type_id" , nullable=false)
 	private TDictionaryType TDictionaryType;
 
     public TDictionary() {
