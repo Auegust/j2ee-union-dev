@@ -1,11 +1,12 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.util.Set;
 
 
 /**
@@ -38,9 +39,6 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	
 	@Column(name="status")
 	private String status;
-	
-	@OneToMany(mappedBy="TProductInfo")
-	private Set<TProductDetail> TProductLists;
 
     public TProductInfo() {
     }
@@ -99,14 +97,6 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	
-	public Set<TProductDetail> getTProductLists() {
-		return this.TProductLists;
-	}
-
-	public void setTProductLists(Set<TProductDetail> TProductLists) {
-		this.TProductLists = TProductLists;
 	}
 	
 }

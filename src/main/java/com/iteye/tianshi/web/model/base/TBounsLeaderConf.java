@@ -1,11 +1,13 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
-
-import java.math.BigDecimal;
 
 
 /**
@@ -43,9 +45,8 @@ public class TBounsLeaderConf extends BaseEntity implements Serializable {
 	@Column(name="w_8")
 	private BigDecimal w8;
 
-    @ManyToOne
-	@JoinColumn(name="rank_id")
-	private TDistributorRank TDistributorRank;
+	@Column(name="rank_id")
+	private Long  rankId;
 
     public TBounsLeaderConf() {
     }
@@ -122,12 +123,12 @@ public class TBounsLeaderConf extends BaseEntity implements Serializable {
 		this.w8 = w8;
 	}
 
-	public TDistributorRank getTDistributorRank() {
-		return this.TDistributorRank;
+	public Long getRankId() {
+		return rankId;
 	}
 
-	public void setTDistributorRank(TDistributorRank TDistributorRank) {
-		this.TDistributorRank = TDistributorRank;
+	public void setRankId(Long rankId) {
+		this.rankId = rankId;
 	}
 	
 }

@@ -1,12 +1,16 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import com.iteye.tianshi.core.web.model.BaseEntity;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.iteye.tianshi.core.web.model.BaseEntity;
 
 
 /**
@@ -60,15 +64,29 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 
 	private BigDecimal tax;
 
-    @ManyToOne
-	@JoinColumn(name="rank_id")
-	private TDistributorRank TDistributorRank;
+	@Column(name="rank_id")
+	private Long  rankId;
 
-    @ManyToOne
-	@JoinColumn(name="distributor_id")
-	private TDistributor TDistributor;
+	@Column(name="distributor_id")
+	private Long  distributorId;
 
-    public TDistributorBoun() {
+    public Long getRankId() {
+		return rankId;
+	}
+
+	public void setRankId(Long rankId) {
+		this.rankId = rankId;
+	}
+
+	public Long getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
+	}
+
+	public TDistributorBoun() {
     }
 
 	public BigDecimal getAdjustBouns() {
@@ -182,21 +200,4 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	public void setTax(BigDecimal tax) {
 		this.tax = tax;
 	}
-
-	public TDistributorRank getTDistributorRank() {
-		return this.TDistributorRank;
-	}
-
-	public void setTDistributorRank(TDistributorRank TDistributorRank) {
-		this.TDistributorRank = TDistributorRank;
-	}
-	
-	public TDistributor getTDistributor() {
-		return this.TDistributor;
-	}
-
-	public void setTDistributor(TDistributor TDistributor) {
-		this.TDistributor = TDistributor;
-	}
-	
 }
