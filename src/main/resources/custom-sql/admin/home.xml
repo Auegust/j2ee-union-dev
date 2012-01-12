@@ -6,4 +6,9 @@
 		 	select count(*) from tianshi.t_distributor
 		]]>
 	</sql>
+	<sql id="com.iteye.tianshi.core.util.SequenceAchieve.getDistributorCode" sqlType="SQL" templateType="simple">
+		<![CDATA[
+		 	select max(res_id)+1  from tianshi.t_distributor
+		]]>
+	</sql>
 </custom-sql>
