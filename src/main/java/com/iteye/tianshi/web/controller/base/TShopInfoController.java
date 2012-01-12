@@ -1,5 +1,6 @@
 package com.iteye.tianshi.web.controller.base;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
-import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TShopInfo;
@@ -65,7 +65,6 @@ public class TShopInfoController extends BaseController {
 	@ResponseBody
 	public List<TShopInfo> geTShopInfos() {
 		return tShopInfoService.findAllEntity();
-		
 	}
 
 	/**
@@ -78,12 +77,14 @@ public class TShopInfoController extends BaseController {
 	@ResponseBody
 	public ResponseData insertTShopInfo(TShopInfo tShopInfo) throws Exception {
 		if(StringUtils.hasText(tShopInfo.getShopOwner()) 
-				&& tDistributorService.findByProperty("distributorCode", tDistributorService).isEmpty()){
+				&& tDistributorService.findByProperty("distributorCode", tShopInfo.getShopOwner()).isEmpty()){
 			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
 		}
-		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		String tShopCode = sequenceAchieve.getTShopInfoCode();
-		tShopInfo.setShopCode(tShopCode);
+	//	SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
+		//数据库手动维护编码
+//		String tShopCode = sequenceAchieve.getTShopInfoCode();
+//		tShopInfo.setShopCode(tShopCode);
+		tShopInfo.setCreateTime(new Date());
 		tShopInfoService.insertEntity(tShopInfo);
 		return new ResponseData(true,"ok");
 	}
@@ -111,7 +112,7 @@ public class TShopInfoController extends BaseController {
 	@ResponseBody
 	public ResponseData updateTShopInfo(TShopInfo tShopInfo) {
 		if(StringUtils.hasText(tShopInfo.getShopOwner()) 
-				&& tDistributorService.findByProperty("distributorCode", tDistributorService).isEmpty()){
+				&& tDistributorService.findByProperty("distributorCode", tShopInfo.getShopOwner()).isEmpty()){
 			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
 		}
 		tShopInfoService.updateEntity(tShopInfo);
@@ -153,11 +154,14 @@ public class TShopInfoController extends BaseController {
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
 		if (StringUtils.hasText(tShopInfo.getShopCode())) {
 			likeFilters.put("shopCode", tShopInfo.getShopCode());
-		} else if (StringUtils.hasText(tShopInfo.getShopCountry())) {
+		}
+		if (StringUtils.hasText(tShopInfo.getShopCountry())) {
 			likeFilters.put("shopCountry", tShopInfo.getShopCountry());
-		} else if (StringUtils.hasText(tShopInfo.getShopCity())) {
+		}
+		if (StringUtils.hasText(tShopInfo.getShopCity())) {
 			likeFilters.put("shopCity", tShopInfo.getShopCity());
-		} else if (StringUtils.hasText(tShopInfo.getShopName())) {
+		}
+		if (StringUtils.hasText(tShopInfo.getShopName())) {
 			likeFilters.put("shopName", tShopInfo.getShopName());
 		} 
 		Page<TShopInfo> page = tShopInfoService.findAllForPage(pageRequest);
