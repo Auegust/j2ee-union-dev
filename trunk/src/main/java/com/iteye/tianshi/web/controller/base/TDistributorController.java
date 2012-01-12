@@ -107,7 +107,6 @@ public class TDistributorController extends BaseController {
 		tDistributor.setSponsorId(dist.get(0).getId());
 		//生成编号
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-//		String distributorCode = sequenceAchieve.getDistributorCode();
 		String distributorCode = sequenceAchieve.getDistributorCode(tDistributorDao);
 		tDistributor.setDistributorCode(distributorCode);
 		//初始化星级为一星
