@@ -8,9 +8,6 @@ import java.util.Properties;
 
 import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
-import com.iteye.tianshi.web.dao.base.impl.UserDaoImpl;
-import com.iteye.tianshi.web.model.base.TDistributor;
-import com.iteye.tianshi.web.service.base.TDistributorService;
 
 
 /**
@@ -117,7 +114,7 @@ public class SequenceAchieve {
 	 */
 	synchronized public String getTShopInfoCode() throws Exception{
 		String tShopCode = "";
-		String prefix = "CG982";
+		//String prefix = "CG982";
 		return tShopCode;
 	}
 	
