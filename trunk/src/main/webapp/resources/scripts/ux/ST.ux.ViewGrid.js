@@ -2,6 +2,10 @@ Ext.namespace("ST.ux");
 Ext.QuickTips.init();
 
 ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
+	//按钮id
+	btnAdd : Ext.id(),
+	btnEdit:Ext.id(),
+	btnDel :Ext.id() ,
 	urlGridQuery : "",  
 	urlAdd: "/",
 	urlEdit: "/",
@@ -197,11 +201,11 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 
 	    if(this.displayButton) {
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:'addEntity', disabled: this.authOperations[0]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:this.btnAdd, disabled: this.authOperations[0]}));
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:'editEntity', disabled: this.authOperations[1]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:this.btnEdit, disabled: this.authOperations[1]}));
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:'delEntity', disabled: this.authOperations[2]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:this.btnDel, disabled: this.authOperations[2]}));
 	    }
 	    this.addButtonOnToolbar(this.grid.getBottomToolbar(), index);
 	    
@@ -256,14 +260,14 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     
     registerHandler: function() {
     	//添加
-    	var btn = Ext.getCmp("addEntity");
+    	var btn = Ext.getCmp(this.btnAdd);
         btn.on("click", function(){
         	this.buildAddDialog();
-	    	this.addDialog.show(Ext.get("addEntity"));
+	    	this.addDialog.show(Ext.get(this.btnAdd));
         }, this);
         
         //编辑 
-        btn = Ext.getCmp("editEntity");
+        btn = Ext.getCmp(this.btnEdit);
         btn.on("click", function(){
         	this.buildEditDialog();
         	if (this.checkOne()) {
@@ -273,7 +277,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
         }, this);
         
         //删除
-        btn = Ext.getCmp("delEntity");
+        btn = Ext.getCmp(this.btnDel);
         btn.on("click", function(){
         	this.delData();
         }, this);
