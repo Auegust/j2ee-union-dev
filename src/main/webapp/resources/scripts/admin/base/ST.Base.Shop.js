@@ -49,6 +49,6 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
     },
 	constructor: function() {
 		ST.base.shopView.superclass.constructor.call(this, {});
-		Ext.getCmp('delEntity').setVisible(false);
+		Ext.getCmp(this.btnDel).setVisible(false);
 	}
 });
