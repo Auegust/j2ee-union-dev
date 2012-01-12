@@ -271,7 +271,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
         btn.on("click", function(){
         	this.buildEditDialog();
         	if (this.checkOne()) {
-	            this.editDialog.show(Ext.get("editEntity"));
+	            this.editDialog.show(Ext.get(this.btnEdit));
 	            this.editFormPanel.load({waitMsg : '正在载入数据...', url: this.urlLoadData, params : {id: this.grid.getSelectionModel().selections.items[0].id},success: this.loadEditFormSucHandler});
 	        }
         }, this);
@@ -495,7 +495,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 			items = [{
 	            id      : 'editMenuId',
 	            handler : function() {
-						var btn = Ext.getCmp("editEntity");
+						var btn = Ext.getCmp(this.btnEdit);
 						btn.fireEvent("click");
 	            	}.createDelegate(this),
 	            iconCls : 'edit',
@@ -503,7 +503,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	        }, {
 	            id      : 'deleteMenuId',
 	            handler : function() {
-						var btn = Ext.getCmp("delEntity");
+						var btn = Ext.getCmp(this.btnDel);
 						btn.fireEvent("click");
 	            	}.createDelegate(this),
 	            iconCls : 'delete',
