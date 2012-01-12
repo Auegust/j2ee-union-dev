@@ -22,7 +22,7 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: '城市', dataIndex: 'shopCity'},  //输入上级编号的时候需要去数据库验证，数据库无记录的情况新增可以为空
 		            {header: '店铺地址', dataIndex: 'shopAddr',width:172},
 		            {header: '创建人', dataIndex: 'creator'},
-		            {header: '加入时间',dataIndex: 'createTime',hidden:true ,width:172}
+		            {header: '加入时间',dataIndex: 'createTime',hideForm:'all',width:172}
 		         ],
 	
 	queryFormItms: [{ 

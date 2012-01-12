@@ -26,7 +26,7 @@ ST.base.distributorView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: '所属专卖店', dataIndex: 'shop_Name', hideForm:'all'},
 		            {header: '联系地址', dataIndex: 'address',width:172},
 		            {header: '联系电话', dataIndex: 'telephone'},
-		            {header: '加入时间',dataIndex: 'createTime',hidden:true,width:172}
+		            {header: '加入时间',dataIndex: 'createTime',hideForm:'all',width:172}
 		         ],
 	
 	queryFormItms: [{ 
