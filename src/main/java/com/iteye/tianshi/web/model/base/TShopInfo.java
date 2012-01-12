@@ -6,8 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
 
@@ -21,8 +22,8 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 public class TShopInfo extends BaseEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="create_time")
+	@DateTimeFormat(iso=ISO.DATE) 
+	@Column(name="create_time" ,updatable=false)
 	private Date createTime;
 
 	private String creator;
