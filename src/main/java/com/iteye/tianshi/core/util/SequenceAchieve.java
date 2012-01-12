@@ -6,6 +6,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
+import com.iteye.tianshi.web.dao.base.TDistributorDao;
+import com.iteye.tianshi.web.dao.base.impl.UserDaoImpl;
+import com.iteye.tianshi.web.model.base.TDistributor;
+import com.iteye.tianshi.web.service.base.TDistributorService;
+
 
 /**
  * 此类是模拟sequence表机制获取sequence的工具类
@@ -94,6 +100,16 @@ public class SequenceAchieve {
 		return fillStr(code, 8, 1, '0');
 	}
 	
+//	/**
+//	 * 获取经销商编号方法
+//	 * @return 经销商编号，不足左补0
+//	 * @throws Exception 
+//	 */
+	synchronized public String getDistributorCode(TDistributorDao tDistributorDao) throws Exception{
+		String sql = CustomSQLUtil.get(SequenceAchieve.class.getName()+".getDistributorCode");
+		String code = tDistributorDao.getJdbcTemplate().queryForInt(sql)+"";
+		return fillStr(code, 8, 1, '0');
+	}
 	/**
 	 * 获取专卖店编号方法
 	 * @return 经销商编号，不足左补0

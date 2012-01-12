@@ -18,6 +18,7 @@ import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
+import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
@@ -39,6 +40,8 @@ public class TDistributorController extends BaseController {
 	private TShopInfoService tShopInfoService;
 	@Autowired
 	private TDistributorRankService rankService ;
+	@Autowired
+	private TDistributorDao tDistributorDao;
 
 	@RequestMapping("/index")
 	public String index() {
@@ -104,7 +107,8 @@ public class TDistributorController extends BaseController {
 		tDistributor.setSponsorId(dist.get(0).getId());
 		//生成编号
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		String distributorCode = sequenceAchieve.getDistributorCode();
+//		String distributorCode = sequenceAchieve.getDistributorCode();
+		String distributorCode = sequenceAchieve.getDistributorCode(tDistributorDao);
 		tDistributor.setDistributorCode(distributorCode);
 		//初始化星级为一星
 		tDistributor.setRankId(102001L);
