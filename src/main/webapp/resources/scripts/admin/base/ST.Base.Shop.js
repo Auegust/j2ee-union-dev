@@ -15,14 +15,14 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
     gridTitle: "专卖店列表",
     formbarTitle:"专卖店查询",
 	girdColumns: [  {header: 'ID', dataIndex: 'id', hideGrid: true, hideForm: 'add', hidden:true ,readOnly: true},
-		            {header: '店铺编号', dataIndex: 'shopCode', hideForm: 'all'},
+		            {header: '店铺编号', dataIndex: 'shopCode', allowBlank:false},
 		            {header: '店铺名称', dataIndex: 'shopName',allowBlank:false},
 		            {header: '店主编码',  dataIndex: 'shopOwner'},
 		            {header: '国家', dataIndex: 'shopCountry'},
 		            {header: '城市', dataIndex: 'shopCity'},  //输入上级编号的时候需要去数据库验证，数据库无记录的情况新增可以为空
 		            {header: '店铺地址', dataIndex: 'shopAddr',width:172},
 		            {header: '创建人', dataIndex: 'creator'},
-		            {header: '创建日期',dataIndex: 'createTime', allowBlank:false ,hideForm:'all'}
+		            {header: '加入时间',dataIndex: 'createTime',hidden:true ,width:172}
 		         ],
 	
 	queryFormItms: [{ 
@@ -49,5 +49,6 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
     },
 	constructor: function() {
 		ST.base.shopView.superclass.constructor.call(this, {});
+		Ext.getCmp('delEntity').setVisible(false);
 	}
 });
