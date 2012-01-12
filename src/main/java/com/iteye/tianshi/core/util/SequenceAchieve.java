@@ -23,7 +23,7 @@ import com.iteye.tianshi.web.service.base.TDistributorService;
 public class SequenceAchieve {
 	
 	private static  SequenceAchieve SEQUENCE_ACHIEVE = null;
-	
+	private final static String MAX_SEQ = SequenceAchieve.class.getName()+".getDistributorCode";
 	
 	/**
 	 * 私有的默认构造方法
@@ -106,8 +106,8 @@ public class SequenceAchieve {
 //	 * @throws Exception 
 //	 */
 	synchronized public String getDistributorCode(TDistributorDao tDistributorDao) throws Exception{
-		String sql = CustomSQLUtil.get(SequenceAchieve.class.getName()+".getDistributorCode");
-		String code = tDistributorDao.getJdbcTemplate().queryForInt(sql)+"";
+		String sql = CustomSQLUtil.get(MAX_SEQ);
+		String code = new Integer(tDistributorDao.getJdbcTemplate().queryForInt(sql)).toString();
 		return fillStr(code, 8, 1, '0');
 	}
 	/**
