@@ -1,6 +1,7 @@
 package com.iteye.tianshi.web.controller.base;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
-import com.iteye.tianshi.core.util.DictionaryHolder;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TShopInfo;
+import com.iteye.tianshi.web.service.base.TDistributorRankService;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
 
@@ -36,6 +37,8 @@ public class TDistributorController extends BaseController {
 	private TDistributorService tDistributorService;
 	@Autowired
 	private TShopInfoService tShopInfoService;
+	@Autowired
+	private TDistributorRankService rankService ;
 
 	@RequestMapping("/index")
 	public String index() {
@@ -74,6 +77,7 @@ public class TDistributorController extends BaseController {
 	}
 
 	/**
+	 * 应预先插入一条记录代表顶级记录
 	 * 新增经销商信息, 只接受POST请求
 	 * 判断上级经销商是否存在（编号不存在，插入失败返回"上级经销商编号填写有误，数据库查无记录"）
 	 * 判断数据库是否有记录，（针对插入第一个经销商的情况）
@@ -87,17 +91,25 @@ public class TDistributorController extends BaseController {
 	public ResponseData insertTDistributor(TDistributor tDistributor)
 			throws Exception {
 		//上级编号不存在且数据库有经销商记录，则报请填写上级编号的异常
-		if(!StringUtils.hasText(tDistributor.getSponsorCode())&& !tDistributorService.hasZeroRecord()){
+		if(!StringUtils.hasText(tDistributor.getSponsorCode())){
 			return new ResponseData(true,"上级编号不得为空，请填写上级编号");
 		}
 		//上级编号是否填写正确
-		if(StringUtils.hasText(tDistributor.getSponsorCode()) && 
-				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
+		
+		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode());
+		if(StringUtils.hasText(tDistributor.getSponsorCode()) && dist.isEmpty()){
 			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
 		}
+		//设置上级ID
+		tDistributor.setSponsorId(dist.get(0).getId());
+		//生成编号
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
 		String distributorCode = sequenceAchieve.getDistributorCode();
 		tDistributor.setDistributorCode(distributorCode);
+		//初始化星级为一星
+		tDistributor.setRankId(102001L);
+		//当前时间
+		tDistributor.setCreateTime(new Date());
 		tDistributorService.insertEntity(tDistributor);
 		return new ResponseData(true,"ok");
 	}
@@ -124,12 +136,16 @@ public class TDistributorController extends BaseController {
 	@RequestMapping(value = "/updateTDistributor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
+		//上级编号未填写且数据库有经销商记录，则报请填写上级编号的异常
+		if(!StringUtils.hasText(tDistributor.getSponsorCode())){
+			return new ResponseData(true,"上级编号不得为空，请填写上级编号");
+		}
 		//上级编号是否填写正确
 		if(StringUtils.hasText(tDistributor.getSponsorCode()) && 
 				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
 			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
 		}
-		tDistributorService.createOrUpdate(tDistributor);
+		tDistributorService.updateEntity(tDistributor);
 		return new ResponseData(true,"ok");
 	}
 
@@ -164,34 +180,52 @@ public class TDistributorController extends BaseController {
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
+		Map<String, Object> filters = pageRequest.getFilters();
 		//查询条件
 		String distCode = tDistributor.getDistributorCode();
 		Long shopId = tDistributor.getShopId();
 		String sponsorCode = tDistributor.getSponsorCode();
+		Long rankId = tDistributor.getRankId();
+		//根据编号查询
 		if (StringUtils.hasText(distCode)) {
-			//编号
 			likeFilters.put("distributorCode", distCode);
-		} else if (StringUtils.hasText(sponsorCode)) {
-			//上级编号
+		} 
+		//根据上级编号查询
+		if (StringUtils.hasText(sponsorCode)) {
 			likeFilters.put("sponsorCode", sponsorCode);
-		} else if (shopId!=null) {
-			//所属店铺
-			likeFilters.put("shop_id", shopId.toString());
+		} 
+		//根据商铺查询
+		if(shopId!=null){
+			filters.put("shopId", shopId);
+		}
+		//根据职级查询
+		if(rankId!=null){
+			filters.put("rankId", rankId);
 		}
 		Page<TDistributor> page = tDistributorService.findAllForPage(pageRequest);
+		//根节点不显示
+		int rootIndex = -1;
 		//将主键ID转换成名称回显
 		for(TDistributor dist :page.getResult()){
-			if(StringUtils.hasText(sponsorCode) ){
-				String sponsor_Name = tDistributorService.findByProperty("sponsorCode", sponsorCode).get(0).getDistributorName();
+			if(dist.getId() == -1L){ 
+				rootIndex = page.getResult().indexOf(dist);
+			}
+			if(StringUtils.hasText(dist.getSponsorCode()) ){
+				String sponsor_Name = tDistributorService.findByProperty("distributorCode", dist.getSponsorCode()).get(0).getDistributorName();
 				dist.setSponsor_Name(sponsor_Name);
 			}
-			if(shopId != null){
-				String shop_Name = tShopInfoService.findEntity(shopId).getShopName();
+			if(dist.getShopId() != null){
+				String shop_Name = tShopInfoService.findEntity(dist.getShopId()).getShopName();
 				dist.setShop_Name(shop_Name);
 			}
+			if(dist.getRankId()!=null){
+				String rankId_Name = rankService.findEntity(dist.getRankId()).getRankName();
+				dist.setRankId_Name(rankId_Name);
+			}
 		}
-		//将字典转换成名称回显（星级是字典项）
-		DictionaryHolder.transfercoder(page.getResult(), 102L, "getRankId");
+		if(rootIndex!=-1){
+			page.getResult().remove(rootIndex);
+		}
 		return page;
 	}
 
