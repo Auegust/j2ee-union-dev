@@ -45,26 +45,26 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 	@Column(name="sale_time")
 	private Date saleTime;
 
-	@Column(name="product_id")
-	private Long  productId;
+	@Column(name="product_code")
+	private String  productCode;
 
-	@Column(name="distributor_id")
-	private Long distributorId;
+	@Column(name="distributor_code")
+	private String distributorCode;
 
-    public Long getProductId() {
-		return productId;
+	public String getProductCode() {
+		return productCode;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
-	public Long getDistributorId() {
-		return distributorId;
+	public String getDistributorCode() {
+		return distributorCode;
 	}
 
-	public void setDistributorId(Long distributorId) {
-		this.distributorId = distributorId;
+	public void setDistributorCode(String distributorCode) {
+		this.distributorCode = distributorCode;
 	}
 
 	public TProductDetail() {
