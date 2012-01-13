@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
 
@@ -50,7 +51,73 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 
 	@Column(name="distributor_code")
 	private String distributorCode;
+	
+	@Transient
+	private String shopCode;
+	
+	@Transient
+	private String shopName;
+	
+	@Transient
+	private String productName;
+	
+	@Transient
+	private String distributorName;
+	
+	public String getShopName() {
+		return shopName;
+	}
 
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getDistributorName() {
+		return distributorName;
+	}
+
+	public void setDistributorName(String distributorName) {
+		this.distributorName = distributorName;
+	}
+
+	public String getShopCode() {
+		return shopCode;
+	}
+
+	public void setShopCode(String shopCode) {
+		this.shopCode = shopCode;
+	}
+
+	public double getPv() {
+		return pv;
+	}
+
+	public void setPv(double pv) {
+		this.pv = pv;
+	}
+
+	public double getBv() {
+		return bv;
+	}
+
+	public void setBv(double bv) {
+		this.bv = bv;
+	}
+
+	@Transient
+	private double pv;
+	
+	@Transient
+	private double bv;
+	
 	public String getProductCode() {
 		return productCode;
 	}
