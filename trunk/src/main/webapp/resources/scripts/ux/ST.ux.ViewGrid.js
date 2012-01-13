@@ -88,7 +88,6 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
             if (col.hideGrid === true) {
                 continue;
             }
-            col.renderer = this[col.renderer];
             if(col.fontColor)
             	col.renderer = this.columnColorRenderer.createDelegate(this);
             this.columnHeaders.push(col);

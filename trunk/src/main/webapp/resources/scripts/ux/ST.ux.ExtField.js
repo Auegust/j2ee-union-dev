@@ -24,7 +24,9 @@ ST.ux.ExtField.ClearableComboBox = Ext.extend(Ext.form.ComboBox, {
 });
 Ext.reg('clearcombo', ST.ux.ExtField.ClearableComboBox);
 
-
+/********
+ * 基类
+ */
 ST.ux.ExtField.ComboBox = Ext.extend(ST.ux.ExtField.ClearableComboBox, {
     store : new Ext.data.JsonStore({  //填充的数据
     	url : "./../dict/queryDictionarys.json",
@@ -105,4 +107,31 @@ var shopCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
 });
 Ext.reg('shopCombo', shopCombo);
 
+/*****
+ * 渲染色调
+ */
+function colorfunc(value, p, record){
+	console.info(value);
+	return  "<b><font color=red>"+value+"</font></b>";
+}
+
+var cb_isValid = Ext.extend(Ext.form.ComboBox ,{
+    typeAhead: true,
+    triggerAction: 'all',
+    lazyRender:true,
+    mode: 'local',
+    forceSelection:true ,
+    store: new Ext.data.ArrayStore({
+        id: 0,
+        fields: [
+            'code',
+            'displayText'
+        ],
+        data: [[1, '是'], [2, '否']]
+    }),
+    valueField: 'code',
+    displayField: 'displayText',
+    hiddenName:'status'
+});
+Ext.reg('cb_isValid', cb_isValid);
 

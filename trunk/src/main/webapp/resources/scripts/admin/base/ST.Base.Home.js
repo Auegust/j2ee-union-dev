@@ -125,7 +125,7 @@ var HomePage = Ext.extend(Ext.Viewport, {
 	                leaf : true 
 	            },{  
 	                text : "产品管理",  
-	                action: "./recommend/index",
+	                action: "./product/index",
 	                leaf : true 
 	            },{  
 	                text : "核算参数管理",  
