@@ -12,7 +12,7 @@
 		<org.hibernate.version>3.6.5.Final</org.hibernate.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
 	</properties>
-	
+
 	<!-- JBoss repository for Hibernate -->
 	<repositories>
 		<repository>
@@ -95,6 +95,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.8.5</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>
@@ -122,18 +129,18 @@
 			<version>4.1.0.Final</version>
 		</dependency>
 
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.15</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -189,7 +196,7 @@
 			<artifactId>guava</artifactId>
 			<version>r09</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
@@ -221,12 +228,17 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.1</version>
 		</dependency>
-		 <dependency>
-	        <groupId>org.apache.ant</groupId>
-	        <artifactId>ant</artifactId>
-	        <version>1.8.2</version>
-      	</dependency>
-
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<!-- ehchche -->
+		<dependency>
+			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+			<artifactId>ehcache-spring-annotations</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -253,28 +265,28 @@
 			</plugin>
 
 			<plugin>
-		    	<groupId>net.alchim31.maven</groupId>
-		    	<artifactId>yuicompressor-maven-plugin</artifactId>
-		        <version>1.1</version>
-		        <executions>
-          			<execution>
-            			<goals>
-              				<goal>compress</goal>
-            			</goals>
-          			</execution>
-        		</executions>
-        		<configuration>
-		          	<nosuffix>true</nosuffix>
-		          	<encoding>utf8</encoding>
-		          	<force>true</force> 
-		          	<jswarn>false</jswarn> 
-		          	
-		          	<excludes>
-		            	<exclude>**/ext-all.js</exclude>
-		            	<exclude>**/ext-base.js</exclude>
-		          	</excludes>
-		        </configuration>
-		   	</plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<nosuffix>true</nosuffix>
+					<encoding>utf8</encoding>
+					<force>true</force>
+					<jswarn>false</jswarn>
+
+					<excludes>
+						<exclude>**/ext-all.js</exclude>
+						<exclude>**/ext-base.js</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>

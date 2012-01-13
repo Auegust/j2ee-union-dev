@@ -1,6 +1,5 @@
 package com.iteye.tianshi.web.controller.base;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.TriggersRemove;
+import com.googlecode.ehcache.annotations.When;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
@@ -20,7 +22,6 @@ import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.model.base.TDistributor;
-import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
@@ -49,37 +50,6 @@ public class TDistributorController extends BaseController {
 	}
 
 	/**
-	 * 公共操作,根据经销商编号回显经销商相关信息,只接受POST请求
-	 * 
-	 * @param TDistributor
-	 * @return ResponseData
-	 */
-	@RequestMapping(value = "/findDistributor", method = RequestMethod.POST)
-	@ResponseBody
-	public TDistributor findDistributor(
-			@RequestParam("tDistributorCode") String tDistributorCode) {
-		List<TDistributor> tDistributorList = tDistributorService
-				.findByProperty("distributorCode", tDistributorCode);
-		return tDistributorList.get(0);
-	}
-
-	/**
-	 * 公共操作,查询出数据库中所有专卖点的编号
-	 * 
-	 * @param
-	 */
-	@RequestMapping(value = "/findShopInfos")
-	@ResponseBody
-	public List<String> geTShopInfos() {
-		List<TShopInfo> tShopInfoslList = tShopInfoService.findAllEntity();
-		List<String> tShopInfosCodes = new ArrayList<String>();
-		for (int i = 0; i < tShopInfoslList.size(); i++) {
-			tShopInfosCodes.add(tShopInfoslList.get(i).getShopCode());
-		}
-		return tShopInfosCodes;
-	}
-
-	/**
 	 * 应预先插入一条记录代表顶级记录
 	 * 新增经销商信息, 只接受POST请求
 	 * 判断上级经销商是否存在（编号不存在，插入失败返回"上级经销商编号填写有误，数据库查无记录"）
@@ -91,6 +61,7 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/insertTDistributor", method = RequestMethod.POST)
 	@ResponseBody
+	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData insertTDistributor(TDistributor tDistributor)
 			throws Exception {
 		//上级编号不存在且数据库有经销商记录，则报请填写上级编号的异常
@@ -125,6 +96,7 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteTDistributor", method = RequestMethod.POST)
 	@ResponseBody
+	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData deleteUser(Long id) {
 		tDistributorService.deleteEntity(id);
 		return ResponseData.SUCCESS_NO_DATA;
@@ -138,6 +110,7 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateTDistributor", method = RequestMethod.POST)
 	@ResponseBody
+	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
 		//上级编号未填写且数据库有经销商记录，则报请填写上级编号的异常
 		if(!StringUtils.hasText(tDistributor.getSponsorCode())){
@@ -160,6 +133,7 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/loadDistributor", method = RequestMethod.POST)
 	@ResponseBody
+	@Cacheable(cacheName="distributorCache")
 	public TDistributor loadDistributor(Long id) {
 		TDistributor tDistributor = tDistributorService.findEntity(id);
 		return tDistributor;
@@ -173,6 +147,7 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping("/pageQueryTDistributors")
 	@ResponseBody
+	@Cacheable(cacheName="distributorCache")
 	public Page<TDistributor> pageQueryDistributor(
 			@RequestParam("start") int startIndex,
 			@RequestParam("limit") int pageSize, TDistributor tDistributor,
