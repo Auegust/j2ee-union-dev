@@ -11,4 +11,9 @@
 		 	select max(res_id)+1  from tianshi.t_distributor
 		]]>
 	</sql>
+	<sql id="com.iteye.tianshi.core.util.SequenceAchieve.getTProductInfoCode" sqlType="SQL" templateType="simple">
+		<![CDATA[
+		 	select max(res_id)+1  from tianshi.t_product_info
+		]]>
+	</sql>
 </custom-sql>
