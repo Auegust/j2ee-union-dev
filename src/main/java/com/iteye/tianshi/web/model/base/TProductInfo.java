@@ -20,7 +20,7 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 
 	@Column(name="product_bv")
-	private Integer productBv;
+	private Double productBv;
 
 	@Column(name="product_code")
 	private String productCode;
@@ -29,10 +29,10 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	private String productName;
 
 	@Column(name="product_price")
-	private Integer productPrice;
+	private Double productPrice;
 
 	@Column(name="product_pv")
-	private Integer productPv;
+	private Double productPv;
 	
 	@Column(name="remark")
 	private String remark;
@@ -42,14 +42,6 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
     public TProductInfo() {
     }
-
-	public Integer getProductBv() {
-		return this.productBv;
-	}
-
-	public void setProductBv(Integer productBv) {
-		this.productBv = productBv;
-	}
 
 	public String getProductCode() {
 		return this.productCode;
@@ -67,19 +59,27 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 		this.productName = productName;
 	}
 
-	public Integer getProductPrice() {
-		return this.productPrice;
+	public Double getProductBv() {
+		return productBv;
 	}
 
-	public void setProductPrice(Integer productPrice) {
+	public void setProductBv(Double productBv) {
+		this.productBv = productBv;
+	}
+
+	public Double getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(Double productPrice) {
 		this.productPrice = productPrice;
 	}
 
-	public Integer getProductPv() {
-		return this.productPv;
+	public Double getProductPv() {
+		return productPv;
 	}
 
-	public void setProductPv(Integer productPv) {
+	public void setProductPv(Double productPv) {
 		this.productPv = productPv;
 	}
 
