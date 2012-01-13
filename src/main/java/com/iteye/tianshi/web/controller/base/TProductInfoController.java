@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
+import com.iteye.tianshi.core.util.DictionaryHolder;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
@@ -21,19 +22,24 @@ import com.iteye.tianshi.web.model.base.TProductInfo;
 import com.iteye.tianshi.web.service.base.TProductInfoService;
 
 /**
- * 产品管理界面的业务方法
+ * 产品界面的业务方法
  * 
- * @datetime 2012-01-10 19:30:33
- * @author chenfengming456@163.com
+ * @date 2012-01-10 19:30:33
+ * @author chenfengming456@163
  */
 @Controller
 @RequestMapping("/product")
 public class TProductInfoController extends BaseController {
 	@Autowired
-	private TProductInfoService tProductInfoService;
-	
+	TProductInfoService tProductInfoService;
 	@Autowired
 	private TProductInfoDao tProductInfoDao;
+	
+	@RequestMapping("/index")
+	public String index() {
+		return "admin/base/product";
+	}
+
 	/**
 	 * 公共操作,根据产品编号查询出数据库中产品名称
 	 * 
@@ -71,7 +77,7 @@ public class TProductInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteTProductInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData deleteUser(Long id) {
+	public ResponseData deleteTProductInfo(Long id) {
 		tProductInfoService.deleteEntity(id);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -98,8 +104,7 @@ public class TProductInfoController extends BaseController {
 	@RequestMapping(value = "/loadTProductInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public TProductInfo loadDistributor(Long id) {
-		TProductInfo tProductInfo = tProductInfoService.findEntity(id);
-		return tProductInfo;
+		return tProductInfoService.findEntity(id);
 	}
 
 	/**
@@ -124,10 +129,12 @@ public class TProductInfoController extends BaseController {
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
 		if (StringUtils.hasText(tProductInfo.getProductCode())) {
 			likeFilters.put("productCode", tProductInfo.getProductCode());
-		} else if (StringUtils.hasText(tProductInfo.getProductName())) {
+		} 
+		if (StringUtils.hasText(tProductInfo.getProductName())) {
 			likeFilters.put("productName", tProductInfo.getProductName());
 		} 
 		Page<TProductInfo> page = tProductInfoService.findAllForPage(pageRequest);
+		DictionaryHolder.transfercoder(page.getResult(), 104L, "getStatus");
 		return page;
 	}
 }
