@@ -20,7 +20,7 @@ import com.iteye.tianshi.web.model.base.TProductInfo;
 import com.iteye.tianshi.web.service.base.TProductInfoService;
 
 /**
- * 专卖店管理界面的业务方法
+ * 产品管理界面的业务方法
  * 
  * @datetime 2012-01-10 19:30:33
  * @author chenfengming456@163.com
@@ -87,7 +87,7 @@ public class TProductInfoController extends BaseController {
 	}
 
 	/**
-	 * 查询专卖店信息, 只接受POST请求
+	 * 查询产品信息, 只接受POST请求
 	 * 
 	 * @param id
 	 * @return TShopInfo
