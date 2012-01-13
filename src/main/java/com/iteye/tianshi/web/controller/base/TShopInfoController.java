@@ -1,7 +1,6 @@
 package com.iteye.tianshi.web.controller.base;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.web.controller.BaseController;
-import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
@@ -39,32 +37,6 @@ public class TShopInfoController extends BaseController {
 	@RequestMapping("/index")
 	public String index() {
 		return "admin/base/shop";
-	}
-
-	/**
-	 * 公共操作,根据经销商编号回显经销商相关信息,只接受POST请求
-	 * 
-	 * @param TDistributor
-	 * @return ResponseData
-	 */
-	@RequestMapping(value = "/findDistributor", method = RequestMethod.POST)
-	@ResponseBody
-	public TDistributor findDistributor(
-			@RequestParam("tDistributorCode") String tDistributorCode) {
-		List<TDistributor> tDistributorList = tDistributorService
-				.findByProperty("distributorCode", tDistributorCode);
-		return tDistributorList.get(0);
-	}
-
-	/**
-	 * 公共操作,查询出数据库中所有专卖点的编号和名称
-	 * 
-	 * @param
-	 */
-	@RequestMapping(value = "/findShopInfo")
-	@ResponseBody
-	public List<TShopInfo> geTShopInfos() {
-		return tShopInfoService.findAllEntity();
 	}
 
 	/**
