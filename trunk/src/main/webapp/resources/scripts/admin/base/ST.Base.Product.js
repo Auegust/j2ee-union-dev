@@ -25,7 +25,7 @@ ST.base.productView = Ext.extend(ST.ux.ViewGrid, {
 	            	{header: 'PV', dataIndex: 'productPv_Name',hideForm:'all',renderer: usMoneyFunc},	
 		            {header: 'BV', dataIndex: 'productBv',allowBlank:false,hideGrid:true,
 		            	regex : /^\d{0,8}\.{0,1}(\d{1,2})?$/,regexText:"请输入有效价格，保留两位有效数字!"}, 
-		            {header: 'PV', dataIndex: 'productBv_Name', hideForm:'all', renderer: usMoneyFunc},
+		            {header: 'BV', dataIndex: 'productBv_Name', hideForm:'all', renderer: usMoneyFunc},
 		            {header: '是否有效', dataIndex: 'status',allowBlank:false ,hideGrid:true, fieldtype:'cb_isValid'},
 		            {header: '是否有效', dataIndex: 'status_Name',hideForm:'all', renderer:colorfunc },
 		            {header: '备注', dataIndex: 'remark'},
