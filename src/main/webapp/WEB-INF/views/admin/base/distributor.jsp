@@ -11,7 +11,6 @@
     
 	<link rel="stylesheet" type="text/css" href="./../resources/styles/icons.css" />
 	<link rel="stylesheet" type="text/css" href="./../resources/styles/index.css" />
-	<script type="text/javascript" src="./../resources/scripts/ux/Ext.ux.TreeCombo.js"></script>
 	<script type="text/javascript" src="./../resources/scripts/ux/ST.ux.util.js"></script>
 	<script type="text/javascript" src="./../resources/scripts/ux/ST.ux.ExtField.js"></script>
 	<script type="text/javascript" src="./../resources/scripts/ux/Ext.ux.PagePlugins.js"></script>

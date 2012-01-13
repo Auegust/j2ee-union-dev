@@ -17,10 +17,10 @@
 	<script type="text/javascript" src="./../resources/scripts/ux/ST.ux.PlainGrid.js"></script>
 	<script type="text/javascript" src="./../resources/scripts/ux/ST.ux.ViewGrid.js"></script>
 	
-	<script type="text/javascript" src="./../resources/scripts/admin/base/ST.Base.Shop.js"></script>
+	<script type="text/javascript" src="./../resources/scripts/admin/base/ST.Base.Product.js"></script>
 	<script type="text/javascript">
 		Ext.onReady(function(){
-		    new ST.base.shopView();
+		    new ST.base.productView();
 		});
 	</script>
   </head>
