@@ -130,7 +130,7 @@ var cb_isValid = Ext.extend(Ext.form.ComboBox ,{
             'code',
             'displayText'
         ],
-        data: [[1, '是'], [2, '否']]
+        data: [[1, '是'], [0, '否']]
     }),
     valueField: 'code',
     displayField: 'displayText',
