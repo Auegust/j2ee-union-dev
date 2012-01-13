@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.iteye.tianshi.core.web.model.BaseEntity;
 
@@ -39,7 +40,9 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	
 	@Column(name="status")
 	private String status;
-
+	
+	@Transient
+	private String status_Name;
     public TProductInfo() {
     }
 
@@ -97,6 +100,14 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void setStatus_Name(String status_Name) {
+		this.status_Name = status_Name;
+	}
+
+	public String getStatus_Name() {
+		return status_Name;
 	}
 	
 }
