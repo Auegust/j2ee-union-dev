@@ -111,7 +111,6 @@ Ext.reg('shopCombo', shopCombo);
  * 渲染色调
  */
 function colorfunc(value, p, record){
-	console.info(value);
 	return  "<b><font color=red>"+value+"</font></b>";
 }
 

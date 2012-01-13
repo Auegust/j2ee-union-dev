@@ -19,21 +19,52 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 public class TProductInfo extends BaseEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-
-	@Column(name="product_bv")
-	private Double productBv;
-
 	@Column(name="product_code")
 	private String productCode;
 
 	@Column(name="product_name")
 	private String productName;
-
+	
+	//@MaskFormat("###,###.00")
 	@Column(name="product_price")
 	private Double productPrice;
+	public String getProductPrice_Name() {
+		return productPrice_Name;
+	}
+
+	public void setProductPrice_Name(String productPrice_Name) {
+		this.productPrice_Name = productPrice_Name;
+	}
+
+	public String getProductPv_Name() {
+		return productPv_Name;
+	}
+
+	public void setProductPv_Name(String productPv_Name) {
+		this.productPv_Name = productPv_Name;
+	}
+
+	public String getProductBv_Name() {
+		return productBv_Name;
+	}
+
+	public void setProductBv_Name(String productBv_Name) {
+		this.productBv_Name = productBv_Name;
+	}
+
+	@Transient
+	private String productPrice_Name;
 
 	@Column(name="product_pv")
 	private Double productPv;
+	@Transient
+	private String productPv_Name;
+	
+
+	@Column(name="product_bv")
+	private Double productBv;
+	@Transient
+	private String productBv_Name;
 	
 	@Column(name="remark")
 	private String remark;

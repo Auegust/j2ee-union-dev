@@ -1,5 +1,6 @@
 package com.iteye.tianshi.web.controller.base;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -122,7 +123,7 @@ public class TProductInfoController extends BaseController {
 			@RequestParam(required = false) String dir) {
 		PageRequest<TProductInfo> pageRequest = new PageRequest<TProductInfo>(
 				startIndex, pageSize);
-
+		
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
 
@@ -134,6 +135,11 @@ public class TProductInfoController extends BaseController {
 			likeFilters.put("productName", tProductInfo.getProductName());
 		} 
 		Page<TProductInfo> page = tProductInfoService.findAllForPage(pageRequest);
+		for(TProductInfo product : page.getResult()){
+			product.setProductPrice_Name(new DecimalFormat("###,###.00").format(product.getProductPrice()));
+			product.setProductBv_Name(new DecimalFormat("###,###.00").format(product.getProductBv()));
+			product.setProductPv_Name(new DecimalFormat("###,###.00").format(product.getProductPv()));
+		}
 		DictionaryHolder.transfercoder(page.getResult(), 104L, "getStatus");
 		return page;
 	}
