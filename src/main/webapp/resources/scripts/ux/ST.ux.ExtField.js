@@ -114,6 +114,10 @@ function colorfunc(value, p, record){
 	return  "<b><font color=red>"+value+"</font></b>";
 }
 
+function usMoneyFunc(value, p, record){
+	return  "$"+value;
+}
+
 var cb_isValid = Ext.extend(Ext.form.ComboBox ,{
     typeAhead: true,
     triggerAction: 'all',
