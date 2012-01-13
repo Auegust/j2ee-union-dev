@@ -171,7 +171,7 @@ public class TProductDetailController extends BaseController {
 			@RequestParam(required = false) Date startTime,
 			@RequestParam(required = false) Date endTime,			
 			@RequestParam(required = false) String sort,
-			@RequestParam(required = false) String dir) {
+			@RequestParam(required = false) String dir) throws Exception {
 		PageRequest<TProductDetail> pageRequest = new PageRequest<TProductDetail>(
 				startIndex, pageSize);
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
@@ -189,13 +189,32 @@ public class TProductDetailController extends BaseController {
 			filters.put("productCode", productCode);
 		} 
 		
-		//根据专卖店编号查询
-		if (StringUtils.hasText(shopCode)) {
-			filters.put("shopCode", shopCode);
-		} 
-		
 		Page<TProductDetail> page = tDetailService.findAllForPage(pageRequest);
-		
+		for (TProductDetail tProductDetail:page.getResult()) {
+			String productCodes = tProductDetail.getProductCode();
+			String distributorCodes = tProductDetail.getDistributorCode();
+			long shopid = 0;
+			List<TDistributor> disList = tDistributorService.findByProperty("distributorCode", distributorCodes);
+			if (disList.size()!=0) {
+				shopid = disList.get(0).getShopId();
+				tProductDetail.setDistributorName(disList.get(0).getDistributorName());
+				TShopInfo tShopInfo = tShopInfoService.findEntity(shopid);
+				if (tShopInfo != null) {
+					tProductDetail.setShopCode(tShopInfo.getShopCode());
+					tProductDetail.setShopName(tShopInfo.getShopName());
+				}
+			}
+			List<TProductInfo> list = tProductInfoService.findByProperty("productCode", productCodes);
+			double pv = 0;
+			double bv = 0;
+			if (list.size()!=0) {
+				pv = list.get(0).getProductPv();
+				bv = list.get(0).getProductBv();
+			}
+			tProductDetail.setPv(pv);
+			tProductDetail.setBv(bv);
+			tProductDetail.setProductName(getProductName(productCodes));
+		}
 		return page;
 	}
 
