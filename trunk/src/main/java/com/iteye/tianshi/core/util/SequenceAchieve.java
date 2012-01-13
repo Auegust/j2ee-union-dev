@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
+import com.iteye.tianshi.web.dao.base.TProductInfoDao;
 
 
 /**
@@ -21,6 +22,7 @@ public class SequenceAchieve {
 	
 	private static  SequenceAchieve SEQUENCE_ACHIEVE = null;
 	private final static String MAX_SEQ = SequenceAchieve.class.getName()+".getDistributorCode";
+	private final static String MAX_PRSEQ = SequenceAchieve.class.getName()+".getTProductInfoCode";
 	
 	/**
 	 * 私有的默认构造方法
@@ -123,13 +125,12 @@ public class SequenceAchieve {
 	 * @return 经销商编号，不足左补0
 	 * @throws Exception 
 	 */
-	synchronized public String getTProductInfoCode() throws Exception{
+	synchronized public String getTProductInfoCode(TProductInfoDao tProductInfoDao) throws Exception{
 		String tProductInfoCode = "";
-		String prefix = "CG982";
-		int mid = 3;
-		int lst = 1;
-		tProductInfoCode = prefix+mid+fillStr(lst+"", 2, 1, '0');
-		lst++;
+		String prefix = "PR982";
+		String sql = CustomSQLUtil.get(MAX_PRSEQ);
+		String code = new Integer(tProductInfoDao.getJdbcTemplate().queryForInt(sql)).toString();
+		tProductInfoCode = fillStr(prefix+code, 8, 0, '0');
 		return tProductInfoCode;
 	}
 }
