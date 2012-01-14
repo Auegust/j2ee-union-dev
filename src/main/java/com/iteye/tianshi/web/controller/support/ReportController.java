@@ -1,7 +1,6 @@
 package com.iteye.tianshi.web.controller.support;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.iteye.tianshi.core.web.controller.BaseController;
@@ -13,11 +12,11 @@ import com.iteye.tianshi.core.web.controller.BaseController;
  * @author jiangzx@yahoo.com
  */
 @Controller
-@RequestMapping("/web")
+@RequestMapping("/report")
 public class ReportController extends BaseController {
-	
-	@RequestMapping("/report/{reportfilename}")
-	public String index(@PathVariable String reportfilename){
-		return "admin/report/"+reportfilename;
-	}
+//	
+//	@RequestMapping("/{reportfilename}")
+//	public String index(@PathVariable String reportfilename){
+//		return "admin/report/"+reportfilename;
+//	}
 }

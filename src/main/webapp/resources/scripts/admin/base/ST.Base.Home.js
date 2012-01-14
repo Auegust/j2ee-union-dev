@@ -217,11 +217,11 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			root: new Ext.tree.AsyncTreeNode({
 				children : [{
 	                text : "测试报表-001",  
-	                action: "./user/index",
+	                action: "./frameset?__report=/resources/report/test001.rptdesign",
 	                leaf : true
 	            },{
 	                text : "测试报表-002",  
-	                action: "./user/index",
+	                action: "./frameset?__report=/resources/report/test001.rptdesign",
 	                leaf : true
 	            }]
 			}),

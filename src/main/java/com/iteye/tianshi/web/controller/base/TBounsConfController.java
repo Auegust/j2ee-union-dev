@@ -123,7 +123,6 @@ public class TBounsConfController extends BaseController {
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
-		Map<String, Object> filters = pageRequest.getFilters();
 		Long randID= tBounsConf.getRankId();
 		//根据职级查询
 		if (StringUtils.hasText(randID+"")) {
