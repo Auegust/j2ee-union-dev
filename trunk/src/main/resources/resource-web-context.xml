@@ -34,7 +34,8 @@
 	
 	<context:component-scan base-package="com.iteye.tianshi.web.controller" />
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="3600"/>
-
+	<mvc:resources location="/webcontent/" mapping="/webcontent/**" cache-period="3600"/>
+	
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="ignoreAcceptHeader" value="true" />
 		<property name="defaultContentType" value="text/html" />
