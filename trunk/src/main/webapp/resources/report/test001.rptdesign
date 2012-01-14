@@ -256,6 +256,16 @@
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+            <structure name="stringFormat">
+                <property name="category">></property>
+                <property name="pattern">></property>
+            </structure>
+            <property name="textAlign">center</property>
+            <property name="verticalAlign">middle</property>
         </style>
         <style name="crosstab-cell" id="5">
             <property name="borderBottomColor">#CCCCCC</property>
@@ -320,6 +330,8 @@
             </row>
         </grid>
         <table id="9">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
             <property name="dataSet">经销商</property>
             <list-property name="boundDataColumns">
                 <structure>
