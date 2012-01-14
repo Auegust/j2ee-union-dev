@@ -1,7 +1,5 @@
 package com.iteye.tianshi.web.controller.base;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.model.base.TBounsConf;
-import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TDistributorRank;
 import com.iteye.tianshi.web.service.base.TBounsConfService;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;

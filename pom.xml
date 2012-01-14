@@ -11,7 +11,25 @@
 		<org.springframework.version>3.1.0.M2</org.springframework.version>
 		<org.hibernate.version>3.6.5.Final</org.hibernate.version>
 		<org.slf4j.version>1.6.1</org.slf4j.version>
+		<birt.lib.path>D:\workapp\birtLib</birt.lib.path>
 	</properties>
+	<!-- 依赖管理 -->
+	<dependencyManagement>
+		<!-- batik-script includes batik-js and this messes up birts js-lib -->
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-bridge</artifactId>
+				<version>1.7</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.xmlgraphics</groupId>
+						<artifactId>batik-script</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<!-- JBoss repository for Hibernate -->
 	<repositories>
@@ -229,6 +247,16 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-discovery</groupId>
+			<artifactId>commons-discovery</artifactId>
+			<version>0.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
 			<version>1.8.2</version>
@@ -238,6 +266,158 @@
 			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
 			<artifactId>ehcache-spring-annotations</artifactId>
 			<version>1.2.0</version>
+		</dependency>
+		<!-- webservices aix -->
+		<dependency>
+			<groupId>org.apache.axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- Birt network -->
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>rhino</groupId>
+			<artifactId>js</artifactId>
+			<version>1.7R2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>4aug2000r7-dev</version>
+		</dependency>
+		<!-- Birt system -->
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.birt.runtime</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.birt.runtime_3.7.1.v20110913-1734.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+			<version>3.7.0</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.core.runtime_3.7.0.v20110110.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.datatools.connectivity.oda.consumer</artifactId>
+			<version>3.2.4</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.datatools.connectivity.oda.consumer_3.2.4.v201105200848.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.datatools.connectivity.oda</artifactId>
+			<version>3.3.2</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.datatools.connectivity.oda_3.3.2.v201105200920.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.7.0</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.emf.common_2.7.0.v20110905-0902.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+			<version>2.7.0</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.emf.ecore.xmi_2.7.0.v20110520-1406.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.7.0</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.emf.ecore_2.7.0.v20110905-0902.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.equinox.common</artifactId>
+			<version>3.6.0</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.equinox.common_3.6.0.v20110523.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.equinox.registry</artifactId>
+			<version>3.5.101</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.equinox.registry_3.5.101.R37x_v20110810-1611.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.eclipse.osgi_3.7.1.R37x_v20110808-1106.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>viewservlet</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/viewservlets.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>jaxrpc</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/jaxrpc.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>jaxwsdl</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/javax.wsdl_1.5.1.v201012040544.jar</systemPath>
+		</dependency>
+			<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>derby</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/derby.jar</systemPath>
+		</dependency>
+			<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>flute</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/flute.jar</systemPath>
+		</dependency>
+			<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>birtjs</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/js.jar</systemPath>
+		</dependency>
+			<dependency>
+			<groupId>org.eclipse.birt</groupId>
+			<artifactId>codec</artifactId>
+			<version>3.7.1</version>
+			<scope>system</scope>
+			<systemPath>${birt.lib.path}/org.apache.commons.codec_1.3.0.v201101211617.jar</systemPath>
 		</dependency>
 	</dependencies>
 

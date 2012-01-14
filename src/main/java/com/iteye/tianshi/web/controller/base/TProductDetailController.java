@@ -16,7 +16,6 @@ import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.web.controller.BaseController;
-import com.iteye.tianshi.web.model.base.TBounsConf;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TProductDetail;
 import com.iteye.tianshi.web.model.base.TProductInfo;
