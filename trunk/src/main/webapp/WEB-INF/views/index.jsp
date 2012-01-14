@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="./resources/scripts/ux/Ext.ux.AccordionPanel.js"></script>
 	<script type="text/javascript" src="./resources/scripts/ux/Ext.ux.TreeCombo.js"></script>
 	<script type="text/javascript" src="./resources/scripts/ux/ST.ux.ExtField.js"></script>
+	<script type="text/javascript" src="./resources/scripts/ux/ST.ux.ParamsUtil.js"></script>
 	<script type="text/javascript" src="./resources/scripts/admin/base/ST.Base.Home.js"></script>
   </head>
   <body>

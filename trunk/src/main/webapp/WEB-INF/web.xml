@@ -35,7 +35,7 @@
 	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
-		<param-value></param-value>
+		<param-value>${birt home}/resources/report/documents</param-value>
 	</context-param>
 
 	<!--
@@ -74,13 +74,13 @@
 	<!-- Engine log directory. Defaults to ${birt home}/logs -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_DIR</param-name>
-		<param-value></param-value>
+		<param-value>${birt home}/resources/report/logs</param-value>
 	</context-param>
 
 	<!-- Report engine log level -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_LEVEL</param-name>
-		<param-value>WARNING</param-value>
+		<param-value>FINEST</param-value>
 	</context-param>
 
 	<!--
@@ -89,7 +89,7 @@
 	-->
 	<context-param>
 		<param-name>BIRT_VIEWER_SCRIPTLIB_DIR</param-name>
-		<param-value></param-value>
+		<param-value>${birt home}/resources/report/scriptlib</param-value>
 	</context-param>
 	
 	<!-- Resource location directory. Defaults to ${birt home} -->
