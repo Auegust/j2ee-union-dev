@@ -57,6 +57,9 @@ public class TDistributor extends BaseEntity implements Serializable {
 	@Column(name="shop_id")
 	private Long shopId;
 	
+	@Column(name="floors")
+	private Long floors;
+	
 	@Transient
 	private String shop_Name;
 
@@ -154,4 +157,10 @@ public class TDistributor extends BaseEntity implements Serializable {
 		return sponsorCode;
 	}
 	
+	public Long getFloors() {
+		return floors;
+	}
+	public void setFloors(Long floors) {
+		this.floors = floors;
+	}
 }
