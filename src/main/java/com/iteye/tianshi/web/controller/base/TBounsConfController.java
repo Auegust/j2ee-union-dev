@@ -1,7 +1,5 @@
 package com.iteye.tianshi.web.controller.base;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.model.base.TBounsConf;
-import com.iteye.tianshi.web.model.base.TDistributorRank;
 import com.iteye.tianshi.web.service.base.TBounsConfService;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
 
@@ -27,34 +24,17 @@ import com.iteye.tianshi.web.service.base.TDistributorRankService;
  * @author chenfengming456@163.com
  */
 @Controller 
-@RequestMapping("/TBounsConf")
+@RequestMapping("/bonus")
 public class TBounsConfController extends BaseController {
 	@Autowired 
 	private TBounsConfService tBounsConfService;
 	
 	@Autowired
 	private TDistributorRankService tRankService;
+	
 	@RequestMapping("/index")
-	
 	public String index(){
-		return "admin/base/TBounsConf";
-	}
-	
-	/**
-	 * 获取所有职级ID和名称
-	 * @dateime 2012-1-13 下午01:37:34
-	 * @author chenfengming456@163.com
-	 * @param 
-	 * @return Map
-	 */
-	@RequestMapping(value="/getRanks",method=RequestMethod.POST)
-	public Map<String, String> getRanks(){
-		Map<String, String> rankMap = new HashMap<String, String>();
-		List<TDistributorRank> list = tRankService.findAllEntity();
-		for (TDistributorRank tRank:list) {
-			rankMap.put(tRank.getId().toString(), tRank.getRankName());
-		}
-		return rankMap;
+		return "admin/base/bonus";
 	}
 	
 	/**
@@ -66,8 +46,12 @@ public class TBounsConfController extends BaseController {
 	@RequestMapping(value = "/insertTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTBounsConf(TBounsConf tBounsConf){
+		//职级已经存在，需要返回说明
+		if(!tBounsConfService.findByProperty("rankId", tBounsConf.getRankId()).isEmpty()){
+			return new ResponseData(true, "该职级配置已经存在，若需修改请执行更新操作！");
+		}
 		tBounsConfService.insertEntity(tBounsConf);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true, "ok");
 	}
 	
 	/**
@@ -80,8 +64,11 @@ public class TBounsConfController extends BaseController {
 	@RequestMapping(value = "/updateTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
 	public  ResponseData updateTBounsConf(TBounsConf tBounsConf){
-		tBounsConfService.createOrUpdate(tBounsConf);
-		return ResponseData.SUCCESS_NO_DATA;
+		//将原先的星级拿出来，并传递等级字段，因为前台传递过来的星级为空，会覆盖掉原来的星级
+		TBounsConf oldBonus = tBounsConfService.findEntity(tBounsConf.getId());
+		tBounsConf.setRankId(oldBonus.getRankId());
+		tBounsConfService.updateEntity(tBounsConf);
+		return new ResponseData(true,"ok");
 	}
 	
 	/**
@@ -105,7 +92,7 @@ public class TBounsConfController extends BaseController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/findTBounsConf", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
 	public TBounsConf findTBounsConf(Long id){
 		return tBounsConfService.findEntity(id);
@@ -122,19 +109,15 @@ public class TBounsConfController extends BaseController {
 				startIndex, pageSize);
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
-		Map<String, String> likeFilters = pageRequest.getLikeFilters();
-		Long randID= tBounsConf.getRankId();
+		Map<String, Object> filters = pageRequest.getFilters();
+		Long rankId= tBounsConf.getRankId();
 		//根据职级查询
-		if (StringUtils.hasText(randID+"")) {
-			likeFilters.put("rankId", randID+"");
+		if (rankId!=null) {
+			filters.put("rankId", rankId);
 		} 
 		Page<TBounsConf> page = tBounsConfService.findAllForPage(pageRequest);
-		
-		//将职级对于的名称查出来 放入remark字段 方便前台调用
-		Map<String, String> map =  getRanks();
-		for(TBounsConf tBounsConf2:page.getResult()){
-			String rankName = map.get(tBounsConf2.getRankId());
-			tBounsConf2.setRemark(rankName);
+		for(TBounsConf bonus :page.getResult()){
+			bonus.setRankId_Name(tRankService.findEntity(bonus.getRankId()).getRankName());
 		}
 		return page;
 	}

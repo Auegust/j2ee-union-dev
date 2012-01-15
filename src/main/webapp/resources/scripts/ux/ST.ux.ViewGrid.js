@@ -3,9 +3,11 @@ Ext.QuickTips.init();
 
 ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	//按钮id
-	btnAdd : Ext.id(),
-	btnEdit:Ext.id(),
-	btnDel :Ext.id() ,
+	btn_add_id  : Ext.id(),
+	btn_edit_id : Ext.id(),
+	btn_del_id  : Ext.id() ,
+	btn_query_id : Ext.id() ,
+	btn_reset_id : Ext.id() ,
 	urlGridQuery : "",  
 	urlAdd: "/",
 	urlEdit: "/",
@@ -43,6 +45,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     eastGridColumn: [],
     rowExpander: null,
     buildEastToolbar: function() {},
+    formlayout:'form',
 	
 	createForm : function() {
 		this.queryForm = new Ext.form.FormPanel({ 
@@ -58,16 +61,16 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 		    plugins: [Ext.ux.PanelCollapsedTitle],
 		    scope: this,
 		    buttons: [{ 
-				text: '模糊查询', 
+				text: '查 询', 
 				type:'button', 
-				id:'login', 
+				id  : this.btn_query_id, 
 				iconCls:'query',
 				handler: this.queryData,
 				scope: this
 			},{xtype:'spacer'},{ 
 				text: '重 置', 
 				type:'reset', 
-				id:'clear', 
+				id  :this.btn_reset_id, 
 				iconCls:'redo',
 				handler: this.reset,
 				scope: this
@@ -200,17 +203,18 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 
 	    if(this.displayButton) {
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:this.btnAdd, disabled: this.authOperations[0]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"添加",iconCls: 'add', id:this.btn_add_id, disabled: this.authOperations[0]}));
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:this.btnEdit, disabled: this.authOperations[1]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"更新",iconCls: 'edit', id:this.btn_edit_id, disabled: this.authOperations[1]}));
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
-	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:this.btnDel, disabled: this.authOperations[2]}));
+	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:this.btn_del_id, disabled: this.authOperations[2]}));
 	    }
 	    this.addButtonOnToolbar(this.grid.getBottomToolbar(), index);
 	    
 	    this.grid.addListener(this.clickType, this.rowclickFn, this);
 	    this.store.on("beforeload", function(){
-            Ext.apply(this.store.lastOptions.params, this.queryForm.getForm().getFieldValues());
+	    	//#####不能加表单条件一起查
+            //Ext.apply(this.store.lastOptions.params, this.queryForm.getForm().getFieldValues());
       	}, this);
 		return this.grid;
 	},
@@ -259,24 +263,24 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     
     registerHandler: function() {
     	//添加
-    	var btn = Ext.getCmp(this.btnAdd);
+    	var btn = Ext.getCmp(this.btn_add_id);
         btn.on("click", function(){
         	this.buildAddDialog();
-	    	this.addDialog.show(Ext.get(this.btnAdd));
+	    	this.addDialog.show(Ext.get(this.btn_add_id));
         }, this);
         
         //编辑 
-        btn = Ext.getCmp(this.btnEdit);
+        btn = Ext.getCmp(this.btn_edit_id);
         btn.on("click", function(){
         	this.buildEditDialog();
         	if (this.checkOne()) {
-	            this.editDialog.show(Ext.get(this.btnEdit));
+	            this.editDialog.show(Ext.get(this.btn_edit_id));
 	            this.editFormPanel.load({waitMsg : '正在载入数据...', url: this.urlLoadData, params : {id: this.grid.getSelectionModel().selections.items[0].id},success: this.loadEditFormSucHandler});
 	        }
         }, this);
         
         //删除
-        btn = Ext.getCmp(this.btnDel);
+        btn = Ext.getCmp(this.btn_del_id);
         btn.on("click", function(){
         	this.delData();
         }, this);
@@ -311,6 +315,10 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
             labelAlign: 'right',
             labelWidth: this.dialogLabelWidth,
             frame: true,
+            //####格式布局
+            layout:this.formlayout,
+            layoutConfig:this.addlayoutConfig,
+            //####
             id: "addFormPanelID",
             autoScroll: true,
             buttonAlign: 'center',
@@ -366,6 +374,10 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
         this.editFormPanel = new Ext.form.FormPanel({
             defaultType: 'textfield',
             labelAlign: 'right',
+            //####格式布局
+            layout:this.formlayout,
+            layoutConfig:this.editlayoutConfig,
+            //####
             labelWidth: 70,
             frame: true,
             id: "editFormPanelID",
@@ -494,7 +506,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 			items = [{
 	            id      : 'editMenuId',
 	            handler : function() {
-						var btn = Ext.getCmp(this.btnEdit);
+						var btn = Ext.getCmp(this.btn_edit_id);
 						btn.fireEvent("click");
 	            	}.createDelegate(this),
 	            iconCls : 'edit',
@@ -502,7 +514,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	        }, {
 	            id      : 'deleteMenuId',
 	            handler : function() {
-						var btn = Ext.getCmp(this.btnDel);
+						var btn = Ext.getCmp(this.btn_del_id);
 						btn.fireEvent("click");
 	            	}.createDelegate(this),
 	            iconCls : 'delete',

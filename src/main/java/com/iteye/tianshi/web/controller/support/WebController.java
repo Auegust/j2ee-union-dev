@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.model.base.TDistributorRank;
+import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
+import com.iteye.tianshi.web.service.base.TShopInfoService;
 
 /**
  * 一些公用的的业务方法
@@ -23,8 +25,10 @@ import com.iteye.tianshi.web.service.base.TDistributorRankService;
 public class WebController extends BaseController {
 	@Autowired
 	TDistributorRankService rankService;
+	@Autowired
+	TShopInfoService tShopInfoService;
 	/************
-	 * 查询星级
+	 * 查询所有等级
 	 * @param user
 	 * @return
 	 */
@@ -33,4 +37,16 @@ public class WebController extends BaseController {
 	public List<TDistributorRank> findAllRank() {
 		return rankService.findAllEntity();
 	}
+	
+	/************
+	 * 查询所有专卖店
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(value="/findAllShop", method=RequestMethod.POST)
+	@ResponseBody
+	public List<TShopInfo> findAllShop() {
+		return tShopInfoService.findAllEntity();
+	}
+	
 }

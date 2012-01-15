@@ -129,7 +129,7 @@ var HomePage = Ext.extend(Ext.Viewport, {
 	                leaf : true 
 	            },{  
 	                text : "核算参数管理",  
-	                action: "./recommend/zhuanti",
+	                action: "./bonus/index",
 	                leaf : true 
 	            },{  
 	                text : "其它参数配置",  

@@ -89,13 +89,12 @@ Ext.reg('rankCombo', rankCombo);
  * 查询所属专卖店
  */
 var shopCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
-	hiddenName:'shopId',
 	valueField  :'id',
     displayField:'shopName',
     mode  :'remote', 
  	emptyText:'专卖店列表',
  	store:new Ext.data.Store({
-		proxy  : new Ext.data.HttpProxy({url: './../shop/findShopInfo.json'}),
+		proxy  : new Ext.data.HttpProxy({url: './../web/findAllShop.json'}),
 	    reader : new Ext.data.JsonReader({
 	        fields: [
 	        	{name: 'id'},
