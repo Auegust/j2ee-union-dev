@@ -22,7 +22,7 @@ ST.base.distributorView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: '上级ID', dataIndex: 'sponsorId',hideGrid:true ,hidden:true},
 		            {header: '上级编号', dataIndex: 'sponsorCode'},  //输入上级编号的时候需要去数据库验证，数据库无记录的情况新增可以为空
 		            {header: '上级名称', dataIndex: 'sponsor_Name', hideForm:'all'},
-		            {header: '所属专卖店', dataIndex: 'shopId', allowBlank:false ,fieldtype:'shopCombo',hideGrid:true},
+		            {header: '所属专卖店', dataIndex: 'shopId', allowBlank:false ,fieldtype:'shopCombo',hideGrid:true ,hiddenName:'shopId'},
 		            {header: '所属专卖店', dataIndex: 'shop_Name', hideForm:'all'},
 		            {header: '联系地址', dataIndex: 'address',width:172},
 		            {header: '联系电话', dataIndex: 'telephone'},
