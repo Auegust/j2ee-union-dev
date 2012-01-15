@@ -6,6 +6,9 @@
 package com.iteye.tianshi;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.ehcache.CacheManager;
 
 import org.junit.Test;
@@ -15,6 +18,8 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.iteye.tianshi.web.dao.base.UserDao;
+import com.iteye.tianshi.web.model.base.TDistributor;
+import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.UserService;
 
 /**
@@ -33,6 +38,8 @@ public class TransactionTestApp extends
 	private UserService userService;
 	@Autowired
 	private UserDao userdao;
+	@Autowired
+	private TDistributorService distributorService;
 	@Autowired    
 	CacheManager cacheManager; 
 	// 你可以在这个方法里测试注入的Service或者Dao
@@ -63,6 +70,35 @@ public class TransactionTestApp extends
 //		userService.findEntity(1L);
 //		userService.findEntity(1L);
 //		cacheManager.clearAll();
+		List<TDistributor> indirectChildList = new ArrayList<TDistributor>();
+		//待查询的id 比如这里查询1的间接节点
+		Long id = 1L;
+		//当前职级
+		//int level = distributorService.findEntity(id).getFloors();
+		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
+		 if(!directChild.isEmpty()){
+			 //这里是直接节点，所以不加进列表
+			 for(TDistributor aDistributor : directChild){
+				 getChildList(aDistributor.getId(),indirectChildList);
+				}
+		 }
+		 System.out.println(indirectChildList.size());
+	}
+	
+	/***
+	 * 迭代
+	 * @param id
+	 * @param indirectChildList
+	 */
+	private void getChildList(Long id ,List<TDistributor> indirectChildList){
+		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
+		if(!directChild.isEmpty()){
+			//因为是开始算间接业绩，所以需要加进列表
+			indirectChildList.addAll(directChild);
+			 for(TDistributor aDistributor : directChild){
+				 getChildList(aDistributor.getId() , indirectChildList);
+				}
+		 }
 	}
 
 }
