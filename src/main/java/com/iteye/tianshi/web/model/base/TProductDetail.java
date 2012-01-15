@@ -10,60 +10,62 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.iteye.tianshi.core.web.model.BaseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.iteye.tianshi.core.web.model.BaseEntity;
 
 /**
  * 经销商销售明细表
  * 
  */
 @Entity
-@Table(name="t_product_list")
-public class TProductDetail extends BaseEntity  implements Serializable {
+@Table(name = "t_product_list")
+public class TProductDetail extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="check_flag")
+	@Column(name = "check_flag")
 	private String checkFlag;
 
-	@Column(name="check_man")
+	@Column(name = "check_man")
 	private String checkMan;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="create_time")
+	@DateTimeFormat(iso=ISO.DATE) 
+	@Column(name="create_time" ,updatable=false)
 	private Date createTime;
 
 	private String creator;
 
 	private String remark;
 
-	@Column(name="sale_number")
+	@Column(name = "sale_number")
 	private Integer saleNumber;
 
-	@Column(name="sale_price")
-	private Integer salePrice;
+	@Column(name = "sale_price")
+	private Double salePrice;
 
-    @Temporal( TemporalType.TIMESTAMP)
-	@Column(name="sale_time")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "sale_time")
 	private Date saleTime;
 
-	@Column(name="product_code")
-	private String  productCode;
+	@Column(name = "product_code")
+	private String productCode;
 
-	@Column(name="distributor_code")
+	@Column(name = "distributor_code")
 	private String distributorCode;
-	
+
 	@Transient
 	private String shopCode;
-	
+
 	@Transient
 	private String shopName;
-	
+
 	@Transient
 	private String productName;
-	
+
 	@Transient
 	private String distributorName;
-	
+
 	public String getShopName() {
 		return shopName;
 	}
@@ -114,10 +116,10 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 
 	@Transient
 	private double pv;
-	
+
 	@Transient
 	private double bv;
-	
+
 	public String getProductCode() {
 		return productCode;
 	}
@@ -135,7 +137,7 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 	}
 
 	public TProductDetail() {
-    }
+	}
 
 	public String getCheckFlag() {
 		return this.checkFlag;
@@ -185,16 +187,16 @@ public class TProductDetail extends BaseEntity  implements Serializable {
 		this.saleNumber = saleNumber;
 	}
 
-	public Integer getSalePrice() {
-		return this.salePrice;
-	}
-
-	public void setSalePrice(Integer salePrice) {
-		this.salePrice = salePrice;
-	}
-
 	public Date getSaleTime() {
 		return this.saleTime;
+	}
+
+	public Double getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(Double salePrice) {
+		this.salePrice = salePrice;
 	}
 
 	public void setSaleTime(Date saleTime) {
