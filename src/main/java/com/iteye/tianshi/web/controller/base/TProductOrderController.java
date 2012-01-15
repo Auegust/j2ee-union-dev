@@ -31,7 +31,7 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
  * @author chenfengming456@163.com
  */
 @Controller 
-@RequestMapping("/TProductDetail")
+@RequestMapping("/order")
 public class TProductOrderController extends BaseController {
 	@Autowired
 	private TProductDetailService tDetailService;
@@ -47,7 +47,7 @@ public class TProductOrderController extends BaseController {
 	
 	@RequestMapping("/index")
 	public String index(){
-		return "admin/base/TBounsConf";
+		return "admin/base/order";
 	}
 	
 	/**
@@ -111,9 +111,9 @@ public class TProductOrderController extends BaseController {
 	 * @param tDetail
 	 * @return
 	 */
-	@RequestMapping(value = "/insertTProductDetail", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData insertTBounsConf(TProductDetail tDetail){
+	public ResponseData insertTProductOrder(TProductDetail tDetail){
 		tDetailService.insertEntity(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -125,9 +125,9 @@ public class TProductOrderController extends BaseController {
 	 * @param tDetail
 	 * @return
 	 */
-	@RequestMapping(value = "/updateTProductDetail", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public  ResponseData updateTBounsConf(TProductDetail tDetail){
+	public  ResponseData updateTProductOrder(TProductDetail tDetail){
 		tDetailService.createOrUpdate(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -139,9 +139,9 @@ public class TProductOrderController extends BaseController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteTProductDetail", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData deleteTBounsConf(Long id){
+	public ResponseData deleteTProductOrder(Long id){
 		tDetailService.deleteEntity(id);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -153,15 +153,15 @@ public class TProductOrderController extends BaseController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/findTProductDetail", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public TProductDetail findTBounsConf(Long id){
+	public TProductDetail loadTProductOrder(Long id){
 		return tDetailService.findEntity(id);
 	}
 	
-	@RequestMapping("/pageQueryTProductDetail")
+	@RequestMapping("/pageQueryTProductOrder")
 	@ResponseBody
-	public Page<TProductDetail> pageQueryTProductDetail(
+	public Page<TProductDetail> pageQueryTProductOrder(
 			@RequestParam("start") int startIndex,
 			@RequestParam("limit") int pageSize, TProductDetail tDetail,
 			@RequestParam(required = false) String distributorCode,
