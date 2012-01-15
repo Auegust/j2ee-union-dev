@@ -76,6 +76,8 @@ public class TDistributorController extends BaseController {
 		}
 		//设置上级ID
 		tDistributor.setSponsorId(dist.get(0).getId());
+		//设置层数
+		tDistributor.setFloors(dist.get(0).getFloors()+1);
 		//生成编号
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
 		String distributorCode = sequenceAchieve.getDistributorCode(tDistributorDao);
