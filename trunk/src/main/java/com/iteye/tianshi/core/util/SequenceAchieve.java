@@ -4,20 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-
-import org.apache.commons.lang.text.StrBuilder;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
-import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
 import com.iteye.tianshi.web.dao.base.TProductInfoDao;
-import com.iteye.tianshi.web.model.base.TDistributor;
 
 
 /**
@@ -27,7 +18,7 @@ import com.iteye.tianshi.web.model.base.TDistributor;
  * @author chenfengming@163.com
  *
  */
-public class SequenceAchieve extends HibernateDaoSupport{
+public class SequenceAchieve {
 	
 	private static  SequenceAchieve SEQUENCE_ACHIEVE = null;
 	private final static String MAX_SEQ = SequenceAchieve.class.getName()+".getDistributorCode";
@@ -143,40 +134,4 @@ public class SequenceAchieve extends HibernateDaoSupport{
 		tProductInfoCode = fillStr(prefix+code, 8, 0, '0');
 		return tProductInfoCode;
 	}
-	
-	/**
-	 * 获取指定节点下 所有子节点
-	 * @dateime 2012-1-15 下午05:51:53
-	 * @author chenfengming456@163.com
-	 * @param id  指定节点的id
-	 * @param floors 指定从哪个层级开始向下查询
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public List<TDistributor> findAllChildrenDistributors(Long id,Long floors,TDistributorGradeDao tDistributorGradeDao){
-		StrBuilder sql = new StrBuilder("select * FROM t_distributor WHERE FIND_IN_SET(res_id,getChildLst(").append(id+")) ");
-		if (floors!=null) {
-			sql.append("and floors>").append(floors);
-		}
-		List<TDistributor> list = new ArrayList<TDistributor>();
-		List<Map<String, Object>> templist = tDistributorGradeDao.getJdbcTemplate().queryForList(sql.toString());
-		for(Map<String,Object> map : templist){
-			TDistributor tDistributor = new TDistributor();
-			tDistributor.setId(Long.valueOf(map.get("res_id").toString()));
-			tDistributor.setShopId(Long.valueOf(map.get("shop_id").toString()));
-			tDistributor.setRankId(Long.valueOf(map.get("rank_id").toString()));
-			tDistributor.setDistributorCode(map.get("distributor_code").toString());
-			tDistributor.setDistributorName(map.get("distributor_name").toString());
-			tDistributor.setSponsorId(Long.valueOf(map.get("sponsor_id").toString()));
-			tDistributor.setCreateTime((Date)map.get("create_time"));
-			tDistributor.setAddress(map.get("address").toString());
-			tDistributor.setTelephone(map.get("telephone").toString());
-			tDistributor.setRemark(map.get("remark").toString());
-			tDistributor.setSponsorCode(map.get("sponsor_code").toString());
-			tDistributor.setFloors(Long.valueOf(map.get("floors").toString()));
-			list.add(tDistributor);
-			tDistributor = null;
-		}
-		return list;
-	} 
 }
