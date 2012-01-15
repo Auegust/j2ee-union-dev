@@ -32,7 +32,7 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
  */
 @Controller 
 @RequestMapping("/TProductDetail")
-public class TProductDetailController extends BaseController {
+public class TProductOrderController extends BaseController {
 	@Autowired
 	private TProductDetailService tDetailService;
 	
