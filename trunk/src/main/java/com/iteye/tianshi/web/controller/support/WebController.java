@@ -47,6 +47,5 @@ public class WebController extends BaseController {
 	@ResponseBody
 	public List<TShopInfo> findAllShop() {
 		return tShopInfoService.findAllEntity();
-	}
-	
+	}	
 }

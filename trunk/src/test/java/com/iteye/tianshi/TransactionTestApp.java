@@ -72,33 +72,35 @@ public class TransactionTestApp extends
 //		cacheManager.clearAll();
 		List<TDistributor> indirectChildList = new ArrayList<TDistributor>();
 		//待查询的id 比如这里查询1的间接节点
-		Long id = 1L;
+		Long id = 6L;
 		//当前职级
-		//int level = distributorService.findEntity(id).getFloors();
-		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
-		 if(!directChild.isEmpty()){
-			 //这里是直接节点，所以不加进列表
-			 for(TDistributor aDistributor : directChild){
-				 getChildList(aDistributor.getId(),indirectChildList);
-				}
-		 }
-		 System.out.println(indirectChildList.size());
+//		//int level = distributorService.findEntity(id).getFloors();
+//		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
+//		 if(!directChild.isEmpty()){
+//			 //这里是直接节点，所以不加进列表
+//			 for(TDistributor aDistributor : directChild){
+//				 getChildList(aDistributor.getId(),indirectChildList);
+//				}
+//		 }
+//		 System.out.println(indirectChildList.size());
+		List<TDistributor> list = distributorService.findAllChildrenDistributors(1L, 3);
+		System.out.println(list.size());
 	}
 	
-	/***
-	 * 迭代
-	 * @param id
-	 * @param indirectChildList
-	 */
-	private void getChildList(Long id ,List<TDistributor> indirectChildList){
-		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
-		if(!directChild.isEmpty()){
-			//因为是开始算间接业绩，所以需要加进列表
-			indirectChildList.addAll(directChild);
-			 for(TDistributor aDistributor : directChild){
-				 getChildList(aDistributor.getId() , indirectChildList);
-				}
-		 }
-	}
+//	/***
+//	 * 迭代
+//	 * @param id
+//	 * @param indirectChildList
+//	 */
+//	private void getChildList(Long id ,List<TDistributor> indirectChildList){
+//		List<TDistributor>  directChild = distributorService.findByProperty("sponsorId", id);
+//		if(!directChild.isEmpty()){
+//			//因为是开始算间接业绩，所以需要加进列表
+//			indirectChildList.addAll(directChild);
+//			 for(TDistributor aDistributor : directChild){
+//				 getChildList(aDistributor.getId() , indirectChildList);
+//				}
+//		 }
+//	}
 
 }

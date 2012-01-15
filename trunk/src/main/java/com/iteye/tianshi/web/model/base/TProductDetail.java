@@ -65,6 +65,28 @@ public class TProductDetail extends BaseEntity implements Serializable {
 
 	@Transient
 	private String distributorName;
+	
+	@Transient
+	private String PV;
+
+	@Transient
+	private String BV;
+	
+	public String getPV() {
+		return PV;
+	}
+
+	public void setPV(String pV) {
+		PV = pV;
+	}
+
+	public String getBV() {
+		return BV;
+	}
+
+	public void setBV(String bV) {
+		BV = bV;
+	}
 
 	public String getShopName() {
 		return shopName;
