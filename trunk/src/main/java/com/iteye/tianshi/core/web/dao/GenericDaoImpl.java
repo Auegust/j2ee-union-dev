@@ -21,6 +21,7 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -530,5 +531,10 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 	@Override
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
+	}
+
+	@Override
+	public HibernateTemplate getHiberTemplate() {
+		return this.getHibernateTemplate();
 	}
 }
