@@ -1,6 +1,7 @@
 package com.iteye.tianshi.web.controller.base;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class UserController extends BaseController {
 		
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
 		if(StringUtils.hasText(user.getUsername()))
-			likeFilters.put("userName", user.getUsername());
+			likeFilters.put("username", user.getUsername());
 		Page<User> page = userService.findAllForPage(pageRequest);
 		return page;
 	}
@@ -75,6 +76,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public ResponseData insertUser(User user) {
 		//初始密码：000000
+		user.setCreateTime(new Date());
 		userService.insertEntity(user);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
