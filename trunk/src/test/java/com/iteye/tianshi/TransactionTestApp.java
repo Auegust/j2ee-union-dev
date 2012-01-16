@@ -84,7 +84,10 @@ public class TransactionTestApp extends
 //		 }
 //		 System.out.println(indirectChildList.size());
 		List<TDistributor> list = distributorService.findAllChildrenDistributors(1L, 3);
-		System.out.println(list.size());
+		for(TDistributor t : list){
+			System.out.println("-distributorCode----"+t.getDistributorCode());
+		}
+		//System.out.println(list.size());
 	}
 	
 //	/***

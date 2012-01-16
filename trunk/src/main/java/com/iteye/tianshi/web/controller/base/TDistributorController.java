@@ -22,6 +22,7 @@ import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.model.base.TDistributor;
+import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
@@ -72,12 +73,14 @@ public class TDistributorController extends BaseController {
 		
 		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode());
 		if(StringUtils.hasText(tDistributor.getSponsorCode()) && dist.isEmpty()){
+			dist = null;
 			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
 		}
 		//设置上级ID
 		tDistributor.setSponsorId(dist.get(0).getId());
 		//设置层数
 		tDistributor.setFloors(dist.get(0).getFloors()+1);
+		dist = null;
 		//生成编号
 		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
 		String distributorCode = sequenceAchieve.getDistributorCode(tDistributorDao);
@@ -123,7 +126,11 @@ public class TDistributorController extends BaseController {
 				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
 			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
 		}
+		//更新层级
+		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode());
+		tDistributor.setFloors(dist.get(0).getFloors()+1);
 		tDistributorService.updateEntity(tDistributor);
+		dist = null;
 		return new ResponseData(true,"ok");
 	}
 
@@ -195,8 +202,9 @@ public class TDistributorController extends BaseController {
 				dist.setSponsor_Name(sponsor_Name);
 			}
 			if(dist.getShopId() != null){
-				String shop_Name = tShopInfoService.findEntity(dist.getShopId()).getShopName();
-				dist.setShop_Name(shop_Name);
+				TShopInfo t = tShopInfoService.findEntity(dist.getShopId());
+				dist.setShop_Name(t.getShopName());
+				dist.setShop_Code(t.getShopCode());
 			}
 			if(dist.getRankId()!=null){
 				String rankId_Name = rankService.findEntity(dist.getRankId()).getRankName();

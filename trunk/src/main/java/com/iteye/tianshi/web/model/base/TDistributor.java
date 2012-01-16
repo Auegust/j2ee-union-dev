@@ -61,6 +61,8 @@ public class TDistributor extends BaseEntity implements Serializable {
 	private Integer floors;
 	
 	@Transient
+	private String shop_Code;
+	@Transient
 	private String shop_Name;
 
     public String getShop_Name() {
@@ -161,6 +163,12 @@ public class TDistributor extends BaseEntity implements Serializable {
 	}
 	public void setFloors(Integer floors) {
 		this.floors = floors;
+	}
+	public void setShop_Code(String shop_Code) {
+		this.shop_Code = shop_Code;
+	}
+	public String getShop_Code() {
+		return shop_Code;
 	}
 	
 }
