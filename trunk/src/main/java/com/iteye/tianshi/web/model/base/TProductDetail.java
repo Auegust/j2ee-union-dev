@@ -42,6 +42,9 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	@Column(name = "sale_price")
 	private Double salePrice;
 
+	@Column(name = "sum_price")
+	private Double sumPrice;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "sale_time")
 	private Date saleTime;
@@ -51,7 +54,13 @@ public class TProductDetail extends BaseEntity implements Serializable {
 
 	@Column(name = "distributor_code")
 	private String distributorCode;
-
+	
+	@Column(name = "distributor_id")
+	private Long distributorId;
+	
+	@Column(name = "floors")
+	private int floors;
+	
 	@Transient
 	private String shopCode;
 
@@ -198,4 +207,30 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	public void setSaleTime(Date saleTime) {
 		this.saleTime = saleTime;
 	}
+
+	public Long getDistributorId() {
+		return distributorId;
+	}
+
+	public void setDistributorId(Long distributorId) {
+		this.distributorId = distributorId;
+	}
+
+	public int getFloors() {
+		return floors;
+	}
+
+	public void setFloors(int floors) {
+		this.floors = floors;
+	}
+
+	public Double getSumPrice() {
+		return sumPrice;
+	}
+
+	public void setSumPrice(Double sumPrice) {
+		this.sumPrice = sumPrice;
+	}
+	
+	
 }

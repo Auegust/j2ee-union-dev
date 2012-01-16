@@ -229,7 +229,7 @@ public class TDistributorGradeController extends BaseController {
 			if (tProductDetail.getFloors()==lstfloor) {
 				String distributorCode = tProductDetail.getDistributorCode();
 				TDistributorGrade tgGrade = tgMap.get(distributorCode);
-				double directAchieve = tProductDetail.getPv()>200?(tProductDetail.getPv()-200):0;/**本人个人累计业绩大于200PV部分。**/
+				double directAchieve = tProductDetail.getPV()>200?(tProductDetail.getPV()-200):0;/**本人个人累计业绩大于200PV部分。**/
 				double indirectAchieve = 0;//无间接业绩
 				/**直接业绩**/
 				tgGrade.setDirectAchieve(directAchieve);
@@ -246,19 +246,19 @@ public class TDistributorGradeController extends BaseController {
 				int dirfloors = tProductDetail.getFloors()+1;/**直接下线层级**/
 				List<TDistributor> dirchildList = tDistributorService.findAllDirChildrenDistributors(distributorId, dirfloors);/**所有直接子节点**/
 				List<TDistributor> indirchildList = tDistributorService.findAllChildrenDistributors(distributorId, dirfloors);/**所有间接子节点**/
-				double directAchieve_self = tProductDetail.getPv()>200?(tProductDetail.getPv()-200):0;/**本人个人累计业绩大于200PV部分。**/
-				double directAchieve_down = tProductDetail.getPv()<=200?tProductDetail.getPv():200;/**所有直接下线个人累计业绩小于或等于200PV部分。**/
+				double directAchieve_self = tProductDetail.getPV()>200?(tProductDetail.getPV()-200):0;/**本人个人累计业绩大于200PV部分。**/
+				double directAchieve_down = tProductDetail.getPV()<=200?tProductDetail.getPV():200;/**所有直接下线个人累计业绩小于或等于200PV部分。**/
 				double indirectAchieve_dirdown=0;/**所有直接下线个人累计业绩大于200PV部分。**/
 				double indirectAchieve_indirdown=0;/**所有间接下线个人累计业绩之和。**/
 				double dirnetAchieve=0;/**所有直接下线的个人累计。**/
 				double indirnetAchieve=0;/**所有间接下线的个人累计。**/
 				for(TDistributor tDistributor:dirchildList){
-					indirectAchieve_dirdown += tpMap.get(tDistributor.getDistributorCode()).getPv()>200?(tProductDetail.getPv()-200):0;
-					dirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPv();
+					indirectAchieve_dirdown += tpMap.get(tDistributor.getDistributorCode()).getPV()>200?(tProductDetail.getPV()-200):0;
+					dirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPV();
 				}
 				for(TDistributor tDistributor:indirchildList){
-					indirectAchieve_indirdown += tpMap.get(tDistributor.getDistributorCode()).getPv();
-					indirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPv();
+					indirectAchieve_indirdown += tpMap.get(tDistributor.getDistributorCode()).getPV();
+					indirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPV();
 				}
 				
 				/**直接业绩**/
