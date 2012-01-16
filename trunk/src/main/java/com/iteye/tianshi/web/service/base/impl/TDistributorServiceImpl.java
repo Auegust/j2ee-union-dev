@@ -46,12 +46,12 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 
 	@Override
 	public List<TDistributor> findAllChildrenDistributors(Long id,Integer floors) {
-		StrBuilder sql = new StrBuilder("select * FROM t_distributor WHERE FIND_IN_SET(res_id,getChildLst(").append(id+")) ");
+		StrBuilder sql = new StrBuilder("select * FROM tianshi.t_distributor WHERE FIND_IN_SET(res_id,tianshi.getChildLst(").append(id+")) ");
 		if (floors!=null) {
 			sql.append("and floors>").append(floors);
 		}
-		List<TDistributor> list = new ArrayList<TDistributor>();
 		List<Map<String, Object>> templist = this.distributorDao.getJdbcTemplate().queryForList(sql.toString());
+		List<TDistributor> list = new ArrayList<TDistributor>(templist.size());
 		for(Map<String,Object> map : templist){
 			TDistributor tDistributor = new TDistributor();
 			tDistributor.setId(Long.valueOf(map.get("res_id").toString()));
@@ -67,8 +67,10 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 			tDistributor.setSponsorCode(map.get("sponsor_code").toString());
 			tDistributor.setFloors(Integer.valueOf(map.get("floors").toString()));
 			list.add(tDistributor);
+			map = null;
 			tDistributor = null;
 		}
+		templist = null;
 		return list;
 	}
 	
