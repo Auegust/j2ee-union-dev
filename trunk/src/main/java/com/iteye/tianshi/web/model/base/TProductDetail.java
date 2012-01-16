@@ -10,9 +10,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.iteye.tianshi.core.web.model.BaseEntity;
 
 /**
@@ -30,7 +27,8 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	@Column(name = "check_man")
 	private String checkMan;
 
-	@DateTimeFormat(iso=ISO.DATE) 
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="create_time" ,updatable=false)
 	private Date createTime;
 

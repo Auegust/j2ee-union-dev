@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name="user", schema="tianshi")
@@ -28,7 +30,8 @@ public class User {
 	@Column(name="GENDER")
 	private String gender;
 	
-	@Column(name="CREATE_TIME")
+	@DateTimeFormat(iso=ISO.DATE) 
+	@Column(name="create_time" ,updatable=false)
 	private Date createTime;
 
 	public Long getId() {

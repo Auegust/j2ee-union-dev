@@ -1,11 +1,11 @@
 package com.iteye.tianshi.web.controller.base;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,10 +112,12 @@ public class TProductOrderController extends BaseController {
 		TDistributor dist = tDistributorService.findByProperty("distributorCode", order.getDistributorCode()).get(0);
 		order.setDistributorName(dist.getDistributorName());
 		Long shopId = dist.getShopId();
+		dist = null;
 		
 		TShopInfo shop = tShopInfoService.findEntity(shopId);
 		order.setShopCode(shop.getShopCode());
 		order.setShopName(shop.getShopName());
+		shop = null;
 		
 		TProductInfo product = tProductInfoService.findByProperty("productCode", order.getProductCode()).get(0);
 		order.setProductName(product.getProductName());
@@ -134,8 +136,8 @@ public class TProductOrderController extends BaseController {
 	public Page<TProductDetail> pageQueryTProductOrder(
 			@RequestParam("start") int startIndex,
 			@RequestParam("limit") int pageSize, TProductDetail tDetail,
-			@RequestParam(required = false)@DateTimeFormat(pattern="yyyy-MM-dd") Date startTime, 
-			@RequestParam(required = false)@DateTimeFormat(pattern="yyyy-MM-dd") Date endTime,
+			@RequestParam(required = false)String startTime, 
+			@RequestParam(required = false)String  endTime,
 			@RequestParam(required = false) String sort,
 			@RequestParam(required = false) String dir) throws Exception {
 		PageRequest<TProductDetail> pageRequest = new PageRequest<TProductDetail>(
@@ -143,9 +145,19 @@ public class TProductOrderController extends BaseController {
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
 		Map<String, Object> filters = pageRequest.getFilters();
-		pageRequest.setStartTime(startTime);
-		pageRequest.setEndTime(endTime);
-		pageRequest.setTimeField("createTime");
+		SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+		boolean isTimeDefine = false;
+		if(StringUtils.hasText(startTime)){
+			isTimeDefine = true;
+			pageRequest.setStartTime(sdf.parse(startTime));
+		}
+		if(StringUtils.hasText(endTime)){
+			isTimeDefine = true;
+			pageRequest.setEndTime(sdf.parse(endTime));
+		}
+		if(isTimeDefine){
+			pageRequest.setTimeField("createTime");	
+		}
 		//根据经销商编号查询
 		if (StringUtils.hasText(tDetail.getDistributorCode())) {
 			filters.put("distributorCode", tDetail.getDistributorCode());
