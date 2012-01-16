@@ -32,6 +32,7 @@ import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.BlankMode;
 import com.iteye.tianshi.core.util.LikeMode;
 import com.iteye.tianshi.core.util.SQLOrderMode;
+import com.iteye.tianshi.web.model.base.TDistributor;
 
 /**
  * 基于Hibernate的Crud DAO基础实现，所有使用Hibernate并支持Crud操作的DAO都继承该类。<BR>
@@ -537,4 +538,76 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 	public HibernateTemplate getHiberTemplate() {
 		return this.getHibernateTemplate();
 	}
+	
+	/**
+	 * 增加多个字段的排序方法
+	 */
+	@SuppressWarnings("unchecked")
+	public List<E> findByPropertysAndOrders(String[] joinEntitys, String[] propertyNames, Object[] values, String[] orderCol, SQLOrderMode orderMode) {
+		StrBuilder buf = new StrBuilder();
+		
+		String entityName = this.getClazz().getSimpleName();
+		String postName = entityName.toLowerCase();
+		buf.append("FROM " + entityName + " as " + postName + " ");// 实体名称
+
+		if(joinEntitys != null) {
+			for(String je : joinEntitys) {
+				buf.append(" left outer join fetch " + postName + "." + je + " " + je + " ");
+			}
+		}
+		
+		int len = propertyNames.length;
+		List<String> propertyNameList = new ArrayList<String>(propertyNames.length);
+		List<Object> valueList = new ArrayList<Object>(values.length);
+		if(len>0) {
+			for(int i=0; i<len; i++) {
+				//如果是级联属性标示（例如：entitytype.id"），需要替换.为下划线
+				String old = propertyNames[i];
+				propertyNames[i] = propertyNames[i].replaceAll("\\.", "_");
+				if(i==0)
+					buf.append(" WHERE ");
+				else
+					buf.append(" and ");
+				
+				Object value = values[i];
+				if(BlankMode.NULL == value)
+					buf.append(old).append(" is null ");
+				else if(BlankMode.NOTNULL == value)
+					buf.append(old).append(" is not null");
+				else if(LikeMode.LEFT == value) {
+					buf.append(old).append(" like :").append(propertyNames[i]);
+					propertyNameList.add(propertyNames[i]);
+					valueList.add("%" + values[i]);
+				} else if(LikeMode.RIGHT == value) {
+					buf.append(old).append(" like :").append(propertyNames[i]);
+					propertyNameList.add(propertyNames[i]);
+					valueList.add(values[i] + "%");
+				} else if(LikeMode.ALL == value) {
+					buf.append(old).append(" like :").append(propertyNames[i]);
+					propertyNameList.add(propertyNames[i]);
+					valueList.add("%" + values[i] + "%");
+				} else {
+					buf.append(old).append(" = :").append(propertyNames[i]);
+					propertyNameList.add(propertyNames[i]);
+					valueList.add(values[i]);
+				}
+			}
+		}
+		
+		//添加排序字段
+		if (orderCol!=null&&orderCol.length>=0) {
+			buf.append(" ORDER BY ");
+			for(int k=0;k<orderCol.length-1;k++){
+				buf.append(orderCol[k]).append(" ").append(orderMode.getMode()+",");
+			}
+			buf.append(orderCol[orderCol.length-1]).append(" ").append(orderMode.getMode());
+		}
+		
+		String[] properties = new String[propertyNameList.size()];
+		for(int i=0, count=propertyNameList.size(); i<count; i++) {
+			properties[i] = propertyNameList.get(i);
+		}
+		return this.getHibernateTemplate().findByNamedParam(buf.toString(), properties, valueList.toArray());
+	}
+
 }
