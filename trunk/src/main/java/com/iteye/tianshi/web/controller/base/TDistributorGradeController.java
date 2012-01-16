@@ -170,7 +170,7 @@ public class TDistributorGradeController extends BaseController {
 		String endDate = curYear + curMon + "25";// 结束日期
 		String startDate = "";// 开始日期
 		StringBuilder sql = new StringBuilder(
-				"SELECT distributor_code,sum(sum_price) as sum_price ,sum(pv) as pv FROM t_product_list where sale_time>'");
+				"SELECT distributor_code,sum(sum_price) as sum_price ,sum(PV) as pv FROM t_product_list where sale_time>'");
 		if (curMon.equals("01")) {
 			startDate = (Integer.valueOf(curYear) - 1) + "" + "1225";
 		} else {
