@@ -55,7 +55,11 @@ abstract public class BaseServiceImpl<E, PK extends Serializable> implements Bas
 	public List<E> findByPropertyAndOrder(String propertyName, Object value, String orderCol, SQLOrderMode mode) {
 		return this.getGenericDao().findByPropertyAndOrder(propertyName, value, orderCol, mode);
 	}
-	
+
+	@Transactional(readOnly=false)
+	public List<E> findByPropertysAndOrders(String[] joinEntitys,String[] propertyNames, Object[] values, String[] orderCol, SQLOrderMode orderMode){
+		return this.getGenericDao().findByPropertysAndOrders(joinEntitys,propertyNames, values, orderCol, orderMode);
+	}
 	@Transactional(readOnly=false)
 	public List<E> findByPropertysAndOrder(String[] propertyNames, Object[] values, String orderCol, SQLOrderMode orderMode) {
 		return this.getGenericDao().findByPropertysAndOrder(propertyNames, values, orderCol, orderMode);

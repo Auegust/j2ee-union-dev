@@ -64,12 +64,23 @@ public interface BaseService<E, PK extends Serializable> {
 	 *
 	 * @param propertyNames 属性名称
 	 * @param values 属性值集合
-	 * @param orderCol 排序字段
+	 * @param orderCol[] 排序字段集
 	 * @param SQLOrderMode 排序模式（降序或升序）
 	 * @return 所有持久化实体的集合
 	 */
 
 	public List<E> findByPropertysAndOrder(String[] propertyNames, Object[] values, String orderCol, SQLOrderMode orderMode);
+	/**
+	 * 根据属性名称与值，查询出所有满足条件的持久化实体，并排序
+	 *
+	 * @param propertyNames 属性名称
+	 * @param values 属性值集合
+	 * @param orderCol 排序字段
+	 * @param SQLOrderMode 排序模式（降序或升序）
+	 * @return 所有持久化实体的集合
+	 */
+
+	public List<E> findByPropertysAndOrders(String[] joinEntitys,String[] propertyNames, Object[] values, String[] orderCol, SQLOrderMode orderMode);
 	
 	/**
 	 * 根据属性名称与值，查询出所有满足条件的持久化实体，并排序
@@ -77,7 +88,7 @@ public interface BaseService<E, PK extends Serializable> {
 	 * @param joinEntitys 连接查询的实体名称
 	 * @param propertyName 属性名称
 	 * @param value 属性值
-	 * @param orderCol 排序字段
+	 * @param orderCol 排序字段集合
 	 * @param SQLOrderMode 排序模式（降序或升序）
 	 * @return 所有持久化实体的集合
 	 */
