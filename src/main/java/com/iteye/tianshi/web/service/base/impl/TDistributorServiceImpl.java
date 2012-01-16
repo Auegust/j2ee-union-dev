@@ -73,5 +73,36 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 		templist = null;
 		return list;
 	}
+
+	@Override
+	public List<TDistributor> findAllDirChildrenDistributors(Long id,
+			Integer floors) {
+		StrBuilder sql = new StrBuilder("select * FROM tianshi.t_distributor WHERE FIND_IN_SET(res_id,tianshi.getChildLst(").append(id+")) ");
+		if (floors!=null) {
+			sql.append("and floors=").append(floors);
+		}
+		List<Map<String, Object>> templist = this.distributorDao.getJdbcTemplate().queryForList(sql.toString());
+		List<TDistributor> list = new ArrayList<TDistributor>(templist.size());
+		for(Map<String,Object> map : templist){
+			TDistributor tDistributor = new TDistributor();
+			tDistributor.setId(Long.valueOf(map.get("res_id").toString()));
+			tDistributor.setShopId(Long.valueOf(map.get("shop_id").toString()));
+			tDistributor.setRankId(Long.valueOf(map.get("rank_id").toString()));
+			tDistributor.setDistributorCode(map.get("distributor_code").toString());
+			tDistributor.setDistributorName(map.get("distributor_name").toString());
+			tDistributor.setSponsorId(Long.valueOf(map.get("sponsor_id").toString()));
+			tDistributor.setCreateTime((Date)map.get("create_time"));
+			tDistributor.setAddress(map.get("address").toString());
+			tDistributor.setTelephone(map.get("telephone").toString());
+			tDistributor.setRemark(map.get("remark").toString());
+			tDistributor.setSponsorCode(map.get("sponsor_code").toString());
+			tDistributor.setFloors(Integer.valueOf(map.get("floors").toString()));
+			list.add(tDistributor);
+			map = null;
+			tDistributor = null;
+		}
+		templist = null;
+		return list;
+	}
 	
 }
