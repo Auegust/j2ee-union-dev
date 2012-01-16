@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,59 +51,6 @@ public class TProductOrderController extends BaseController {
 		return "admin/base/order";
 	}
 	
-	/**
-	 * 获取经销商信息
-	 * @dateime 2012-1-13 下午04:17:37
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value="/getDistributorName",method=RequestMethod.POST)
-	public String getDistributorName(String distributorCode) throws Exception{
-		List<TDistributor> list = tDistributorService.findByProperty("distributorCode", distributorCode);
-		if (list.size()!=0) {
-			return list.get(0).getDistributorName();
-		}else{
-			throw new Exception("经销商编号不存在");
-		}
-	}
-	
-	/**
-	 * 获取产品信息
-	 * @dateime 2012-1-13 下午04:17:37
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value="/getProductName",method=RequestMethod.POST)
-	public String getProductName(String productCode) throws Exception{
-		List<TProductInfo> list = tProductInfoService.findByProperty("productCode", productCode);
-		if (list.size()!=0) {
-			return list.get(0).getProductName();
-		}else{
-			throw new Exception("产品编号不存在");
-		}
-	}
-	
-	/**
-	 * 获取专卖店信息
-	 * @dateime 2012-1-13 下午04:17:37
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping(value="/getShopName",method=RequestMethod.POST)
-	public String getShopName(String shopCode) throws Exception{
-		List<TShopInfo> list = tShopInfoService.findByProperty("shopCode", shopCode);
-		if (list.size()!=0) {
-			return  list.get(0).getShopName();
-		}else{
-			throw new Exception("专卖店编号不存在");
-		}
-	}
 	
 	/**
 	 * 订单录入
@@ -114,6 +62,7 @@ public class TProductOrderController extends BaseController {
 	@RequestMapping(value = "/insertTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTProductOrder(TProductDetail tDetail){
+		tDetail.setCreateTime(new Date());
 		tDetailService.insertEntity(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
@@ -128,7 +77,7 @@ public class TProductOrderController extends BaseController {
 	@RequestMapping(value = "/updateTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public  ResponseData updateTProductOrder(TProductDetail tDetail){
-		tDetailService.createOrUpdate(tDetail);
+		tDetailService.updateEntity(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
 	}
 	
@@ -147,7 +96,9 @@ public class TProductOrderController extends BaseController {
 	}
 	
 	/**
-	 * 订单查询
+	 * 订单加载
+	 * 加载时通过经销商编号，查出经销商名称、专卖店编号、专卖店名称
+	 * 通过产品编号，查出产品名称、产品价格、PV值、BV值
 	 * @dateime 2012-1-13 下午04:40:52
 	 * @author chenfengming456@163.com
 	 * @param id
@@ -156,64 +107,80 @@ public class TProductOrderController extends BaseController {
 	@RequestMapping(value = "/loadTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public TProductDetail loadTProductOrder(Long id){
-		return tDetailService.findEntity(id);
+		TProductDetail order =  tDetailService.findEntity(id);
+		
+		TDistributor dist = tDistributorService.findByProperty("distributorCode", order.getDistributorCode()).get(0);
+		order.setDistributorName(dist.getDistributorName());
+		Long shopId = dist.getShopId();
+		
+		TShopInfo shop = tShopInfoService.findEntity(shopId);
+		order.setShopCode(shop.getShopCode());
+		order.setShopName(shop.getShopName());
+		
+		TProductInfo product = tProductInfoService.findByProperty("productCode", order.getProductCode()).get(0);
+		order.setProductName(product.getProductName());
+		return order;
 	}
 	
+	/**
+	 * 订单分页查询
+	 * @dateime 2012-1-13 下午04:40:52
+	 * @author chenfengming456@163.com
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/pageQueryTProductOrder")
 	@ResponseBody
 	public Page<TProductDetail> pageQueryTProductOrder(
 			@RequestParam("start") int startIndex,
 			@RequestParam("limit") int pageSize, TProductDetail tDetail,
-			@RequestParam(required = false) String distributorCode,
-			@RequestParam(required = false) String productCode,
-			@RequestParam(required = false) String shopCode,
-			@RequestParam(required = false) Date startTime,
-			@RequestParam(required = false) Date endTime,			
+			@RequestParam(required = false)@DateTimeFormat(pattern="yyyy-MM-dd") Date startTime, 
+			@RequestParam(required = false)@DateTimeFormat(pattern="yyyy-MM-dd") Date endTime,
 			@RequestParam(required = false) String sort,
 			@RequestParam(required = false) String dir) throws Exception {
 		PageRequest<TProductDetail> pageRequest = new PageRequest<TProductDetail>(
 				startIndex, pageSize);
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
 			pageRequest.setSortColumns(sort + " " + dir);
-//		Map<String, String> likeFilters = pageRequest.getLikeFilters();
 		Map<String, Object> filters = pageRequest.getFilters();
 		pageRequest.setStartTime(startTime);
 		pageRequest.setEndTime(endTime);
+		pageRequest.setTimeField("createTime");
 		//根据经销商编号查询
-		if (StringUtils.hasText(distributorCode)) {
-			filters.put("distributorCode", distributorCode);
+		if (StringUtils.hasText(tDetail.getDistributorCode())) {
+			filters.put("distributorCode", tDetail.getDistributorCode());
 		} 
 		//根据产品编号查询
-		if (StringUtils.hasText(productCode)) {
-			filters.put("productCode", productCode);
+		if (StringUtils.hasText(tDetail.getProductCode())) {
+			filters.put("productCode", tDetail.getProductCode());
 		} 
 		
 		Page<TProductDetail> page = tDetailService.findAllForPage(pageRequest);
-		for (TProductDetail tProductDetail:page.getResult()) {
-			String productCodes = tProductDetail.getProductCode();
-			String distributorCodes = tProductDetail.getDistributorCode();
-			long shopid = 0;
-			List<TDistributor> disList = tDistributorService.findByProperty("distributorCode", distributorCodes);
-			if (disList.size()!=0) {
-				shopid = disList.get(0).getShopId();
-				tProductDetail.setDistributorName(disList.get(0).getDistributorName());
-				TShopInfo tShopInfo = tShopInfoService.findEntity(shopid);
-				if (tShopInfo != null) {
+		List<TDistributor> disList  = null;
+		List<TProductInfo>  productList = null;
+		for (TProductDetail tProductDetail: page.getResult()) {
+			String productCode = tProductDetail.getProductCode();
+			String distributorCode = tProductDetail.getDistributorCode();
+			disList = tDistributorService.findByProperty("distributorCode", distributorCode);
+			if (!disList.isEmpty()) {
+				Long shopId = disList.get(0).getShopId();
+				if(shopId!=null){
+					TShopInfo tShopInfo = tShopInfoService.findEntity(shopId);
 					tProductDetail.setShopCode(tShopInfo.getShopCode());
 					tProductDetail.setShopName(tShopInfo.getShopName());
 				}
+				tProductDetail.setDistributorName(disList.get(0).getDistributorName());
 			}
-			List<TProductInfo> list = tProductInfoService.findByProperty("productCode", productCodes);
-			double pv = 0;
-			double bv = 0;
-			if (list.size()!=0) {
-				pv = list.get(0).getProductPv();
-				bv = list.get(0).getProductBv();
+			productList = tProductInfoService.findByProperty("productCode", productCode);
+			if (!productList.isEmpty()) {
+				tProductDetail.setPV(productList.get(0).getProductPv());
+				tProductDetail.setBV(productList.get(0).getProductBv());
+				tProductDetail.setProductName(productList.get(0).getProductName());
 			}
-			tProductDetail.setPv(pv);
-			tProductDetail.setBv(bv);
-			tProductDetail.setProductName(getProductName(productCodes));
+			tProductDetail.setSalePrice(tProductDetail.getSalePrice());
 		}
+		disList  = null;
+		productList = null;
 		return page;
 	}
 

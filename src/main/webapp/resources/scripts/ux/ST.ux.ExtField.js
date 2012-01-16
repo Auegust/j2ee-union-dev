@@ -86,25 +86,114 @@ var rankCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
 Ext.reg('rankCombo', rankCombo);
 
 /********
- * 查询所属专卖店
+ * 查询所有专卖店
  */
 var shopCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
 	valueField  :'id',
-    displayField:'shopName',
+    displayField:'shopCode',
+    tpl: new Ext.XTemplate(
+    	    '<tpl for="."><div class="x-combo-list-item">',
+    	    '<font color=red>Code:{shopCode}</font> *Name:{shopName}',
+    	    '</div></tpl>'
+    	),
     mode  :'remote', 
- 	emptyText:'专卖店列表',
+ 	emptyText:'请输入您要查询的专卖店编号',
  	store:new Ext.data.Store({
 		proxy  : new Ext.data.HttpProxy({url: './../web/findAllShop.json'}),
 	    reader : new Ext.data.JsonReader({
 	        fields: [
 	        	{name: 'id'},
 		        {name: 'shopName'},
+		        {name:'shopCode'}
 		    ]
 	    })
 	}),
   	listeners: {}
 });
 Ext.reg('shopCombo', shopCombo);
+
+/*****
+ * 查询所有经销商
+ */
+var distCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
+	pageSize:8,
+	editable : true,
+	valueField  :'id',
+    displayField:'distributorCode',
+    enableKeyEvents:true,
+    tpl: new Ext.XTemplate(
+    	    '<tpl for="."><div class="x-combo-list-item">',
+    	    '<font color=red>Code:{distributorCode}</font> *Name:{distributorName}',
+    	    '</div></tpl>'
+    	),
+    mode  :'remote', 
+ 	emptyText:'请输入您要查询的经销商编号',
+ 	store:new Ext.data.Store({
+		proxy  : new Ext.data.HttpProxy({url: './../distributor/pageQueryTDistributors.json'}),
+	    reader : new Ext.data.JsonReader({
+	    	root          : "result",
+	        totalProperty : "totalCount",
+	        idProperty    : "id",
+	        fields: [
+	        	{name: 'id'},
+		        {name: 'distributorName'},
+		        {name: 'distributorCode'},
+		        {name: 'shop_Name'},
+		        {name: 'shop_Code'}
+		    ]
+	    }),
+	    baseParams:{start:0, limit:8}
+	}),
+	listeners:{
+//    	specialKey :function(field,e){
+//            if (e.getKey() == Ext.EventObject.ENTER){
+//            	var queryJson = {};
+//            	var queryText = e.combo.store.baseParams.distributorCode;
+//            	queryJson.distributorCode = queryText;
+//            	Ext.apply(this.store.lastOptions.params, queryJson);
+//            	this.store.reload();
+//            }
+//          },
+        'beforequery' : function(e) {
+			e.combo.store.baseParams.distributorCode = e.query;
+    	}
+   }
+});
+Ext.reg('distCombo', distCombo);
+
+/********
+ * 查询所有产品
+ */
+var productCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
+	pageSize:8,
+	valueField  :'id',
+    displayField:'productCode',
+    tpl: new Ext.XTemplate(
+    	    '<tpl for="."><div class="x-combo-list-item">',
+    	    '<font color=red>Code:{productCode}</font> *Name:{productName}',
+    	    '</div></tpl>'
+    	),
+    mode  :'remote', 
+ 	emptyText:'请输入您要查询的产品编号',
+ 	store:new Ext.data.Store({
+		proxy  : new Ext.data.HttpProxy({url: './../product/pageQueryTProductInfos.json'}),
+	    reader : new Ext.data.JsonReader({
+	    	root          : "result",
+	        totalProperty : "totalCount",
+	        idProperty    : "id",
+	        fields: [
+	        	{name: 'id'},
+		        {name: 'productName'},
+		        {name: 'productCode'},
+		        {name: 'productBv'},
+		        {name: 'productPv'}
+		    ],
+		    baseParams:{start:0, limit:8}
+	    })
+	}),
+  	listeners: {}
+});
+Ext.reg('productCombo', productCombo);
 
 /*****
  * 渲染色调

@@ -152,7 +152,7 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			root: new Ext.tree.AsyncTreeNode({
 				children : [{
 	                text : "订单录入",  
-	                action: "./application/index",
+	                action: "./order/index",
 	                leaf : true
 	            }]
 			}),
