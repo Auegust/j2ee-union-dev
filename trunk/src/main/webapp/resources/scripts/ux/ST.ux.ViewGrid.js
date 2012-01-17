@@ -36,6 +36,7 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     //增加、更新表单是否支持上传文件
     isFileUpload: false,
     queryFormHeight: 92,
+    isforceFit : false,
     //操作按钮权限值
     authOperations: [!ST.util.isAuthOperation('core.add'),
                      !ST.util.isAuthOperation('core.update'),
@@ -181,7 +182,8 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	    	            '<div class="x-grid3-cell-inner x-grid3-col-{id}" {attr}>{value}</div>',
 	    	            '</td>'
 	    			)
-	    		}
+	    		},
+	    		forceFit:this.isforceFit
 	    	},
 	        store: this.store,
 	        region: 'center',
