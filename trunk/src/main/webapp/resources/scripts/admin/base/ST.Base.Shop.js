@@ -15,6 +15,7 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
     editTitle: "更新专卖店信息",
     gridTitle: "专卖店列表",
     formbarTitle:"专卖店查询",
+    isforceFit : true,
 	girdColumns: [  {header: 'ID', dataIndex: 'id', hideGrid: true, hideForm: 'add', hidden:true ,readOnly: true},
 		            {header: '店铺编号', dataIndex: 'shopCode', hideForm:'add' ,readOnly:true},
 		            {header: '店铺名称', dataIndex: 'shopName',allowBlank:false},
