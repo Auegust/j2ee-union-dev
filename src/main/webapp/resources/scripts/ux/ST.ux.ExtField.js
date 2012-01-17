@@ -203,7 +203,7 @@ function colorfunc(value, p, record){
 }
 
 function usMoneyFunc(value, p, record){
-	return  "$"+value;
+	return  "$<b><font color=red>"+value+"</font></b>";
 }
 
 var cb_isValid = Ext.extend(Ext.form.ComboBox ,{

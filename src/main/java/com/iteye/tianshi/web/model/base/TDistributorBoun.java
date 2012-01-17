@@ -22,6 +22,9 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 public class TDistributorBoun extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Column(name="distributor_id")
+	private Long  distributorId;
+	
 	@Column(name="adjust_bouns")
 	private BigDecimal adjustBouns;
 
@@ -67,8 +70,6 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	@Column(name="rank_id")
 	private Long  rankId;
 
-	@Column(name="distributor_id")
-	private Long  distributorId;
 
     public Long getRankId() {
 		return rankId;

@@ -95,6 +95,10 @@ public class TDistributorController extends BaseController {
 
 	/**
 	 * 删除经销商, 只接受POST请求
+	 * ①要删除其奖金核算信息表
+	 * ②删除奖金核算信息历史表
+	 * ③要删除经销商业绩表
+	 * ④要删除经销商业绩历史表
 	 * 
 	 * @param id
 	 * @return ResponseData
@@ -103,6 +107,7 @@ public class TDistributorController extends BaseController {
 	@ResponseBody
 	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData deleteUser(Long id) {
+		tDistributorService.deleteAllCascadeTable(id);
 		tDistributorService.deleteEntity(id);
 		return ResponseData.SUCCESS_NO_DATA;
 	}

@@ -18,7 +18,7 @@ public interface TDistributorService extends BaseService<TDistributor, Long> {
     public final static String SQL_COUNT = TDistributorService.class.getName()+".hasZeroRecord";
     
     /**
-	 * 获取指定节点下 所有子节点
+	 * 获取指定节点下 所有间接子节点
 	 * @dateime 2012-1-15 下午05:51:53
 	 * @author chenfengming456@163.com
 	 * @param id  指定节点的id
@@ -28,7 +28,7 @@ public interface TDistributorService extends BaseService<TDistributor, Long> {
 	public List<TDistributor> findAllChildrenDistributors(Long id,Integer floors);
 	
 	/**
-	 * 获取指定节点下 所有子节点
+	 * 获取指定节点下 所有直接子节点
 	 * @dateime 2012-1-15 下午05:51:53
 	 * @author chenfengming456@163.com
 	 * @param id  指定节点的id
@@ -41,4 +41,14 @@ public interface TDistributorService extends BaseService<TDistributor, Long> {
 	 * @return
 	 */
 	public boolean hasZeroRecord();
+	
+	/****
+	 * 删除经销商级联信息表
+	 * ①奖金核算信息表
+	 * ②奖金核算信息历史表
+	 * ③经销商业绩表
+	 * ④经销商业绩历史表
+	 * @param id
+	 */
+	public void deleteAllCascadeTable(Long id);
 }

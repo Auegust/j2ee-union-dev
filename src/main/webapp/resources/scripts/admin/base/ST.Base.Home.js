@@ -174,10 +174,6 @@ var HomePage = Ext.extend(Ext.Viewport, {
 	                action: "./application/index",
 	                leaf : true
 	            },{  
-	                text : "产品销售查询",  
-	                action: "./notice/index",
-	                leaf : true 
-	            },{  
 	                text : "奖金查询",  
 	                action: "./recommend/index",
 	                leaf : true 
