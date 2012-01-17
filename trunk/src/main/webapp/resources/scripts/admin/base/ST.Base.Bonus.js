@@ -64,6 +64,13 @@ ST.base.bonusView = Ext.extend(ST.ux.ViewGrid, {
         	return false;	
     	}
     },
+    /****
+     * 增加提示信息
+     */
+    addButtonOnTopbar:function(toolbar, index){
+    	toolbar.insertButton(index++,{xtype: 'tbspacer', width: 20});
+    	toolbar.insertButton(index++,'<b><font color=red>*提示：职级不能轻易删除！</font><b>');
+    },
 	constructor: function() {
 		ST.base.bonusView.superclass.constructor.call(this, {});
 		Ext.getCmp(this.btn_reset_id).setVisible(false);

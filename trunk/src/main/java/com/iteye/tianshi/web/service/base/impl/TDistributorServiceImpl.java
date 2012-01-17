@@ -12,8 +12,18 @@ import org.springframework.stereotype.Service;
 import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
 import com.iteye.tianshi.core.web.dao.GenericDao;
 import com.iteye.tianshi.core.web.service.BaseServiceImpl;
+import com.iteye.tianshi.web.dao.base.TDistributorBounDao;
+import com.iteye.tianshi.web.dao.base.TDistributorBounsHisDao;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
+import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
+import com.iteye.tianshi.web.dao.base.TDistributorGradeHisDao;
+import com.iteye.tianshi.web.dao.base.TProductDetailDao;
 import com.iteye.tianshi.web.model.base.TDistributor;
+import com.iteye.tianshi.web.model.base.TDistributorBoun;
+import com.iteye.tianshi.web.model.base.TDistributorBounsHis;
+import com.iteye.tianshi.web.model.base.TDistributorGrade;
+import com.iteye.tianshi.web.model.base.TDistributorGradeHis;
+import com.iteye.tianshi.web.model.base.TProductDetail;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 
 /**
@@ -26,6 +36,16 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 	//~ Instance fields ================================================================================================
 	@Autowired
 	private TDistributorDao distributorDao;
+	@Autowired
+	private TProductDetailDao productOrderDao;
+	@Autowired
+	private TDistributorBounDao distributorBounDao;
+	@Autowired
+	private TDistributorBounsHisDao distributorBounHisDao;
+	@Autowired
+	private TDistributorGradeDao  distributorGradeDao;
+	@Autowired
+	private TDistributorGradeHisDao  distributorGradeHisDao;
 	//~ Constructors ===================================================================================================
 
 	//~ Methods ========================================================================================================
@@ -103,6 +123,39 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 		}
 		templist = null;
 		return list;
+	}
+
+	@Override
+	public void deleteAllCascadeTable(Long id) {
+		List<TProductDetail> orders = productOrderDao.findByProperty("distributorId", id);
+		if(!orders.isEmpty()){
+			productOrderDao.delete(orders);
+		}
+		orders = null;
+		
+		List<TDistributorBoun> bouns = distributorBounDao.findByProperty("distributorId", id);
+		if(!bouns.isEmpty()){
+			distributorBounDao.delete(bouns);
+		}
+		bouns = null;
+		//历史表
+		List<TDistributorBounsHis> bounsHis = distributorBounHisDao.findByProperty("distributorId", id);
+		if(!bounsHis.isEmpty()){
+			distributorBounHisDao.delete(bounsHis);
+		}
+		bounsHis = null;
+		
+		List<TDistributorGrade> grade = distributorGradeDao.findByProperty("distributorId", id);
+		if(!grade.isEmpty()){
+			distributorGradeDao.delete(grade);
+		}
+		grade = null;
+		//历史表
+		List<TDistributorGradeHis> gradeHis = distributorGradeHisDao.findByProperty("distributorId", id);
+		if(!gradeHis.isEmpty()){
+			distributorGradeHisDao.delete(gradeHis);
+		}
+		gradeHis = null;
 	}
 	
 }

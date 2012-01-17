@@ -44,11 +44,12 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 				             }
 		             }}, 
 		            {header: '产品名称', dataIndex: 'productName',disabled:true,emptyText:'与编号联动'},
-		            {header: '产品价格',dataIndex: 'salePrice', hideGrid:true,renderer: usMoneyFunc,//或许表示销售的实际价格
+		            {header: '产品价格',dataIndex: 'salePrice', renderer: usMoneyFunc,allowBlank:false,//或许表示销售的实际价格
 		            	regex : /^\d{0,8}\.{0,1}(\d{1,2})?$/,regexText:"请输入有效价格，保留两位精度!"},
 		            {header: 'PV值',dataIndex: 'pV',disabled:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
 		            {header: 'BV值',dataIndex: 'bV',disabled:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
-		            {header: '销售数量', dataIndex: 'saleNumber',allowBlank:false ,regex : /^\d+$/,regexText:"只能输入数字!"}
+		            {header: '销售数量', dataIndex: 'saleNumber',allowBlank:false ,regex : /^\d+$/,regexText:"只能输入数字!"},
+		            {header: '销售总额', dataIndex: 'sumPrice',hideForm:'all', renderer: usMoneyFunc}
 		         ],
 	
 	queryFormItms: [{ 
@@ -103,17 +104,22 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
     	bodyStyle:'padding:10px'
     },
     formlayout : 'tableform',
-	/*****
-	 * 表单输入值后台Ajax验证	   
-	 */ 
-//    AjaxValidFormFuc: function(form , action){
-//    	if(action.result.message == 'ok'){
-//    		return true;
-//    	}else{
-//        	form.findField('shopOwner').markInvalid(action.result.message);
-//        	return false;	
-//    	}
-//    },
+    
+    /****
+     * 增加下方提示信息
+     */
+    addButtonOnBottombar:function(toolbar, index){
+    	toolbar.insertButton(index++,{xtype: 'tbspacer', width: 50});
+    	toolbar.insertButton(index++,'<b><font color=red>提示：当经销商被删除时，订单信息也将被删除！</font><b>');
+    },
+    
+    /****
+     * 增加上方提示信息
+     */
+    addButtonOnTopbar:function(toolbar, index){
+    	toolbar.insertButton(index++,{xtype: 'tbspacer', width: 30});
+    	toolbar.insertButton(index++,'<b><font color=red>信息：订单的录入提供个计算经销商奖金及业绩的依据，请保证数据的准确性！</font><b>');
+    },
 	constructor: function() {
 		ST.base.orderView.superclass.constructor.call(this, {});
 	}

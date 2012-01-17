@@ -62,6 +62,13 @@ public class TProductOrderController extends BaseController {
 	@RequestMapping(value = "/insertTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTProductOrder(TProductDetail tDetail){
+		//总额
+		tDetail.setSumPrice(tDetail.getSalePrice()*tDetail.getSaleNumber());
+		TDistributor dist = tDistributorService.findByProperty("distributorCode", tDetail.getDistributorCode()).get(0);
+		//经销商ID
+		tDetail.setDistributorId(dist.getId());
+		//层级
+		tDetail.setFloors(dist.getFloors());
 		tDetail.setCreateTime(new Date());
 		tDetailService.insertEntity(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
@@ -77,6 +84,13 @@ public class TProductOrderController extends BaseController {
 	@RequestMapping(value = "/updateTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public  ResponseData updateTProductOrder(TProductDetail tDetail){
+		//总额
+		tDetail.setSumPrice(tDetail.getSalePrice()*tDetail.getSaleNumber());
+		TDistributor dist = tDistributorService.findByProperty("distributorCode", tDetail.getDistributorCode()).get(0);
+		//经销商ID
+		tDetail.setDistributorId(dist.getId());
+		//层级
+		tDetail.setFloors(dist.getFloors());
 		tDetailService.updateEntity(tDetail);
 		return ResponseData.SUCCESS_NO_DATA;
 	}

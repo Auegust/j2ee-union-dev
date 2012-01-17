@@ -32,7 +32,6 @@ import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.BlankMode;
 import com.iteye.tianshi.core.util.LikeMode;
 import com.iteye.tianshi.core.util.SQLOrderMode;
-import com.iteye.tianshi.web.model.base.TDistributor;
 
 /**
  * 基于Hibernate的Crud DAO基础实现，所有使用Hibernate并支持Crud操作的DAO都继承该类。<BR>

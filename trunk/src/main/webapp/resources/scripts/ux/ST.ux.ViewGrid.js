@@ -24,7 +24,8 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     formbarTitle:"查询条件",
     displayEast: false,
     dialogLabelWidth: 70,
-    addButtonOnToolbar: function(toolbar, index){},
+    addButtonOnBottombar: function(toolbar, index){},
+    addButtonOnTopbar: function(toolbar, index){},
     //加载combobox的时候对选项进行选择
     loadEditFormSucHandler: function() {},
     clickType: 'rowdblclick',
@@ -211,8 +212,8 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	    	this.grid.getTopToolbar().insertButton(index++,'-');
 	    	this.grid.getTopToolbar().insertButton(index++,new Ext.Button({text:"删除",iconCls: 'delete', id:this.btn_del_id, disabled: this.authOperations[2]}));
 	    }
-	    this.addButtonOnToolbar(this.grid.getBottomToolbar(), index);
-	    
+	    this.addButtonOnBottombar(this.grid.getBottomToolbar(), index);
+	    this.addButtonOnTopbar(this.grid.getTopToolbar(), index);
 	    this.grid.addListener(this.clickType, this.rowclickFn, this);
 	    this.store.on("beforeload", function(){
 	    	//#####不能加表单条件一起查
@@ -431,6 +432,14 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
         });
     },
     
+    /*****
+     * 删除操作的拦截操作，返回false则被拦截
+     */
+    delegateWhenDelete:function(){
+		this.grid.body.unmask();
+    	return true;
+    },
+    
     delData: function() {
         if (this.checkMany()) {
             Ext.Msg.confirm("提示", "是否确定？", function(btn, text) {
@@ -439,10 +448,11 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
                     Ext.Ajax.request({
                         url     : this.urlRemove,
                         params  : {id : this.grid.getSelectionModel().selections.items[0].id},
-                        success : function() {
-                            this.grid.body.unmask();
-                            Ext.MessageBox.alert('提示', '操作成功！');
-                            this.grid.store.reload();
+                        success : function(response, opts) {
+                        	if(this.delegateWhenDelete(response, opts)){
+                                  Ext.MessageBox.alert('提示', '操作成功！');
+                                  this.grid.store.reload();
+                        	}
                         },
                         failure : function(){
                         	this.grid.body.unmask();

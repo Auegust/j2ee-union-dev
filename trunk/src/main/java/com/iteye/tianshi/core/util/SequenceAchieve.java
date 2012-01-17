@@ -1,14 +1,9 @@
 package com.iteye.tianshi.core.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Properties;
-
 import com.iteye.tianshi.core.jdbc.CustomSQLUtil;
 import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.dao.base.TProductInfoDao;
+import com.iteye.tianshi.web.dao.base.TShopInfoDao;
 
 
 /**
@@ -21,9 +16,9 @@ import com.iteye.tianshi.web.dao.base.TProductInfoDao;
 public class SequenceAchieve {
 	
 	private static  SequenceAchieve SEQUENCE_ACHIEVE = null;
-	private final static String MAX_SEQ = SequenceAchieve.class.getName()+".getDistributorCode";
-	private final static String MAX_PRSEQ = SequenceAchieve.class.getName()+".getTProductInfoCode";
-	private final static String CHILDREN_SET = SequenceAchieve.class.getName()+".getTProductInfoCode";
+	private final static String MAX_DIST_SEQ = SequenceAchieve.class.getName()+".getDistributorCode";
+	private final static String MAX_PR_SEQ = SequenceAchieve.class.getName()+".getTProductInfoCode";
+	private final static String MAX_SH_SEQ = SequenceAchieve.class.getName()+".getTShopInfoCode";
 	
 	/**
 	 * 私有的默认构造方法
@@ -81,32 +76,32 @@ public class SequenceAchieve {
 		return res;
 	}
 	
+//	/**
+//	 * 获取经销商编号方法1,读取文件流的方式
+//	 * @return 经销商编号，不足左补0
+//	 * @throws Exception 
+//	 */
+//	synchronized public String getDistributorCode() throws Exception{
+//		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("sequence.properties");
+//		OutputStream outputStream;
+//		Properties properties = new Properties();
+//		properties.load(inputStream);
+//   		String code = properties.getProperty("sequence");
+//   		String path = this.getClass().getClassLoader().getResource("sequence.properties").getPath().substring(1).replace("%20", " ");
+//   		outputStream = new FileOutputStream(new File(path));
+//   		String codes = "sequence="+String.valueOf(Integer.valueOf(code)+1);
+//		outputStream.write(codes.getBytes());
+//		outputStream.flush();
+//		return fillStr(code, 8, 1, '0');
+//	}
+	
 	/**
 	 * 获取经销商编号方法
 	 * @return 经销商编号，不足左补0
 	 * @throws Exception 
 	 */
-	synchronized public String getDistributorCode() throws Exception{
-		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("sequence.properties");
-		OutputStream outputStream;
-		Properties properties = new Properties();
-		properties.load(inputStream);
-   		String code = properties.getProperty("sequence");
-   		String path = this.getClass().getClassLoader().getResource("sequence.properties").getPath().substring(1).replace("%20", " ");
-   		outputStream = new FileOutputStream(new File(path));
-   		String codes = "sequence="+String.valueOf(Integer.valueOf(code)+1);
-		outputStream.write(codes.getBytes());
-		outputStream.flush();
-		return fillStr(code, 8, 1, '0');
-	}
-	
-//	/**
-//	 * 获取经销商编号方法
-//	 * @return 经销商编号，不足左补0
-//	 * @throws Exception 
-//	 */
 	synchronized public String getDistributorCode(TDistributorDao tDistributorDao) throws Exception{
-		String sql = CustomSQLUtil.get(MAX_SEQ);
+		String sql = CustomSQLUtil.get(MAX_DIST_SEQ);
 		String code = new Integer(tDistributorDao.getJdbcTemplate().queryForInt(sql)).toString();
 		return fillStr(code, 8, 1, '0');
 	}
@@ -123,14 +118,28 @@ public class SequenceAchieve {
 	
 	/**
 	 * 获取产品编号方法
-	 * @return 经销商编号，不足左补0
+	 * @return 产品编号，不足左补0
 	 * @throws Exception 
 	 */
 	synchronized public String getTProductInfoCode(TProductInfoDao tProductInfoDao) throws Exception{
 		String tProductInfoCode = "";
 		String prefix = "PR982";
-		String sql = CustomSQLUtil.get(MAX_PRSEQ);
+		String sql = CustomSQLUtil.get(MAX_PR_SEQ);
 		String code = new Integer(tProductInfoDao.getJdbcTemplate().queryForInt(sql)).toString();
+		tProductInfoCode = fillStr(prefix+code, 8, 0, '0');
+		return tProductInfoCode;
+	}
+	
+	/**
+	 * 获取专卖店编号方法
+	 * @return 专卖店编号，不足左补0
+	 * @throws Exception 
+	 */
+	synchronized public String getTShopInfoCode(TShopInfoDao tShopInfoDao) throws Exception{
+		String tProductInfoCode = "";
+		String prefix = "SH931";
+		String sql = CustomSQLUtil.get(MAX_SH_SEQ);
+		String code = new Integer(tShopInfoDao.getJdbcTemplate().queryForInt(sql)).toString();
 		tProductInfoCode = fillStr(prefix+code, 8, 0, '0');
 		return tProductInfoCode;
 	}

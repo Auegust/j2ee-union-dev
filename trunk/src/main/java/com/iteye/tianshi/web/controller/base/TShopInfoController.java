@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
+import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
+import com.iteye.tianshi.web.dao.base.TShopInfoDao;
 import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
@@ -30,7 +32,8 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 public class TShopInfoController extends BaseController {
 	@Autowired
 	TShopInfoService tShopInfoService;
-
+	@Autowired
+	TShopInfoDao tShopInfoDao;
 	@Autowired
 	TDistributorService tDistributorService;
 
@@ -52,10 +55,9 @@ public class TShopInfoController extends BaseController {
 				&& tDistributorService.findByProperty("distributorCode", tShopInfo.getShopOwner()).isEmpty()){
 			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
 		}
-	//	SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		//数据库手动维护编码
-//		String tShopCode = sequenceAchieve.getTShopInfoCode();
-//		tShopInfo.setShopCode(tShopCode);
+		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
+		String shopCode = sequenceAchieve.getTShopInfoCode(tShopInfoDao);
+		tShopInfo.setShopCode(shopCode);
 		tShopInfo.setCreateTime(new Date());
 		tShopInfoService.insertEntity(tShopInfo);
 		return new ResponseData(true,"ok");
@@ -69,9 +71,12 @@ public class TShopInfoController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteTShopInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData deleteUser(Long id) {
+	public ResponseData deleteTShopInfo(Long id) {
+		if(!tDistributorService.findByProperty("shopId", id).isEmpty()){
+			return new ResponseData(true , "该专卖店下有经销商信息，不能删除！");
+		}
 		tShopInfoService.deleteEntity(id);
-		return ResponseData.SUCCESS_NO_DATA;
+		return new ResponseData(true , "ok");
 	}
 
 	/**
@@ -124,8 +129,9 @@ public class TShopInfoController extends BaseController {
 			pageRequest.setSortColumns(sort + " " + dir);
 
 		Map<String, String> likeFilters = pageRequest.getLikeFilters();
+		Map<String, Object> filters = pageRequest.getFilters();
 		if (StringUtils.hasText(tShopInfo.getShopCode())) {
-			likeFilters.put("shopCode", tShopInfo.getShopCode());
+			filters.put("shopCode", tShopInfo.getShopCode());
 		}
 		if (StringUtils.hasText(tShopInfo.getShopCountry())) {
 			likeFilters.put("shopCountry", tShopInfo.getShopCountry());
