@@ -160,6 +160,7 @@ public class TDistributorGradeController extends BaseController {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TDistributorGrade> getCurSaleGrades() {
 		List<TDistributorGrade> list = new ArrayList<TDistributorGrade>();
 		
