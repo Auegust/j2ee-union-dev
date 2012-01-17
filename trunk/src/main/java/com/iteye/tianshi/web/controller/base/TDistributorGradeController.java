@@ -208,7 +208,7 @@ public class TDistributorGradeController extends BaseController {
 		//取到销售网络中的最后一层
 		int lstfloor=0;
 		if(acheveList.size()!=0)
-			acheveList.get(0).getFloors();
+			lstfloor = acheveList.get(0).getFloors();
 		/**
 		 * 直接业绩：包括两部分（每部分均指一个月内的业绩）
 		 * 第一部分是指所有直接下线个人累计业绩小于或等于200PV部分。
@@ -228,7 +228,8 @@ public class TDistributorGradeController extends BaseController {
 			if (tProductDetail.getFloors()==lstfloor) {
 				String distributorCode = tProductDetail.getDistributorCode();
 				TDistributorGrade tgGrade = tgMap.get(distributorCode);
-				double directAchieve = tProductDetail.getPV()>200?(tProductDetail.getPV()-200):0;/**本人个人累计业绩大于200PV部分。**/
+				double pAccuAchevePV = tgGrade.getAccuAchieve();/**该经销商的本月个人累计pv值**/
+				double directAchieve = pAccuAchevePV>200?(pAccuAchevePV-200):0;/**本人个人累计业绩大于200PV部分。**/
 				double indirectAchieve = 0;//无间接业绩
 				/**直接业绩**/
 				tgGrade.setDirectAchieve(directAchieve);
@@ -242,21 +243,26 @@ public class TDistributorGradeController extends BaseController {
 				Long distributorId = tProductDetail.getDistributorId();
 				String distributorCode = tProductDetail.getDistributorCode();
 				TDistributorGrade tgGrade = tgMap.get(distributorCode);
+				double pAccuAchevePV = tgGrade.getAccuAchieve();/**该经销商的本月个人累计pv值**/
 				int dirfloors = tProductDetail.getFloors()+1;/**直接下线层级**/
 				List<TDistributor> dirchildList = tDistributorService.findAllDirChildrenDistributors(distributorId, dirfloors);/**所有直接子节点**/
 				List<TDistributor> indirchildList = tDistributorService.findAllChildrenDistributors(distributorId, dirfloors);/**所有间接子节点**/
-				double directAchieve_self = tProductDetail.getPV()>200?(tProductDetail.getPV()-200):0;/**本人个人累计业绩大于200PV部分。**/
-				double directAchieve_down = tProductDetail.getPV()<=200?tProductDetail.getPV():200;/**所有直接下线个人累计业绩小于或等于200PV部分。**/
+				double directAchieve_self = pAccuAchevePV>200?(pAccuAchevePV-200):0;/**本人个人累计业绩大于200PV部分。**/
+				double directAchieve_down = 0;/**所有直接下线个人累计业绩小于或等于200PV部分。**/
 				double indirectAchieve_dirdown=0;/**所有直接下线个人累计业绩大于200PV部分。**/
 				double indirectAchieve_indirdown=0;/**所有间接下线个人累计业绩之和。**/
 				double dirnetAchieve=0;/**所有直接下线的个人累计。**/
 				double indirnetAchieve=0;/**所有间接下线的个人累计。**/
 				for(TDistributor tDistributor:dirchildList){
-					indirectAchieve_dirdown += tpMap.get(tDistributor.getDistributorCode()).getPV()>200?(tProductDetail.getPV()-200):0;
-					dirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPV();
+					double dirchildPAccuAchevePV = tgMap.get(tDistributor.getDistributorCode()).getAccuAchieve();/**直接下线经销商的本月个人累计pv值**/
+					indirectAchieve_dirdown += dirchildPAccuAchevePV>200?(dirchildPAccuAchevePV-200):0;
+					/**用于算整网业绩用的 **/
+					dirnetAchieve += dirchildPAccuAchevePV;
+					directAchieve_down += dirchildPAccuAchevePV<=200?dirchildPAccuAchevePV:200;
 				}
 				for(TDistributor tDistributor:indirchildList){
 					indirectAchieve_indirdown += tpMap.get(tDistributor.getDistributorCode()).getPV();
+					/**用于算整网业绩用的 其值和indirectAchieve_indirdown相同**/
 					indirnetAchieve += tpMap.get(tDistributor.getDistributorCode()).getPV();
 				}
 				
