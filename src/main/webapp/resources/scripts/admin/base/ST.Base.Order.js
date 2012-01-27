@@ -25,13 +25,13 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 	                	},
 	                	 'select':function(combo,record,index){
 			            		this.ownerCt.form.findField('distributorName').setValue(record.data.distributorName);
-			            		this.ownerCt.form.findField('shopCode').setValue(record.data.shop_Name);
-			            		this.ownerCt.form.findField('shopName').setValue(record.data.shop_Code);
+			            		this.ownerCt.form.findField('shopCode').setValue(record.data.shop_Code);
+			            		this.ownerCt.form.findField('shopName').setValue(record.data.shop_Name);
 			             }
 		            }},
-		            {header: '经销商名称', dataIndex: 'distributorName',disabled:true,emptyText:'与编号联动'},
-		            {header: '专卖店编号', dataIndex: 'shopCode',disabled:true,emptyText:'与编号联动'},
-		            {header: '专卖店名称', dataIndex: 'shopName',disabled:true,emptyText:'与编号联动'},
+		            {header: '经销商名称', dataIndex: 'distributorName',readOnly:true, emptyText:'与编号联动'},
+		            {header: '专卖店编号', dataIndex: 'shopCode',readOnly:true,emptyText:'与编号联动'},
+		            {header: '专卖店名称', dataIndex: 'shopName',readOnly:true,emptyText:'与编号联动'},
 		            {header: '产品编号',  dataIndex: 'productCode',allowBlank:false,fieldtype:'productCombo',valueField:'productCode',
 			             hiddenName:'productCode',listeners:{
 			            	 'beforequery' : function(e) {
@@ -43,11 +43,11 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 				            		this.ownerCt.form.findField('bV').setValue(record.data.productBv);
 				             }
 		             }}, 
-		            {header: '产品名称', dataIndex: 'productName',disabled:true,emptyText:'与编号联动'},
+		            {header: '产品名称', dataIndex: 'productName',readOnly:true,emptyText:'与编号联动'},
 		            {header: '产品价格',dataIndex: 'salePrice', renderer: usMoneyFunc,allowBlank:false,//或许表示销售的实际价格
 		            	regex : /^\d{0,8}\.{0,1}(\d{1,2})?$/,regexText:"请输入有效价格，保留两位精度!"},
-		            {header: 'PV值',dataIndex: 'pV',disabled:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
-		            {header: 'BV值',dataIndex: 'bV',disabled:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
+		            {header: 'PV值',dataIndex: 'pV',readOnly:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
+		            {header: 'BV值',dataIndex: 'bV',readOnly:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
 		            {header: '销售数量', dataIndex: 'saleNumber',allowBlank:false ,regex : /^\d+$/,regexText:"只能输入数字!"},
 		            {header: '销售总额', dataIndex: 'sumPrice',hideForm:'all', renderer: usMoneyFunc}
 		         ],
@@ -71,14 +71,14 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 				            		this.ownerCt.ownerCt.form.findField('distributorName').setValue(record.data.distributorName);
 				             }
 			            }},
-			            {xtype:'textfield',fieldLabel: '经销商名称', name: 'distributorName',width:172,disabled:true,emptyText:'与编号联动'},
+			            {xtype:'textfield',fieldLabel: '经销商名称', name: 'distributorName',width:172,readOnly:true,emptyText:'与编号联动'},
 		                {fieldLabel: '专卖店编号', allowBlank:false , xtype:'shopCombo',valueField:'shopCode',
 				             hiddenName:'shopCode',listeners:{
 				            	'select':function(combo,record,index){
 				            		this.ownerCt.ownerCt.form.findField('shopName').setValue(record.data.shopName);
 				            	}
 				         }},
-				        {xtype:'textfield',fieldLabel: '专卖店名称', name: 'shopName',width:172,disabled:true,emptyText:'与编号联动'},
+				        {xtype:'textfield',fieldLabel: '专卖店名称', name: 'shopName',width:172,readOnly:true,emptyText:'与编号联动'},
 				        {fieldLabel: '产品编号', xtype:'productCombo',valueField:'productCode',
 			             hiddenName:'productCode',listeners:{
 			            	 'beforequery' : function(e) {
@@ -88,7 +88,7 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 				            		this.ownerCt.ownerCt.form.findField('productName').setValue(record.data.productName);
 				            }
 			            }}, 
-			            {xtype:'textfield',fieldLabel: '产品名称', name: 'productName',disabled:true,emptyText:'与编号联动'},
+			            {xtype:'textfield',fieldLabel: '产品名称', name: 'productName',readOnly:true,emptyText:'与编号联动'},
 		                {xtype:'datetimefield', format: 'Y-m-d', editable: true, fieldLabel: '开始日期', name: 'startTime'},
 		                {xtype:'datetimefield', format: 'Y-m-d', editable: true, fieldLabel: '结束日期', name: 'endTime' }]
 		    }],
