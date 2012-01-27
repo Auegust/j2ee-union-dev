@@ -202,8 +202,27 @@ function colorfunc(value, p, record){
 	return  "<b><font color=red>"+value+"</font></b>";
 }
 
+/******
+ * 币值转换
+ */
 function usMoneyFunc(value, p, record){
 	return  "$<b><font color=red>"+value+"</font></b>";
+}
+
+/*****
+ * 日期转换
+ */
+function formatDate(value, p, record) {   
+    if (Ext.isEmpty(value)) {//判断是否是日期类型的数据   
+        return '';   
+    } else {   
+        if (Ext.isDate(value))   
+        	// 用于时间控件返回值  
+            return Ext.util.Format.date(value, 'Y-m-d'); 
+        else   
+        	// 转换为Date类型
+            return Ext.util.Format.date(new Date(value), 'Y-m-d');   
+    }   
 }
 
 var cb_isValid = Ext.extend(Ext.form.ComboBox ,{
