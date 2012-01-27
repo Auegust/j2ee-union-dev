@@ -61,7 +61,7 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	@Column(name = "floors")
 	private int floors;
 	
-	@Transient
+	@Column(name = "shop_code")
 	private String shopCode;
 
 	@Transient
