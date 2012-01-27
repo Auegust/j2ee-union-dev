@@ -32,7 +32,7 @@ ST.base.shopView = Ext.extend(ST.ux.ViewGrid, {
 	        layoutConfig: {
 	        	columns: 2,
 	        	columnWidths: [0.5,0.5], 
-	        	bodyStyle:'padding:90px'
+	        	bodyStyle:'padding:90px' 
 	        },         
 	        defaults: {      
 	        	 anchor:'90%'
