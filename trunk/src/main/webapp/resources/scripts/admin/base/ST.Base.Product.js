@@ -1,7 +1,6 @@
 Ext.BLANK_IMAGE_URL = "./../resources/scripts/ext/resources/images/default/s.gif";
 
 Ext.namespace("ST.base");
-//Ext.form.Field.prototype.msgTarget = 'under';
 ST.base.productView = Ext.extend(ST.ux.ViewGrid, {
 	dlgWidth: 360,
 	dlgHeight: 300,
@@ -28,7 +27,7 @@ ST.base.productView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: 'BV', dataIndex: 'productBv_Name', hideForm:'all', renderer: usMoneyFunc},
 		            {header: '是否有效', dataIndex: 'status',allowBlank:false ,hideGrid:true, fieldtype:'cb_isValid'},
 		            {header: '是否有效', dataIndex: 'status_Name',hideForm:'all', renderer:colorfunc },
-		            {header: '备注', dataIndex: 'remark'},
+		            {header: '备注', dataIndex: 'remark'}
 		         ],
 	
 	queryFormItms: [{ 
@@ -38,7 +37,7 @@ ST.base.productView = Ext.extend(ST.ux.ViewGrid, {
 	            	columnWidths: [0.5, 0.5]
 	            },           
 		        items:[{xtype:'textfield', fieldLabel: '产品编号', name: 'productCode', anchor:'100%'},
-		               {xtype:'textfield', fieldLabel: '产品名称', name: 'productName', anchor:'100%'},
+		               {xtype:'textfield', fieldLabel: '产品名称', name: 'productName', anchor:'100%'}
 		              ]
 		    }],
 	constructor: function() {
