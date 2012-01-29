@@ -28,7 +28,7 @@ ST.base.bonusView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: '宽度5', dataIndex: 'w5', allowBlank:false},
 		            {header: '宽度6', dataIndex: 'w6', allowBlank:false},
 		            {header: '宽度7', dataIndex: 'w7', allowBlank:false},
-		            {header: '宽度8', dataIndex: 'w8', allowBlank:false},
+		            {header: '宽度8', dataIndex: 'w8', allowBlank:false}
 		         ],
 	//####表单元素         
 			queryFormItms: [{ 
