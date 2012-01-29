@@ -92,6 +92,9 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 
         for (var i = 0; i < this.girdColumns.length; i++) {
             var col = this.girdColumns[i];
+            if(col==null || col == undefined){
+            	continue;
+            }
             if (col.hideGrid === true) {
                 continue;
             }
@@ -119,6 +122,9 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 
         for (var i = 0; i < this.girdColumns.length; i++) {
             var col = this.girdColumns[i];
+            if(col == null || col == undefined){
+            	continue;
+            }
             col['name'] = col.dataIndex;
             fields.push(col);
         }
