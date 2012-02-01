@@ -254,6 +254,7 @@
 	<listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener> 
+	
     <filter>
         <filter-name>CheckLoginFilter</filter-name>
         <filter-class>
