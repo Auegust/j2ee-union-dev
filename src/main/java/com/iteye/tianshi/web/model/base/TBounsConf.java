@@ -11,7 +11,7 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 
 
 /**
- * 直接/间接奖核算配置表
+ * 奖金配置表
  * 
  */
 @Entity

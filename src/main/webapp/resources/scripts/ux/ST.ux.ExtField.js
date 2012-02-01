@@ -206,7 +206,7 @@ function colorfunc(value, p, record){
  * 币值转换
  */
 function usMoneyFunc(value, p, record){
-	return  "$<b><font color=red>"+value+"</font></b>";
+	return  "<b><font color=red>"+value+"</font></b>";
 }
 
 /*****

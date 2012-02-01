@@ -13,7 +13,7 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 
 
 /**
- * 奖金核算表
+ * 经销商月度奖金表
  * 
  */
 @Entity
