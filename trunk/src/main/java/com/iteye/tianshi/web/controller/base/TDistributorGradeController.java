@@ -19,10 +19,13 @@ import com.iteye.tianshi.core.util.ConstantUtil;
 import com.iteye.tianshi.core.util.SQLOrderMode;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
+import com.iteye.tianshi.web.model.base.TBounsConf;
 import com.iteye.tianshi.web.model.base.TDistributor;
+import com.iteye.tianshi.web.model.base.TDistributorBoun;
 import com.iteye.tianshi.web.model.base.TDistributorGrade;
 import com.iteye.tianshi.web.model.base.TDistributorGradeHis;
 import com.iteye.tianshi.web.model.base.TShopInfo;
+import com.iteye.tianshi.web.service.base.TBounsConfService;
 import com.iteye.tianshi.web.service.base.TDistributorGradeHisService;
 import com.iteye.tianshi.web.service.base.TDistributorGradeService;
 import com.iteye.tianshi.web.service.base.TDistributorService;
@@ -53,6 +56,9 @@ public class TDistributorGradeController extends BaseController {
 
 	@Autowired
 	TProductDetailService tProductDetailService;
+	
+	@Autowired
+	TBounsConfService bounsConfService;
 
 	/**
 	 * 获取所有专卖店信息
@@ -157,9 +163,9 @@ public class TDistributorGradeController extends BaseController {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	@RequestMapping("/calculateAll")
+	@RequestMapping("/calcGrade")
 	@ResponseBody
-	public boolean calculateAll() {
+	public boolean calcGrade() {
 		
 		String curYear = getCurDate().substring(0, 4);
 		String curMon = getCurDate().substring(4, 6);
@@ -212,7 +218,7 @@ public class TDistributorGradeController extends BaseController {
 				tDistributorGradeHisService.createOrUpdate(tgGrade.getHisGradeCopy());
 			}
 		}
-		
+		tglist = null;
 		/**
 		 * 取到销售网络中的最后一层
 		 */
@@ -297,26 +303,30 @@ public class TDistributorGradeController extends BaseController {
 			if(maxChange<=0D){
 				tgGrade.setRank(ConstantUtil._lev_1);
 			}else{
-				/**计算经销商职级*/
+				/**计算经销商职级和小组业绩*/
 				tDistributorGradeService.findRank(distributorCode ,maxChange , tgGrade , tgMap , dirchildList);
 			}
 			dirchildList = null;
 			indirchildList = null;
 		}
 		
-		/** 获取经销商累计个人业绩(销售额)**/
+		/**计算经销商累计个人业绩以及累计业绩**/
 		List<TDistributorGradeHis> hisList = tDistributorGradeHisService.findAllEntity();
 		/**遍历历史表是因为历史表已经被初始化了，包括两部分，第一部分是以前存在的经销商，第二部分是新增加的经销商*/
+		String distributorCode = null;
+		double accuPAchieve = 0D;
+		double personAchieve_self = 0D;
+		double personAchieve_bleow200 = 0D;
 		for (TDistributorGradeHis his : hisList) {
-			String distributorCode = his.getDistributorCode();
+			distributorCode = his.getDistributorCode();
 			TDistributorGrade tgGrade = tgMap.get(distributorCode);
 			/**分两种情况：1.该名经销商当月没有购买产品即在历史表中有记录业绩归零  2.该名经销商购买了产品，其业绩可以正常纳入计算*/
-			double accuPAchieve = his.getAccuPAchieve() + tgGrade.getPersonAchieve();
+			accuPAchieve = his.getAccuPAchieve() + tgGrade.getPersonAchieve();
 			/**累计个人业绩**/
 			tgGrade.setAccuPAchieve(accuPAchieve);
 			/**累计业绩  == 个人业绩小于200部分+直接+间接+历史累计**/
-			double personAchieve_self = tgGrade.getPersonAchieve();
-			double personAchieve_bleow200=personAchieve_self<=200D?personAchieve_self:200D;
+			personAchieve_self = tgGrade.getPersonAchieve();
+			personAchieve_bleow200=personAchieve_self<=200D?personAchieve_self:200D;
 			tgGrade.setAccuAchieve(personAchieve_bleow200 + tgGrade.getDirectAchieve() + tgGrade.getIndirectAchieve() + his.getAccuAchieve());
 			/**累计个人业绩--入历史库*/
 			tDistributorGradeHisService.createOrUpdate(tgGrade.getHisGradeCopy());
@@ -324,7 +334,37 @@ public class TDistributorGradeController extends BaseController {
 			tDistributorGradeService.createOrUpdate(tgGrade);
 			/**经销商职级保存*/
 			tDistributorService.findEntity(tgGrade.getDistributorId()).setRankId(tgGrade.getRank());
+			his = null;
 		}
+		hisList = null;
+		/**计算奖金，（直接奖，间接奖，领导奖，荣衔奖，特别奖，国际奖）*/
+		List<TBounsConf> cfgList = bounsConfService.findAllEntity();
+		/**初始化奖金配置表*/
+		Map<Long , TBounsConf> bonusCfgMap =  new HashMap<Long , TBounsConf>();
+		for(TBounsConf bonus : cfgList){
+			bonusCfgMap.put(bonus.getRankId(), bonus);
+			bonus = null;
+		}
+		cfgList = null;
+		/**遍历经销商，当前经销商已有职级等信息*/
+		for (TDistributor dist : allDistributors) {
+			TDistributorGrade tgGrade = tgMap.get(dist.getDistributorCode());/**业绩*/
+			Long rank = dist.getRankId(); /**职级*/
+			TBounsConf bouns = bonusCfgMap.get(rank); /**职级对应的奖金列表*/
+			/**直接奖*/
+			//TODO:
+		}
+		allDistributors = null;
+		tgMap = null;
+		return true;
+	}
+	
+	/**
+	 * 奖金计算
+	 * @return
+	 */
+	public boolean calcBonus() {
+		
 		return true;
 	}
 }
