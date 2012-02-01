@@ -25,7 +25,7 @@ public interface TDistributorGradeService extends BaseService<TDistributorGrade,
 	public void findRank(String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList);
 	
 	/**
-	 * 	计算小组业绩（X-Y）
+	 * 	计算经销商小组业绩（X-Y）
 	 * @param netAchieve   整网业绩
 	 * @param tgGrade	        当前经销商业绩
 	 * @param tgMap	                   业绩缓存（因为在计算过下线以及本人的职级后传入，所以当前缓存内已经包含他们的职级）
