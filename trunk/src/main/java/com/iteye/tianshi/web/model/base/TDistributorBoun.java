@@ -1,7 +1,6 @@
 package com.iteye.tianshi.web.model.base;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,7 +25,7 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	private Long  distributorId;
 	
 	@Column(name="adjust_bouns")
-	private BigDecimal adjustBouns;
+	private Double adjustBouns;
 
     @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="bouns_date")
@@ -43,29 +42,29 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	private Date checkTime;
 
 	@Column(name="computer_fee")
-	private BigDecimal computerFee;
+	private Double computerFee;
 
 	@Column(name="direct_bouns")
-	private BigDecimal directBouns;
+	private Double directBouns;
 
 	@Column(name="honor_bouns")
-	private BigDecimal honorBouns;
+	private Double honorBouns;
 
 	@Column(name="indirect_bouns")
-	private BigDecimal indirectBouns;
+	private Double indirectBouns;
 
 	@Column(name="internatial_bouns")
-	private BigDecimal internatialBouns;
+	private Double internatialBouns;
 
 	@Column(name="leader_bouns")
-	private BigDecimal leaderBouns;
+	private Double leaderBouns;
 
 	private String remark;
 
 	@Column(name="special_bouns")
-	private BigDecimal specialBouns;
+	private Double specialBouns;
 
-	private BigDecimal tax;
+	private Double tax;
 
 	@Column(name="rank_id")
 	private Long  rankId;
@@ -90,11 +89,11 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	public TDistributorBoun() {
     }
 
-	public BigDecimal getAdjustBouns() {
+	public Double getAdjustBouns() {
 		return this.adjustBouns;
 	}
 
-	public void setAdjustBouns(BigDecimal adjustBouns) {
+	public void setAdjustBouns(Double adjustBouns) {
 		this.adjustBouns = adjustBouns;
 	}
 
@@ -130,51 +129,51 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 		this.checkTime = checkTime;
 	}
 
-	public BigDecimal getComputerFee() {
+	public Double getComputerFee() {
 		return this.computerFee;
 	}
 
-	public void setComputerFee(BigDecimal computerFee) {
+	public void setComputerFee(Double computerFee) {
 		this.computerFee = computerFee;
 	}
 
-	public BigDecimal getDirectBouns() {
+	public Double getDirectBouns() {
 		return this.directBouns;
 	}
 
-	public void setDirectBouns(BigDecimal directBouns) {
+	public void setDirectBouns(Double directBouns) {
 		this.directBouns = directBouns;
 	}
 
-	public BigDecimal getHonorBouns() {
+	public Double getHonorBouns() {
 		return this.honorBouns;
 	}
 
-	public void setHonorBouns(BigDecimal honorBouns) {
+	public void setHonorBouns(Double honorBouns) {
 		this.honorBouns = honorBouns;
 	}
 
-	public BigDecimal getIndirectBouns() {
+	public Double getIndirectBouns() {
 		return this.indirectBouns;
 	}
 
-	public void setIndirectBouns(BigDecimal indirectBouns) {
+	public void setIndirectBouns(Double indirectBouns) {
 		this.indirectBouns = indirectBouns;
 	}
 
-	public BigDecimal getInternatialBouns() {
+	public Double getInternatialBouns() {
 		return this.internatialBouns;
 	}
 
-	public void setInternatialBouns(BigDecimal internatialBouns) {
+	public void setInternatialBouns(Double internatialBouns) {
 		this.internatialBouns = internatialBouns;
 	}
 
-	public BigDecimal getLeaderBouns() {
+	public Double getLeaderBouns() {
 		return this.leaderBouns;
 	}
 
-	public void setLeaderBouns(BigDecimal leaderBouns) {
+	public void setLeaderBouns(Double leaderBouns) {
 		this.leaderBouns = leaderBouns;
 	}
 
@@ -186,19 +185,19 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public BigDecimal getSpecialBouns() {
+	public Double getSpecialBouns() {
 		return this.specialBouns;
 	}
 
-	public void setSpecialBouns(BigDecimal specialBouns) {
+	public void setSpecialBouns(Double specialBouns) {
 		this.specialBouns = specialBouns;
 	}
 
-	public BigDecimal getTax() {
+	public Double getTax() {
 		return this.tax;
 	}
 
-	public void setTax(BigDecimal tax) {
+	public void setTax(Double tax) {
 		this.tax = tax;
 	}
 }
