@@ -25,32 +25,8 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	@Column(name="product_name")
 	private String productName;
 	
-	//@MaskFormat("###,###.00")
 	@Column(name="product_price")
 	private Double productPrice;
-	public String getProductPrice_Name() {
-		return productPrice_Name;
-	}
-
-	public void setProductPrice_Name(String productPrice_Name) {
-		this.productPrice_Name = productPrice_Name;
-	}
-
-	public String getProductPv_Name() {
-		return productPv_Name;
-	}
-
-	public void setProductPv_Name(String productPv_Name) {
-		this.productPv_Name = productPv_Name;
-	}
-
-	public String getProductBv_Name() {
-		return productBv_Name;
-	}
-
-	public void setProductBv_Name(String productBv_Name) {
-		this.productBv_Name = productBv_Name;
-	}
 
 	@Transient
 	private String productPrice_Name;
@@ -76,6 +52,30 @@ public class TProductInfo extends BaseEntity  implements Serializable {
 	private String status_Name;
     public TProductInfo() {
     }
+
+	public String getProductPrice_Name() {
+		return productPrice_Name;
+	}
+
+	public void setProductPrice_Name(String productPrice_Name) {
+		this.productPrice_Name = productPrice_Name;
+	}
+
+	public String getProductPv_Name() {
+		return productPv_Name;
+	}
+
+	public void setProductPv_Name(String productPv_Name) {
+		this.productPv_Name = productPv_Name;
+	}
+
+	public String getProductBv_Name() {
+		return productBv_Name;
+	}
+
+	public void setProductBv_Name(String productBv_Name) {
+		this.productBv_Name = productBv_Name;
+	}
 
 	public String getProductCode() {
 		return this.productCode;
