@@ -24,11 +24,11 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 
 	//累计业绩
 	@Column(name = "accu_achieve")
-	private double accuAchieve;
+	private Double accuAchieve;
 	
 	//个人累计业绩
 	@Column(name = "accu_p_achieve")
-	private double accuPAchieve;
+	private Double accuPAchieve;
 	
 	//日期
 	@Temporal(TemporalType.TIMESTAMP)
@@ -37,7 +37,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	//小组业绩
 	@Column(name = "cell_achieve")
-	private double cellAchieve;
+	private Double cellAchieve;
 	
 	//审核标志
 	@Column(name = "check_flag")
@@ -49,19 +49,19 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	//直接业绩
 	@Column(name = "direct_achieve")
-	private double directAchieve;
+	private Double directAchieve;
 	
 	//间接业绩
 	@Column(name = "indirect_achieve")
-	private double indirectAchieve;
+	private Double indirectAchieve;
 	
 	//整网业绩
 	@Column(name = "net_achieve")
-	private double netAchieve;
+	private Double netAchieve;
 	
 	//个人业绩
 	@Column(name = "person_achieve")
-	private double personAchieve;
+	private Double personAchieve;
 	
 	//备注
 	private String remark;
@@ -82,12 +82,10 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	private int floors;
 	
 	//默认1星
-	@Transient
 	private Long rank = ConstantUtil._lev_1;
 	
 	//当月最大消费
-	@Transient
-	private double maxChange = 0D;
+	private Double maxChange = 0D;
 
 	/**
 	 * 获取累计业绩
@@ -95,7 +93,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getAccuAchieve() {
+	public Double getAccuAchieve() {
 		return this.accuAchieve;
 	}
 	
@@ -105,7 +103,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setAccuAchieve(double accuAchieve) {
+	public void setAccuAchieve(Double accuAchieve) {
 		this.accuAchieve = accuAchieve;
 	}
 
@@ -115,7 +113,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getAccuPAchieve() {
+	public Double getAccuPAchieve() {
 		return this.accuPAchieve;
 	}
 	
@@ -125,7 +123,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setAccuPAchieve(double accuPAchieve) {
+	public void setAccuPAchieve(Double accuPAchieve) {
 		this.accuPAchieve = accuPAchieve;
 	}
 	
@@ -155,7 +153,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getCellAchieve() {
+	public Double getCellAchieve() {
 		return this.cellAchieve;
 	}
 	
@@ -165,7 +163,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setCellAchieve(double cellAchieve) {
+	public void setCellAchieve(Double cellAchieve) {
 		this.cellAchieve = cellAchieve;
 	}
 	
@@ -215,7 +213,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getDirectAchieve() {
+	public Double getDirectAchieve() {
 		return this.directAchieve;
 	}
 	
@@ -225,7 +223,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setDirectAchieve(double directAchieve) {
+	public void setDirectAchieve(Double directAchieve) {
 		this.directAchieve = directAchieve;
 	}
 	
@@ -235,7 +233,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getIndirectAchieve() {
+	public Double getIndirectAchieve() {
 		return this.indirectAchieve;
 	}
 	
@@ -245,7 +243,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setIndirectAchieve(double indirectAchieve) {
+	public void setIndirectAchieve(Double indirectAchieve) {
 		this.indirectAchieve = indirectAchieve;
 	}
 
@@ -255,7 +253,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getNetAchieve() {
+	public Double getNetAchieve() {
 		return this.netAchieve;
 	}
 	
@@ -265,7 +263,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setNetAchieve(double netAchieve) {
+	public void setNetAchieve(Double netAchieve) {
 		this.netAchieve = netAchieve;
 	}
 	
@@ -275,7 +273,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getPersonAchieve() {
+	public Double getPersonAchieve() {
 		return this.personAchieve;
 	}
 	
@@ -285,7 +283,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setPersonAchieve(double personAchieve) {
+	public void setPersonAchieve(Double personAchieve) {
 		this.personAchieve = personAchieve;
 	}
 
@@ -405,11 +403,11 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		return rank;
 	}
 
-	public void setMaxChange(double maxChange) {
+	public void setMaxChange(Double maxChange) {
 		this.maxChange = maxChange;
 	}
 
-	public double getMaxChange() {
+	public Double getMaxChange() {
 		return maxChange;
 	}
 }
