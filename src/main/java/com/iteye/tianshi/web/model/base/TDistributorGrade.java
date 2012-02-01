@@ -10,6 +10,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.iteye.tianshi.core.util.ConstantUtil;
 import com.iteye.tianshi.core.web.model.BaseEntity;
 
 /**
@@ -25,7 +26,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	@Column(name = "accu_achieve")
 	private double accuAchieve;
 	
-	//累计个人业绩
+	//个人累计业绩
 	@Column(name = "accu_p_achieve")
 	private double accuPAchieve;
 	
@@ -79,6 +80,14 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	//经销商编号
 	@Column(name = "floors")
 	private int floors;
+	
+	//默认1星
+	@Transient
+	private Long rank = ConstantUtil._lev_1;
+	
+	//当月最大消费
+	@Transient
+	private double maxChange = 0D;
 
 	/**
 	 * 获取累计业绩
@@ -354,5 +363,53 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	 */
 	public void setFloors(int floors) {
 		this.floors = floors;
+	}
+	
+	public TDistributorGradeHis getHisGradeCopy(){
+		TDistributorGradeHis his = new TDistributorGradeHis();
+		//个人业绩
+		his.setPersonAchieve(personAchieve);
+		//累计业绩
+		his.setAccuAchieve(accuAchieve);
+		//个人累计业绩
+		his.setAccuPAchieve(accuPAchieve);
+		//整网业绩
+		his.setNetAchieve(netAchieve);
+		//直接业绩
+		his.setDirectAchieve(directAchieve);
+		//小组业绩
+		his.setCellAchieve(cellAchieve);
+		//经销商编码
+		his.setDistributorCode(distributorCode);
+		//经销商ID
+		his.setDistributorId(distributorId);
+		//层级
+		his.setFloors(floors);
+		//时间
+		his.setAchieveDate(achieveDate);
+		//是否审核
+		his.setCheckFlag(checkFlag);
+		//审核人
+		his.setCheckMan(checkMan);
+		his.setId(this.getId());
+		his.setIndirectAchieve(indirectAchieve);
+		his.setRemark(remark);
+		return his;
+	}
+
+	public void setRank(Long rank) {
+		this.rank = rank;
+	}
+
+	public Long getRank() {
+		return rank;
+	}
+
+	public void setMaxChange(double maxChange) {
+		this.maxChange = maxChange;
+	}
+
+	public double getMaxChange() {
+		return maxChange;
 	}
 }

@@ -5,11 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.iteye.tianshi.core.web.model.BaseEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 
@@ -17,8 +19,15 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
  */
 @Entity
 @Table(name = "t_distributor_grade_his")
-public class TDistributorGradeHis extends BaseEntity implements Serializable {
+public class TDistributorGradeHis implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	
+	@Id
+	@Column(name="res_id")
+    @GeneratedValue(generator = "tableGenerator")     
+	@GenericGenerator(name = "tableGenerator", strategy="assigned")
+	private Long id;
 	
 	//累计业绩
 	@Column(name = "accu_achieve")
@@ -344,5 +353,13 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	 */
 	public void setFloors(int floors) {
 		this.floors = floors;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
 	}
 }
