@@ -20,17 +20,28 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 @Table(name="t_distributor_bouns")
 public class TDistributorBoun extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	//经销商ID
 	@Column(name="distributor_id")
 	private Long  distributorId;
 	
+	//经销商编码
+	@Column(name="distributor_code")
+	private Long  distributorCode;
+	
+	//职级ID
+	@Column(name="rank_id")
+	private Long  rankId;
+	
+	//调整奖
 	@Column(name="adjust_bouns")
 	private Double adjustBouns;
-
+	 
+	//计算日期
     @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="bouns_date")
 	private Date bounsDate;
-
+    
 	@Column(name="check_flag")
 	private String checkFlag;
 
@@ -40,34 +51,37 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
     @Temporal( TemporalType.TIMESTAMP)
 	@Column(name="check_time")
 	private Date checkTime;
-
+    
 	@Column(name="computer_fee")
 	private Double computerFee;
-
+	
+	//直接奖
 	@Column(name="direct_bouns")
 	private Double directBouns;
-
+	
+	//荣衔奖
 	@Column(name="honor_bouns")
 	private Double honorBouns;
-
+	
+	//间接奖
 	@Column(name="indirect_bouns")
 	private Double indirectBouns;
-
+	
+	//国际奖
 	@Column(name="internatial_bouns")
 	private Double internatialBouns;
-
+	
+	//领导奖
 	@Column(name="leader_bouns")
 	private Double leaderBouns;
 
 	private String remark;
-
+	
+	//特别奖
 	@Column(name="special_bouns")
 	private Double specialBouns;
 
 	private Double tax;
-
-	@Column(name="rank_id")
-	private Long  rankId;
 
 
     public Long getRankId() {
@@ -199,5 +213,13 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 
 	public void setTax(Double tax) {
 		this.tax = tax;
+	}
+
+	public void setDistributorCode(Long distributorCode) {
+		this.distributorCode = distributorCode;
+	}
+
+	public Long getDistributorCode() {
+		return distributorCode;
 	}
 }

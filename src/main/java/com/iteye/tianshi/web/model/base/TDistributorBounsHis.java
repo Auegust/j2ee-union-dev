@@ -47,6 +47,9 @@ public class TDistributorBounsHis  extends BaseEntity implements Serializable {
 	@Column(name="distributor_id")
 	private Long distributorId;
 
+	@Column(name="distributor_code")
+	private Long  distributorCode;
+	
 	@Column(name="honor_bouns")
 	private Double honorBouns;
 
@@ -198,6 +201,14 @@ public class TDistributorBounsHis  extends BaseEntity implements Serializable {
 
 	public void setTax(Double tax) {
 		this.tax = tax;
+	}
+
+	public void setDistributorCode(Long distributorCode) {
+		this.distributorCode = distributorCode;
+	}
+
+	public Long getDistributorCode() {
+		return distributorCode;
 	}
 
 }
