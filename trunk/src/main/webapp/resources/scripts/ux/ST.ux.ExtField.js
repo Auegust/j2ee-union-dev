@@ -209,6 +209,17 @@ function usMoneyFunc(value, p, record){
 	return  "<b><font color=red>"+value+"</font></b>";
 }
 
+/******
+ * 比例转换
+ */
+function percentageFunc(value, p, record){
+	if(value == 0){
+		return  value+" %";
+	}else{
+		return  "<b><font color=red>"+value+" %"+"</font></b>";
+	}
+}
+
 /*****
  * 日期转换
  */
