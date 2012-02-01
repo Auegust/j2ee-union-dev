@@ -92,7 +92,7 @@ public class TDistributorGradeController extends BaseController {
 	}
 
 	/**
-	 * 经销商管理，查询经销商信息，按照经销商优先级降序排序
+	 * 经销商业绩分页查询
 	 * 
 	 * @param pageRequest
 	 * @return
