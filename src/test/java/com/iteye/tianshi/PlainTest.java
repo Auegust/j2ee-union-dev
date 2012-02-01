@@ -15,8 +15,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.iteye.tianshi.web.model.base.TBounsConf;
-
 public class PlainTest {
 	String curDate;
 	boolean a;
