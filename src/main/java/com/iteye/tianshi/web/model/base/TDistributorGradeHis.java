@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.iteye.tianshi.core.util.ConstantUtil;
+
 /**
  * 
  * 经销商业绩历史表
@@ -31,11 +33,11 @@ public class TDistributorGradeHis implements Serializable {
 	
 	//累计业绩
 	@Column(name = "accu_achieve")
-	private double accuAchieve;
+	private Double accuAchieve;
 	
 	//累计个人业绩
 	@Column(name = "accu_p_achieve")
-	private double accuPAchieve;
+	private Double accuPAchieve;
 	
 	//日期
 	@Temporal(TemporalType.TIMESTAMP)
@@ -44,7 +46,7 @@ public class TDistributorGradeHis implements Serializable {
 	
 	//小组业绩
 	@Column(name = "cell_achieve")
-	private double cellAchieve;
+	private Double cellAchieve;
 	
 	//审核标志
 	@Column(name = "check_flag")
@@ -56,19 +58,19 @@ public class TDistributorGradeHis implements Serializable {
 	
 	//直接业绩
 	@Column(name = "direct_achieve")
-	private double directAchieve;
+	private Double directAchieve;
 	
 	//间接业绩
 	@Column(name = "indirect_achieve")
-	private double indirectAchieve;
+	private Double indirectAchieve;
 	
 	//整网业绩
 	@Column(name = "net_achieve")
-	private double netAchieve;
+	private Double netAchieve;
 	
 	//个人业绩
 	@Column(name = "person_achieve")
-	private double personAchieve;
+	private Double personAchieve;
 	
 	//备注
 	private String remark;
@@ -81,6 +83,28 @@ public class TDistributorGradeHis implements Serializable {
 	@Column(name = "distributor_code")
 	private String distributorCode;
 	
+	//默认1星
+	private Long rank = ConstantUtil._lev_1;
+	
+	//当月最大消费
+	private Double maxChange = 0D;
+	
+	public Long getRank() {
+		return rank;
+	}
+
+	public void setRank(Long rank) {
+		this.rank = rank;
+	}
+
+	public Double getMaxChange() {
+		return maxChange;
+	}
+
+	public void setMaxChange(Double maxChange) {
+		this.maxChange = maxChange;
+	}
+
 	@Column(name = "floors")
 	private int floors;
 	
@@ -93,7 +117,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getAccuAchieve() {
+	public Double getAccuAchieve() {
 		return this.accuAchieve;
 	}
 	
@@ -103,7 +127,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setAccuAchieve(double accuAchieve) {
+	public void setAccuAchieve(Double accuAchieve) {
 		this.accuAchieve = accuAchieve;
 	}
 
@@ -113,7 +137,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getAccuPAchieve() {
+	public Double getAccuPAchieve() {
 		return this.accuPAchieve;
 	}
 	
@@ -123,7 +147,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setAccuPAchieve(double accuPAchieve) {
+	public void setAccuPAchieve(Double accuPAchieve) {
 		this.accuPAchieve = accuPAchieve;
 	}
 	
@@ -153,7 +177,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getCellAchieve() {
+	public Double getCellAchieve() {
 		return this.cellAchieve;
 	}
 	
@@ -163,7 +187,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public void setCellAchieve(double cellAchieve) {
+	public void setCellAchieve(Double cellAchieve) {
 		this.cellAchieve = cellAchieve;
 	}
 	
@@ -213,7 +237,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getDirectAchieve() {
+	public Double getDirectAchieve() {
 		return this.directAchieve;
 	}
 	
@@ -223,7 +247,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setDirectAchieve(double directAchieve) {
+	public void setDirectAchieve(Double directAchieve) {
 		this.directAchieve = directAchieve;
 	}
 	
@@ -233,7 +257,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getIndirectAchieve() {
+	public Double getIndirectAchieve() {
 		return this.indirectAchieve;
 	}
 	
@@ -243,7 +267,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setIndirectAchieve(double indirectAchieve) {
+	public void setIndirectAchieve(Double indirectAchieve) {
 		this.indirectAchieve = indirectAchieve;
 	}
 
@@ -253,7 +277,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getNetAchieve() {
+	public Double getNetAchieve() {
 		return this.netAchieve;
 	}
 	
@@ -263,7 +287,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setNetAchieve(double netAchieve) {
+	public void setNetAchieve(Double netAchieve) {
 		this.netAchieve = netAchieve;
 	}
 	
@@ -273,7 +297,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @return
 	 */
-	public double getPersonAchieve() {
+	public Double getPersonAchieve() {
 		return this.personAchieve;
 	}
 	
@@ -283,7 +307,7 @@ public class TDistributorGradeHis implements Serializable {
 	 * @author chenfengming456@163.com
 	 * @param distributorCode
 	 */
-	public void setPersonAchieve(double personAchieve) {
+	public void setPersonAchieve(Double personAchieve) {
 		this.personAchieve = personAchieve;
 	}
 
