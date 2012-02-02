@@ -12,7 +12,7 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 	urlEdit: './../order/updateTProductOrder.json',
 	urlLoadData: './../order/loadTProductOrder.json',
 	urlRemove: './../order/deleteTProductOrder.json',
-	addTitle: "销售录入",
+	addTitle: "订单录入",
     editTitle: "更新销售信息",
     gridTitle: "销售信息列表",
     formbarTitle:"销售信息查询",
@@ -49,7 +49,8 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: 'PV值',dataIndex: 'pV',readOnly:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
 		            {header: 'BV值',dataIndex: 'bV',readOnly:true,renderer: usMoneyFunc,emptyText:'与编号联动'},
 		            {header: '销售数量', dataIndex: 'saleNumber',allowBlank:false ,regex : /^\d+$/,regexText:"只能输入数字!"},
-		            {header: '销售总额', dataIndex: 'sumPrice',hideForm:'all', renderer: usMoneyFunc}
+		            {header: '销售总额', dataIndex: 'sumPrice',hideForm:'all', renderer: usMoneyFunc},
+		            {header: 'ＢＯＯＫ', dataIndex: 'book' ,allowBlank:false ,regex:/^\d*$/,regexText:"只能输入数字!"}
 		         ],
 	
 	queryFormItms: [{ 
