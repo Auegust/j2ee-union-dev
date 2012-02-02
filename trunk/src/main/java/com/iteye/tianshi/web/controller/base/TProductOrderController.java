@@ -28,8 +28,6 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 
 /**
  * 订单录入 业务方法
- * @dateime 2012-1-13 下午03:22:08
- * @author chenfengming456@163.com
  */
 @Controller 
 @RequestMapping("/order")
@@ -54,10 +52,6 @@ public class TProductOrderController extends BaseController {
 	
 	/**
 	 * 订单录入
-	 * @dateime 2012-1-13 下午04:40:03
-	 * @author chenfengming456@163.com
-	 * @param tDetail
-	 * @return
 	 */
 	@RequestMapping(value = "/insertTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
@@ -76,10 +70,6 @@ public class TProductOrderController extends BaseController {
 	
 	/**
 	 * 订单修改
-	 * @dateime 2012-1-13 下午04:40:15
-	 * @author chenfengming456@163.com
-	 * @param tDetail
-	 * @return
 	 */
 	@RequestMapping(value = "/updateTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
@@ -97,10 +87,6 @@ public class TProductOrderController extends BaseController {
 	
 	/**
 	 * 订单删除
-	 * @dateime 2012-1-13 下午04:40:36
-	 * @author chenfengming456@163.com
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping(value = "/deleteTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
@@ -113,10 +99,6 @@ public class TProductOrderController extends BaseController {
 	 * 订单加载
 	 * 加载时通过经销商编号，查出经销商名称、专卖店编号、专卖店名称
 	 * 通过产品编号，查出产品名称、产品价格、PV值、BV值
-	 * @dateime 2012-1-13 下午04:40:52
-	 * @author chenfengming456@163.com
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping(value = "/loadTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
@@ -140,10 +122,6 @@ public class TProductOrderController extends BaseController {
 	
 	/**
 	 * 订单分页查询
-	 * @dateime 2012-1-13 下午04:40:52
-	 * @author chenfengming456@163.com
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping("/pageQueryTProductOrder")
 	@ResponseBody

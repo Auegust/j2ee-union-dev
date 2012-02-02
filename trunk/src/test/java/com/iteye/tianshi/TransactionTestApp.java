@@ -6,9 +6,6 @@
 package com.iteye.tianshi;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import net.sf.ehcache.CacheManager;
 
 import org.junit.Test;
@@ -17,7 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import com.iteye.tianshi.core.spring.SpringApplicationContextHolder;
+import com.iteye.tianshi.web.controller.base.TDistributorGradeController;
 import com.iteye.tianshi.web.dao.base.UserDao;
+import com.iteye.tianshi.web.service.base.TDistributorGradeService;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TProductDetailService;
 import com.iteye.tianshi.web.service.base.UserService;
@@ -25,8 +25,6 @@ import com.iteye.tianshi.web.service.base.UserService;
 /**
  * Spring单元测试类 defaultRollback = true 回滚 = false 不回滚
  * 
- * @author jiangzx@yaohoo.com
- * @Date 2012-1-11
  */
 @ContextConfiguration(locations = { "resource-core-context.xml" })
 @TransactionConfiguration(defaultRollback = false)
@@ -42,18 +40,23 @@ public class TransactionTestApp extends
 	private TDistributorService distributorService;
 	
 	@Autowired
+	private TDistributorGradeService gradeService;
+	
+	@Autowired
 	private TProductDetailService productDetailService;
 	@Autowired    
 	CacheManager cacheManager; 
 	// 你可以在这个方法里测试注入的Service或者Dao
 	@Test
 	public void transactionTestApp() {
-		
+		SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus();		
+//		controller.calcGradeAndBonus();
+//		List<Map<String, Object>>  oo =userdao.getJdbcTemplate().queryForList("SELECT * FROM t_bouns_conf");
+//		System.out.println(oo.size());
 	}
 //ehcache test
-	@Test
+	
 	public void testCaching_MessagesCache() {
-		
 	}
 	
 //	/***

@@ -84,7 +84,7 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 				RankCache initCache = new RankCache();
 				/**查询出child下的所有子节点（包括间接节点+直接节点），TODO:这里是个大批量的操作，以后需要优化，目前没有解决思路*/
 				all = tDistributorService.findAllDirChildrenDistributors(child.getId(), child.getFloors()+1);/**所有直接子节点*/
-				indirect = tDistributorService.findAllChildrenDistributors(child.getId(), child.getFloors()+1);
+				indirect = tDistributorService.findAllIndirChildrenDistributors(child.getId(), child.getFloors()+1);
 				all.addAll(indirect); /**加入所有间接子节点*/
 				all.add(child);/**加入当前节点*/
 				for(TDistributor tt:all){/**遍历当前节点*/

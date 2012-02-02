@@ -5,11 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.iteye.tianshi.core.web.model.BaseEntity;
+import org.hibernate.annotations.GenericGenerator;
 
 
 /**
@@ -18,9 +20,15 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
  */
 @Entity
 @Table(name="t_distributor_bouns_his")
-public class TDistributorBounsHis  extends BaseEntity implements Serializable {
+public class TDistributorBounsHis implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="res_id")
+    @GeneratedValue(generator = "tableGenerator")     
+	@GenericGenerator(name = "tableGenerator", strategy="assigned")
+	private Long id;
+	
 	@Column(name="adjust_bouns")
 	private Double adjustBouns;
 
@@ -48,7 +56,7 @@ public class TDistributorBounsHis  extends BaseEntity implements Serializable {
 	private Long distributorId;
 
 	@Column(name="distributor_code")
-	private Long  distributorCode;
+	private String  distributorCode;
 	
 	@Column(name="honor_bouns")
 	private Double honorBouns;
@@ -203,12 +211,20 @@ public class TDistributorBounsHis  extends BaseEntity implements Serializable {
 		this.tax = tax;
 	}
 
-	public void setDistributorCode(Long distributorCode) {
+	public void setDistributorCode(String distributorCode) {
 		this.distributorCode = distributorCode;
 	}
 
-	public Long getDistributorCode() {
+	public String getDistributorCode() {
 		return distributorCode;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 }

@@ -30,8 +30,6 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 /**
  * 经销商管理界面的业务方法
  * 
- * @datetime 2012-01-10 10:30:12
- * @author chenfengming456@163.com
  */
 @Controller
 @RequestMapping("/distributor")

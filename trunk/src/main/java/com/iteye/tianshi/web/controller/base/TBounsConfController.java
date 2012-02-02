@@ -20,8 +20,6 @@ import com.iteye.tianshi.web.service.base.TDistributorRankService;
 
 /**
  * 奖金核算表 业务方法
- * @dateime 2012-1-13 下午01:38:26
- * @author chenfengming456@163.com
  */
 @Controller 
 @RequestMapping("/bonus")
@@ -39,9 +37,6 @@ public class TBounsConfController extends BaseController {
 	
 	/**
 	 * 增加奖金核算配置表记录
-	 * @dateime 2012-1-13 下午01:42:02
-	 * @author chenfengming456@163.com
-	 * @param tBounsConf
 	 */
 	@RequestMapping(value = "/insertTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
@@ -56,10 +51,6 @@ public class TBounsConfController extends BaseController {
 	
 	/**
 	 * 修改奖金配置表记录
-	 * @dateime 2012-1-13 下午01:54:18
-	 * @author chenfengming456@163.com
-	 * @param tBounsConf
-	 * @return
 	 */
 	@RequestMapping(value = "/updateTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
@@ -73,10 +64,6 @@ public class TBounsConfController extends BaseController {
 	
 	/**
 	 * 删除奖金配置表记录
-	 * @dateime 2012-1-13 下午01:53:55
-	 * @author chenfengming456@163.com
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping(value = "/deleteTBounsConf", method = RequestMethod.POST)
 	@ResponseBody
@@ -87,10 +74,6 @@ public class TBounsConfController extends BaseController {
 	
 	/**
 	 * 查询奖金配置表记录
-	 * @dateime 2012-1-13 下午01:57:52
-	 * @author chenfengming456@163.com
-	 * @param id
-	 * @return
 	 */
 	@RequestMapping(value = "/loadTBounsConf", method = RequestMethod.POST)
 	@ResponseBody

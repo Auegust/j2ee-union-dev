@@ -24,8 +24,6 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 /**
  * 专卖店管理界面的业务方法
  * 
- * @datetime 2012-01-10 14:27:09
- * @author chenfengming456@163.com
  */
 @Controller
 @RequestMapping("/shop")

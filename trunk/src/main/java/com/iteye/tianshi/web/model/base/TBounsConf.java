@@ -66,82 +66,83 @@ public class TBounsConf extends BaseEntity implements Serializable {
 	@Column(name="w_8")
 	private String w8;
 	
-    public String getW1() {
-		return w1;
+    public Double getW1() {
+		return Double.valueOf(this.w1)/100;
 	}
 	public void setW1(String w1) {
 		this.w1 = w1;
 	}
-	public String getW2() {
-		return w2;
+	public Double getW2() {
+		return Double.valueOf(this.w2)/100;
 	}
 	public void setW2(String w2) {
 		this.w2 = w2;
 	}
-	public String getW3() {
-		return w3;
+	public Double getW3() {
+		return Double.valueOf(this.w3)/100;
 	}
 	public void setW3(String w3) {
 		this.w3 = w3;
 	}
-	public String getW4() {
-		return w4;
+	public Double getW4() {
+		return Double.valueOf(this.w4)/100;
 	}
 	public void setW4(String w4) {
 		this.w4 = w4;
 	}
-	public String getW5() {
-		return w5;
+	public Double getW5() {
+		return Double.valueOf(this.w5)/100;
 	}
 	public void setW5(String w5) {
 		this.w5 = w5;
 	}
-	public String getW6() {
-		return w6;
+	public Double getW6() {
+		return Double.valueOf(this.w6)/100;
 	}
 	public void setW6(String w6) {
 		this.w6 = w6;
 	}
-	public String getW7() {
-		return w7;
+	public Double getW7() {
+		return Double.valueOf(this.w7)/100;
 	}
 	public void setW7(String w7) {
 		this.w7 = w7;
 	}
-	public String getW8() {
-		return w8;
+	public Double getW8() {
+		return Double.valueOf(this.w8)/100;
 	}
 	public void setW8(String w8) {
 		this.w8 = w8;
 	}
 	public TBounsConf() {
     }
-	public String getAchieveP() {
-		return this.achieveP;
+	
+	public Double getAchieveP() {
+		return Double.valueOf(this.achieveP)/100;
 	}
 
 	public void setAchieveP(String achieveP) {
 		this.achieveP = achieveP;
 	}
 
-	public String getDirectP() {
-		return this.directP;
+	public Double getDirectP() {
+		return  Double.valueOf(this.directP)/100;
 	}
 
 	public void setDirectP(String directP) {
 		this.directP = directP;
 	}
 
-	public String getHonorP() {
-		return this.honorP;
+	public Double getHonorP() {
+		return Double.valueOf(this.honorP)/100;
 	}
 
 	public void setHonorP(String honorP) {
 		this.honorP = honorP;
 	}
 
-	public String getIndirectP() {
-		return this.indirectP;
+	public Double getIndirectP() {
+		return  Double.valueOf(this.indirectP)/100;
 	}
 
 	public void setIndirectP(String indirectP) {
@@ -156,8 +157,8 @@ public class TBounsConf extends BaseEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public String getSpecialP() {
-		return this.specialP;
+	public Double getSpecialP() {
+		return Double.valueOf(this.specialP)/100;
 	}
 
 	public void setSpecialP(String specialP) {

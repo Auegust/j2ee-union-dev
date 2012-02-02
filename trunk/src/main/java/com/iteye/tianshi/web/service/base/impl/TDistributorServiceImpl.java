@@ -65,7 +65,7 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 	}
 
 	@Override
-	public List<TDistributor> findAllChildrenDistributors(Long id,Integer floors) {
+	public List<TDistributor> findAllIndirChildrenDistributors(Long id,Integer floors) {
 		StrBuilder sql = new StrBuilder("select * FROM tianshi.t_distributor WHERE FIND_IN_SET(res_id,tianshi.getChildLst(").append(id+")) ");
 		if (floors!=null) {
 			sql.append("and floors>").append(floors);
