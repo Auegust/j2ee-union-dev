@@ -34,6 +34,10 @@ public class TDistributor extends BaseEntity implements Serializable {
 
 	@Column(name="distributor_name")
 	private String distributorName;
+	
+	@Column(name="bankAcc")
+	private Integer bankAcc;
+	
 
 	private String remark;
 
@@ -178,6 +182,12 @@ public class TDistributor extends BaseEntity implements Serializable {
 	}
 	public double getBonusAchieve() {
 		return bonusAchieve;
+	}
+	public void setBankAcc(Integer bankAcc) {
+		this.bankAcc = bankAcc;
+	}
+	public Integer getBankAcc() {
+		return bankAcc;
 	}
 	
 }

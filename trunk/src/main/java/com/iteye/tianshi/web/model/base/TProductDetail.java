@@ -26,7 +26,6 @@ public class TProductDetail extends BaseEntity implements Serializable {
 
 	@Column(name = "check_man")
 	private String checkMan;
-
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="create_time" ,updatable=false)
@@ -39,9 +38,12 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	@Column(name = "sale_number")
 	private Integer saleNumber;
 
+	@Column(name = "book")
+	private Integer book;
+	
 	@Column(name = "sale_price")
 	private Double salePrice;
-
+	
 	@Column(name = "sum_price")
 	private Double sumPrice;
 
@@ -230,6 +232,14 @@ public class TProductDetail extends BaseEntity implements Serializable {
 
 	public void setSumPrice(Double sumPrice) {
 		this.sumPrice = sumPrice;
+	}
+
+	public void setBook(Integer book) {
+		this.book = book;
+	}
+
+	public Integer getBook() {
+		return book;
 	}
 	
 	
