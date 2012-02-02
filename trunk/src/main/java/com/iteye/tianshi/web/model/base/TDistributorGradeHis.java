@@ -48,6 +48,10 @@ public class TDistributorGradeHis implements Serializable {
 	@Column(name = "cell_achieve")
 	private Double cellAchieve;
 	
+	//个人业绩奖金
+	@Column(name = "bonus_achieve")
+	private Double bonusAchieve;
+	
 	//审核标志
 	@Column(name = "check_flag")
 	private String checkFlag;
@@ -385,5 +389,13 @@ public class TDistributorGradeHis implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setBonusAchieve(Double bonusAchieve) {
+		this.bonusAchieve = bonusAchieve;
+	}
+
+	public Double getBonusAchieve() {
+		return bonusAchieve;
 	}
 }

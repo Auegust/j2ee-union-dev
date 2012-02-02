@@ -46,22 +46,26 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 	 * @param tgMap		  		 经销商临时业绩缓存（因为是从下往上遍历，因此缓存的都是已经计算过的业绩）
 	 * @param dirchildList 		直接下线经销商
 	 */
-	public void findRank(String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList){
+	public void findRank(TDistributor dist , String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList){
 		double personAchieve = tgGrade.getPersonAchieve(); //个人累计即个人业绩（当月）
 		double netAchieve = tgGrade.getNetAchieve();		//累计即整网
 		/**下面分别针对星级的条件进行判断*/
 		if(dirchildList == null){ /**经销商无下线，小组业绩==个人业绩==整网业绩，之前已经计算过了*/
 			/**（1）一次性购买大于或等于1000PV （2）个人累计大于或等于1000PV */
 			if(maxChange>=1000D || personAchieve>=1000D){
+				dist.setRankId(ConstantUtil._lev_4);
 				tgGrade.setRank(ConstantUtil._lev_4); //4*
 			/**（1）一次性购买大于或等于200PV （2）个人累计大于或等于200PV */
 			}else if(maxChange>=200D || personAchieve>=200D){
+				dist.setRankId(ConstantUtil._lev_3);
 				tgGrade.setRank(ConstantUtil._lev_3); //3*
 			/**（1）一次性购买大于或等于100PV */
 			}else if(maxChange>=100){
+				dist.setRankId(ConstantUtil._lev_2);
 				tgGrade.setRank(ConstantUtil._lev_2); //2*
 			/** 个人购买  《天狮事业锦囊》一套*/
 			}else{
+				dist.setRankId(ConstantUtil._lev_1);
 				tgGrade.setRank(ConstantUtil._lev_1); //1*
 			}
 		}else{ /**经销商至少有一个下线，计算职级后可以直接计算小组业绩*/
@@ -128,50 +132,61 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 			/***计算经销商职级，personAchieve---本月个人累计消费，maxChange--本月最大一次性消费，netAchieve--整网累计，childNumber--N条，ownership--N星*/
 			/**四名八星直销商--金狮*/
 			if(ownership.get("_lv_8")>=4 ){
+				dist.setRankId(ConstantUtil._lev_s_3);
 				tgGrade.setRank(ConstantUtil._lev_s_3);
 			/**三名八星直销商--银狮*/
 			}else if(ownership.get("_lv_8")>=3){
+				dist.setRankId(ConstantUtil._lev_s_2);
 				tgGrade.setRank(ConstantUtil._lev_s_2);
 			/**二名八星直销商--铜师*/
 			}else if(ownership.get("_lv_8")>=2){
+				dist.setRankId(ConstantUtil._lev_s_1);
 				tgGrade.setRank(ConstantUtil._lev_s_1);
 			/**（1）三条七星，累计300000PV （2）两条七星，累计600000PV （3）二条七星+四条六星，累计300000PV*/
 			}else if((ownership.get("_lv_7")>=3 && netAchieve>=300000D)||
 					(ownership.get("_lv_7")>=2 && netAchieve>=600000D)||
 					(ownership.get("_lv_7")>=2 && ownership.get("_lv_6")>=5 && netAchieve>=300000D)){
+				dist.setRankId(ConstantUtil._lev_8);
 				tgGrade.setRank(ConstantUtil._lev_8);
 			/**（1）三条六星，累计75000PV （2）两条六星，累计150000PV（3）二条六星+四条五星，累计75000PV（4）一条六星+六条五星，累计75000PV*/
 			}else if((ownership.get("_lv_6")>=3 && netAchieve>=75000D)||
 					(ownership.get("_lv_6")>=2 && netAchieve>=150000D)||
 					(ownership.get("_lv_6")>=2 && ownership.get("_lv_5")>=5 && netAchieve>=75000D)||
 					(ownership.get("_lv_6")>=1 && ownership.get("_lv_5")>=7 && netAchieve>=75000D)){
+				dist.setRankId(ConstantUtil._lev_7);
 				tgGrade.setRank(ConstantUtil._lev_7);
 			/**（1）三条五星，累计18000PV；（2）两条五星，累计36000PV （3）二条五星+四条四星，累计18000PV （4）一条五星+六条四星，累计18000PV*/
 			}else if((ownership.get("_lv_5")>=3 && netAchieve>=18000D)||
 					(ownership.get("_lv_5")>=2 && netAchieve>=36000D)||
 					(ownership.get("_lv_5")>=2 && ownership.get("_lv_4")>=5 && netAchieve>=18000D)||
 					(ownership.get("_lv_5")>=1 && ownership.get("_lv_4")>=7 && netAchieve>=18000D)		){
+				dist.setRankId(ConstantUtil._lev_6);
 				tgGrade.setRank(ConstantUtil._lev_6);
 			/**（1）三条四星，累计4000PV； （2）两条四星，累计8000PV（3）二条四星+四条三星，累计4000PV （4）一条四星+六条三星，累计4000PV*/
 			}else if((ownership.get("_lv_4")>=3 && netAchieve>=4000D)||
 					 (ownership.get("_lv_4")>=2 && netAchieve>=8000D)||
 					 (ownership.get("_lv_4")>=2 && ownership.get("_lv_3")>=5 && netAchieve>=4000D)||
 					 (ownership.get("_lv_4")>=1 && ownership.get("_lv_3")>=7 && netAchieve>=4000D)){
+				dist.setRankId(ConstantUtil._lev_5);
 				tgGrade.setRank(ConstantUtil._lev_5);
 			/**（1）一次性购买大于或等于1000PV （2）个人累计大于或等于1000PV（3）三条三星，累计1200PV（4）二条三星，累计2400PV*/
 			}else if(maxChange>=1000D||
 					 personAchieve>=1000||
 					 (ownership.get("_lv_3")>=3 && netAchieve>=1200D)||
 					 (ownership.get("_lv_3")>=2 && netAchieve>=2400D)){
+				dist.setRankId(ConstantUtil._lev_4);
 				tgGrade.setRank(ConstantUtil._lev_4);
 			/**(1)个人累计购买大于或等于200PV（2）一次性购买大于或等于200PV*/
 			}else if(maxChange>=200D || personAchieve>=200D){
+				dist.setRankId(ConstantUtil._lev_3);
 				tgGrade.setRank(ConstantUtil._lev_3);
 			/**一次性购买产品额大于或等于100PV*/
 			}else if(maxChange>=100D){
+				dist.setRankId(ConstantUtil._lev_2);
 				tgGrade.setRank(ConstantUtil._lev_2);
 			/** 个人购买  《天狮事业锦囊》一套*/
 			}else{
+				dist.setRankId(ConstantUtil._lev_1);
 				tgGrade.setRank(ConstantUtil._lev_1);
 			}
 			ownership = null;
