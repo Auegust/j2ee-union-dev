@@ -21,7 +21,6 @@ import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
 import com.iteye.tianshi.web.model.base.TBounsConf;
 import com.iteye.tianshi.web.model.base.TDistributor;
-import com.iteye.tianshi.web.model.base.TDistributorBoun;
 import com.iteye.tianshi.web.model.base.TDistributorGrade;
 import com.iteye.tianshi.web.model.base.TDistributorGradeHis;
 import com.iteye.tianshi.web.model.base.TShopInfo;
@@ -75,26 +74,6 @@ public class TDistributorGradeController extends BaseController {
 	@RequestMapping(value = "/getTDistributors", method = RequestMethod.POST)
 	public TDistributor getTDistributors(Long id) {
 		return tDistributorService.findEntity(id);
-	}
-
-	/**
-	 * 获取当前日期
-	 * 
-	 * @dateime 2012-1-16 上午10:09:34
-	 * @author chenfengming456@163.com
-	 * @return
-	 */
-	public String getCurDate() {
-		return new SimpleDateFormat("yyyyMMdd").format(new Date());
-	}
-
-	public void accountGrade() {
-		String curDate = getCurDate();// 当前日期
-		// 判断当前日期是否是结算日期
-		if (curDate.substring(6, 8).equals("25")) {
-
-		}
-
 	}
 
 	/**
@@ -167,12 +146,12 @@ public class TDistributorGradeController extends BaseController {
 	@ResponseBody
 	public boolean calcGrade() {
 		
-		String curYear = getCurDate().substring(0, 4);
-		String curMon = getCurDate().substring(4, 6);
+		String curYear = new SimpleDateFormat("yyyyMMdd").format(new Date()).substring(0, 4);
+		String curMon = new SimpleDateFormat("yyyyMMdd").format(new Date()).substring(4, 6);
 		String endDate = curYear + curMon + "25";// 结束日期
 		String startDate = "";// 开始日期
 		StringBuilder sql = new StringBuilder(
-				"SELECT distributor_id ,distributor_code, MAX(pv) AS maxChange ,sum(sale_number * pv) as sum_price ,floors FROM t_product_list where create_time>'");
+				"SELECT distributor_id ,distributor_code, MAX(pv) AS maxChange ,sum(sale_number * pv) as SUM_PV ,sum(sale_number * bv) as SUM_BV ,floors FROM t_product_list where create_time>'");
 		if (curMon.equals("01")) {
 			//当月一月
 			startDate = (Integer.valueOf(curYear) - 1) + "" + "1225"; 	
@@ -197,6 +176,8 @@ public class TDistributorGradeController extends BaseController {
 			tgGrade.setDistributorId(it.getId());
 			/**个人业绩（当月）**/
 			tgGrade.setPersonAchieve(0D);
+			/**个人业绩奖金（当月）**/
+			tgGrade.setBonusAchieve(0D);
 			/**当月最大消费*/
 			tgGrade.setMaxChange(0D);
 			/**计算日期*/
@@ -210,7 +191,9 @@ public class TDistributorGradeController extends BaseController {
 			String distributor_code = map.get("distributor_code").toString();
 			TDistributorGrade tgGrade = tgMap.get(distributor_code);
 			/**个人业绩（当月）**/
-			tgGrade.setPersonAchieve((Double)map.get("sum_price")); 
+			tgGrade.setPersonAchieve((Double)map.get("SUM_PV")); 
+			/**个人业绩奖金（当月）**/
+			tgGrade.setBonusAchieve((Double)map.get("SUM_BV"));
 			/**当月最大消费*/
 			tgGrade.setMaxChange((Double)map.get("maxChange"));
 			/**先将新加入的经销商的业绩（已计算出个人业绩和计算日期）拷贝到历史表*/
@@ -301,10 +284,11 @@ public class TDistributorGradeController extends BaseController {
 			double  maxChange  = tgGrade.getMaxChange();
 			/**当月没有购买产品的经销商职级均一星（即当月最大消费为零）*/
 			if(maxChange<=0D){
+				dist.setRankId(ConstantUtil._lev_1);
 				tgGrade.setRank(ConstantUtil._lev_1);
 			}else{
 				/**计算经销商职级和小组业绩*/
-				tDistributorGradeService.findRank(distributorCode ,maxChange , tgGrade , tgMap , dirchildList);
+				tDistributorGradeService.findRank(dist , distributorCode ,maxChange , tgGrade , tgMap , dirchildList);
 			}
 			dirchildList = null;
 			indirchildList = null;
@@ -337,6 +321,7 @@ public class TDistributorGradeController extends BaseController {
 			his = null;
 		}
 		hisList = null;
+		
 		/**计算奖金，（直接奖，间接奖，领导奖，荣衔奖，特别奖，国际奖）*/
 		List<TBounsConf> cfgList = bounsConfService.findAllEntity();
 		/**初始化奖金配置表*/
@@ -350,9 +335,9 @@ public class TDistributorGradeController extends BaseController {
 		for (TDistributor dist : allDistributors) {
 			TDistributorGrade tgGrade = tgMap.get(dist.getDistributorCode());/**业绩*/
 			Long rank = dist.getRankId(); /**职级*/
-			TBounsConf bouns = bonusCfgMap.get(rank); /**职级对应的奖金列表*/
+			TBounsConf bouns = bonusCfgMap.get(rank); /**职级对应的奖金分类*/
 			/**直接奖*/
-			//TODO:
+			
 		}
 		allDistributors = null;
 		tgMap = null;

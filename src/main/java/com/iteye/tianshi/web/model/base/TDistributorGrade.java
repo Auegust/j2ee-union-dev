@@ -63,6 +63,10 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	@Column(name = "person_achieve")
 	private Double personAchieve;
 	
+	//个人业绩奖金
+	@Column(name = "bonus_achieve")
+	private Double bonusAchieve;
+	
 	//备注
 	private String remark;
 	
@@ -363,6 +367,31 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		this.floors = floors;
 	}
 	
+
+	public void setRank(Long rank) {
+		this.rank = rank;
+	}
+
+	public Long getRank() {
+		return rank;
+	}
+
+	public void setMaxChange(Double maxChange) {
+		this.maxChange = maxChange;
+	}
+
+	public Double getMaxChange() {
+		return maxChange;
+	}
+
+	public void setBonusAchieve(Double bonusAchieve) {
+		this.bonusAchieve = bonusAchieve;
+	}
+
+	public Double getBonusAchieve() {
+		return bonusAchieve;
+	}
+	
 	public TDistributorGradeHis getHisGradeCopy(){
 		TDistributorGradeHis his = new TDistributorGradeHis();
 		//个人业绩
@@ -392,22 +421,9 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		his.setId(this.getId());
 		his.setIndirectAchieve(indirectAchieve);
 		his.setRemark(remark);
+		his.setRank(rank);
+		his.setMaxChange(maxChange);
+		his.setBonusAchieve(bonusAchieve);
 		return his;
-	}
-
-	public void setRank(Long rank) {
-		this.rank = rank;
-	}
-
-	public Long getRank() {
-		return rank;
-	}
-
-	public void setMaxChange(Double maxChange) {
-		this.maxChange = maxChange;
-	}
-
-	public Double getMaxChange() {
-		return maxChange;
 	}
 }

@@ -22,7 +22,7 @@ public interface TDistributorGradeService extends BaseService<TDistributorGrade,
 	 * @param tgMap		  		 经销商临时业绩缓存（因为是从下往上遍历，因此缓存的都是已经计算过的业绩）
 	 * @param dirchildList 		直接下线经销商
 	 */
-	public void findRank(String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList);
+	public void findRank(TDistributor dist , String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList);
 	
 	/**
 	 * 	计算经销商小组业绩（X-Y）
