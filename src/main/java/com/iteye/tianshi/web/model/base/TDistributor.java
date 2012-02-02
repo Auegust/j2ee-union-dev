@@ -43,6 +43,9 @@ public class TDistributor extends BaseEntity implements Serializable {
 	@Transient
 	private String sponsor_Name;
 	
+	@Transient
+	private double bonusAchieve = 0D;
+	
 	@Column(name="sponsor_code")
 	private String sponsorCode;
 
@@ -169,6 +172,12 @@ public class TDistributor extends BaseEntity implements Serializable {
 	}
 	public String getShop_Code() {
 		return shop_Code;
+	}
+	public void setBonusAchieve(double bonusAchieve) {
+		this.bonusAchieve = bonusAchieve;
+	}
+	public double getBonusAchieve() {
+		return bonusAchieve;
 	}
 	
 }

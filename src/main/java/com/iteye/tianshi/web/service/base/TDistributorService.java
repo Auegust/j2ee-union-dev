@@ -19,21 +19,11 @@ public interface TDistributorService extends BaseService<TDistributor, Long> {
     
     /**
 	 * 获取指定节点下 所有间接子节点
-	 * @dateime 2012-1-15 下午05:51:53
-	 * @author chenfengming456@163.com
-	 * @param id  指定节点的id
-	 * @param floors 指定从哪个层级开始向下查询
-	 * @return
 	 */
-	public List<TDistributor> findAllChildrenDistributors(Long id,Integer floors);
+	public List<TDistributor> findAllIndirChildrenDistributors(Long id,Integer floors);
 	
 	/**
 	 * 获取指定节点下 所有直接子节点
-	 * @dateime 2012-1-15 下午05:51:53
-	 * @author chenfengming456@163.com
-	 * @param id  指定节点的id
-	 * @param floors 指定从哪个层级开始向下查询
-	 * @return
 	 */
 	public List<TDistributor> findAllDirChildrenDistributors(Long id,Integer floors);
 	/***

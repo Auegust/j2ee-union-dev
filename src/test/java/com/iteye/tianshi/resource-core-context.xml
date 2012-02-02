@@ -19,7 +19,7 @@
 	<context:property-placeholder location="classpath:resource.properties" />
 
 	<bean class="com.iteye.tianshi.core.spring.SpringApplicationContextHolder" lazy-init="false" />
-	
+	<bean class="com.iteye.tianshi.web.controller.base.TDistributorGradeController" lazy-init="false" ></bean>
 	<import resource="classpath:resource-service-context.xml" />
 	<import resource="classpath:resource-dao-context.xml" />
 	<import resource="classpath:resource-cache-context.xml" />

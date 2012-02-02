@@ -51,6 +51,9 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	@Column(name = "direct_achieve")
 	private Double directAchieve;
 	
+	@Transient
+	private Double directAchieve_BV;
+	
 	//间接业绩
 	@Column(name = "indirect_achieve")
 	private Double indirectAchieve;
@@ -93,9 +96,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 
 	/**
 	 * 获取累计业绩
-	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getAccuAchieve() {
 		return this.accuAchieve;
@@ -103,9 +103,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置累计业绩
-	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setAccuAchieve(Double accuAchieve) {
 		this.accuAchieve = accuAchieve;
@@ -113,9 +110,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 
 	/**
 	 * 获取个人累计业绩
-	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getAccuPAchieve() {
 		return this.accuPAchieve;
@@ -123,9 +117,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置个人累计业绩
-	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setAccuPAchieve(Double accuPAchieve) {
 		this.accuPAchieve = accuPAchieve;
@@ -134,8 +125,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	/**
 	 * 获取业绩日期
 	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Date getAchieveDate() {
 		return this.achieveDate;
@@ -143,9 +132,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置业绩日期
-	 * @dateime 2012-1-16 下午01:59:30
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setAchieveDate(Date achieveDate) {
 		this.achieveDate = achieveDate;
@@ -153,9 +139,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取小组业绩
-	 * @dateime 2012-1-16 下午02:01:26
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getCellAchieve() {
 		return this.cellAchieve;
@@ -163,9 +146,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置小组业绩
-	 * @dateime 2012-1-16 下午02:01:26
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setCellAchieve(Double cellAchieve) {
 		this.cellAchieve = cellAchieve;
@@ -173,9 +153,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取审核标志
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public String getCheckFlag() {
 		return this.checkFlag;
@@ -183,9 +160,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置审核标志
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setCheckFlag(String checkFlag) {
 		this.checkFlag = checkFlag;
@@ -193,9 +167,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取审核人员
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public String getCheckMan() {
 		return this.checkMan;
@@ -203,9 +174,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置审核人员
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public void setCheckMan(String checkMan) {
 		this.checkMan = checkMan;
@@ -213,9 +181,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取直接业绩
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getDirectAchieve() {
 		return this.directAchieve;
@@ -223,9 +188,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置直接业绩
-	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setDirectAchieve(Double directAchieve) {
 		this.directAchieve = directAchieve;
@@ -233,9 +195,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取间接业绩
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getIndirectAchieve() {
 		return this.indirectAchieve;
@@ -243,9 +202,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置间接业绩
-	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setIndirectAchieve(Double indirectAchieve) {
 		this.indirectAchieve = indirectAchieve;
@@ -253,9 +209,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 
 	/**
 	 * 获取整网业绩
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getNetAchieve() {
 		return this.netAchieve;
@@ -263,9 +216,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置整网业绩
-	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setNetAchieve(Double netAchieve) {
 		this.netAchieve = netAchieve;
@@ -273,9 +223,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取个人业绩
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Double getPersonAchieve() {
 		return this.personAchieve;
@@ -284,8 +231,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	/**
 	 * 设置个人业绩
 	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setPersonAchieve(Double personAchieve) {
 		this.personAchieve = personAchieve;
@@ -301,9 +246,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取经销商ID
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public Long getDistributorId() {
 		return distributorId;
@@ -311,9 +253,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置经销商ID
-	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setDistributorId(Long distributorId) {
 		this.distributorId = distributorId;
@@ -321,9 +260,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取经销商编号
-	 * @dateime 2012-1-16 下午02:01:57
-	 * @author chenfengming456@163.com
-	 * @return
 	 */
 	public String getDistributorCode() {
 		return distributorCode;
@@ -331,9 +267,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置经销商编号
-	 * @dateime 2012-1-16 下午02:03:44
-	 * @author chenfengming456@163.com
-	 * @param distributorCode
 	 */
 	public void setDistributorCode(String distributorCode) {
 		this.distributorCode = distributorCode;
@@ -349,9 +282,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 获取经销商层级
-	 * @dateime 2012-1-16 下午02:30:16
-	 * @author chenfengming456@163.com
-	 * @param floors
 	 */
 	public int getFloors() {
 		return floors;
@@ -359,9 +289,6 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	
 	/**
 	 * 设置经销商层级
-	 * @dateime 2012-1-16 下午02:30:16
-	 * @author chenfengming456@163.com
-	 * @param floors
 	 */
 	public void setFloors(int floors) {
 		this.floors = floors;
@@ -425,5 +352,13 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		his.setMaxChange(maxChange);
 		his.setBonusAchieve(bonusAchieve);
 		return his;
+	}
+
+	public void setDirectAchieve_BV(Double directAchieve_BV) {
+		this.directAchieve_BV = directAchieve_BV;
+	}
+
+	public Double getDirectAchieve_BV() {
+		return directAchieve_BV;
 	}
 }

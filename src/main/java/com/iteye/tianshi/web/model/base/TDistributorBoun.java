@@ -27,7 +27,7 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 	
 	//经销商编码
 	@Column(name="distributor_code")
-	private Long  distributorCode;
+	private String  distributorCode;
 	
 	//职级ID
 	@Column(name="rank_id")
@@ -215,11 +215,34 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 		this.tax = tax;
 	}
 
-	public void setDistributorCode(Long distributorCode) {
+	public void setDistributorCode(String distributorCode) {
 		this.distributorCode = distributorCode;
 	}
 
-	public Long getDistributorCode() {
+	public String getDistributorCode() {
 		return distributorCode;
+	}
+	
+	public TDistributorBounsHis copyToHis(){
+		TDistributorBounsHis his = new TDistributorBounsHis();
+		his.setAdjustBouns(adjustBouns);
+		his.setBounsDate(bounsDate);
+		his.setCheckFlag(checkFlag);
+		his.setCheckMan(checkMan);
+		his.setCheckTime(checkTime);
+		his.setDirectBouns(directBouns);
+		his.setDistributorCode(distributorCode);
+		his.setDistributorId(distributorId);
+		his.setHonorBouns(honorBouns);
+		his.setId(this.getId());
+		his.setIndirectBouns(indirectBouns);
+		his.setInternatialBouns(internatialBouns);
+		his.setInternatialBouns(internatialBouns);
+		his.setLeaderBouns(leaderBouns);
+		his.setRankId(rankId);
+		his.setRemark(remark);
+		his.setSpecialBouns(specialBouns);
+		his.setTax(tax);
+		return his;
 	}
 }
