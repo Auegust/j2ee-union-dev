@@ -20,7 +20,7 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
 @Table(name = "t_distributor_grade_his")
 public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	//累计业绩
 	@Column(name = "accu_achieve")
 	private Double accuAchieve=0D;
