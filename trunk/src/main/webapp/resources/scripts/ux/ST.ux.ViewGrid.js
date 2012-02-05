@@ -262,7 +262,6 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
         return true;
     },
     
-    // 检测必须选择一个
     checkMany: function() {
         var selections = this.grid.getSelectionModel().selections;
         if (selections.length == 0) {
@@ -273,14 +272,12 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
     },
     
     registerHandler: function() {
-    	//添加
     	var btn = Ext.getCmp(this.btn_add_id);
         btn.on("click", function(){
         	this.buildAddDialog();
 	    	this.addDialog.show(Ext.get(this.btn_add_id));
         }, this);
         
-        //编辑 
         btn = Ext.getCmp(this.btn_edit_id);
         btn.on("click", function(){
         	this.buildEditDialog();
@@ -289,8 +286,6 @@ ST.ux.ViewGrid = Ext.extend(Ext.Viewport, {
 	            this.editFormPanel.load({waitMsg : '正在载入数据...', url: this.urlLoadData, params : {id: this.grid.getSelectionModel().selections.items[0].id},success: this.loadEditFormSucHandler});
 	        }
         }, this);
-        
-        //删除
         btn = Ext.getCmp(this.btn_del_id);
         btn.on("click", function(){
         	this.delData();

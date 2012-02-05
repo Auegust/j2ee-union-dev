@@ -19,9 +19,10 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
  */
 @Entity
 @Table(name = "t_distributor_grade")
-public class TDistributorGrade extends BaseEntity implements Serializable {
+public class TDistributorGrade  extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
 	//累计业绩
 	@Column(name = "accu_achieve")
 	private Double accuAchieve;
@@ -345,7 +346,7 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		his.setCheckFlag(checkFlag);
 		//审核人
 		his.setCheckMan(checkMan);
-		his.setId(this.getId());
+		//his.setId(this.getId());
 		his.setIndirectAchieve(indirectAchieve);
 		his.setRemark(remark);
 		his.setRank(rank);
@@ -361,4 +362,5 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 	public Double getDirectAchieve_BV() {
 		return directAchieve_BV;
 	}
+
 }

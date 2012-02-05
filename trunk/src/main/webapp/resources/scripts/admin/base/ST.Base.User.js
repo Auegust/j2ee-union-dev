@@ -29,7 +29,7 @@ ST.base.userView = Ext.extend(ST.ux.ViewGrid, {
 	girdColumns: [
 				{header: 'ID', width: 150, dataIndex: 'id', hideGrid: true, hideForm: 'add', hidden:true,readOnly: true},
 	            {header: '用户名称', width: 150, dataIndex: 'username', allowBlank:false},
-	            {header: '密码', id: 'pass', width: 100, dataIndex: 'password', hideGrid: true, allowBlank:false, inputType: 'password'},
+	            {header: '密码', id: 'pass', width: 100, dataIndex: 'password', allowBlank:false, inputType: 'password'},
 	            {header: '重复密码',id:'pass-cfrm', width: 100, dataIndex: 'pass-cfrm', hideGrid: true, inputType: 'password', allowBlank:false, vtype: 'password', initialPassField: 'pass'},
 	            {header: '创建时间', width: 150, dataIndex: 'createTime', hideForm: 'all', allowBlank:false}
 	        ],

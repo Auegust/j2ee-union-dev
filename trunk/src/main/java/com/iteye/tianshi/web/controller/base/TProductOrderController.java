@@ -57,7 +57,7 @@ public class TProductOrderController extends BaseController {
 	@ResponseBody
 	public ResponseData insertTProductOrder(TProductDetail tDetail){
 		//总额
-		tDetail.setSumPrice(tDetail.getSalePrice()*tDetail.getSaleNumber());
+		tDetail.setSumPrice(tDetail.getProductPrice()*tDetail.getSaleNumber());
 		TDistributor dist = tDistributorService.findByProperty("distributorCode", tDetail.getDistributorCode()).get(0);
 		//经销商ID
 		tDetail.setDistributorId(dist.getId());
@@ -75,7 +75,7 @@ public class TProductOrderController extends BaseController {
 	@ResponseBody
 	public  ResponseData updateTProductOrder(TProductDetail tDetail){
 		//总额
-		tDetail.setSumPrice(tDetail.getSalePrice()*tDetail.getSaleNumber());
+		tDetail.setSumPrice(tDetail.getProductPrice()*tDetail.getSaleNumber());
 		TDistributor dist = tDistributorService.findByProperty("distributorCode", tDetail.getDistributorCode()).get(0);
 		//经销商ID
 		tDetail.setDistributorId(dist.getId());
@@ -90,8 +90,10 @@ public class TProductOrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteTProductOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData deleteTProductOrder(Long id){
-		tDetailService.deleteEntity(id);
+	public ResponseData deleteTProductOrder(Long[] ids){
+		for(Long id : ids){
+			tDetailService.deleteEntity(id);
+		}
 		return ResponseData.SUCCESS_NO_DATA;
 	}
 	
@@ -158,7 +160,10 @@ public class TProductOrderController extends BaseController {
 		if (StringUtils.hasText(tDetail.getProductCode())) {
 			filters.put("productCode", tDetail.getProductCode());
 		} 
-		
+		//根据book查询
+		if (tDetail.getBook()!=null) {
+			filters.put("book", tDetail.getBook());
+		} 
 		Page<TProductDetail> page = tDetailService.findAllForPage(pageRequest);
 		List<TDistributor> disList  = null;
 		List<TProductInfo>  productList = null;
@@ -181,7 +186,7 @@ public class TProductOrderController extends BaseController {
 				tProductDetail.setBV(productList.get(0).getProductBv());
 				tProductDetail.setProductName(productList.get(0).getProductName());
 			}
-			tProductDetail.setSalePrice(tProductDetail.getSalePrice());
+			tProductDetail.setProductPrice(tProductDetail.getProductPrice());
 		}
 		disList  = null;
 		productList = null;

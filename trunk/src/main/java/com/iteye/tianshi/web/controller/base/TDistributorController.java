@@ -18,9 +18,7 @@ import com.googlecode.ehcache.annotations.When;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
-import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
-import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
@@ -40,9 +38,6 @@ public class TDistributorController extends BaseController {
 	private TShopInfoService tShopInfoService;
 	@Autowired
 	private TDistributorRankService rankService ;
-	@Autowired
-	private TDistributorDao tDistributorDao;
-
 	@RequestMapping("/index")
 	public String index() {
 		return "admin/base/distributor";
@@ -63,26 +58,21 @@ public class TDistributorController extends BaseController {
 	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData insertTDistributor(TDistributor tDistributor)
 			throws Exception {
-		//上级编号不存在且数据库有经销商记录，则报请填写上级编号的异常
-		if(!StringUtils.hasText(tDistributor.getSponsorCode())){
-			return new ResponseData(true,"上级编号不得为空，请填写上级编号");
-		}
-		//上级编号是否填写正确
-		
-		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode());
-		if(StringUtils.hasText(tDistributor.getSponsorCode()) && dist.isEmpty()){
+		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getDistributorCode());
+		if(!dist.isEmpty()){
 			dist = null;
-			return new ResponseData(true,"上级编号填写有误，数据库查无记录");
+			return new ResponseData(true,"经销商编号不得重复添加");
+		}
+		List<TDistributor> sponsor = tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode());
+		if(StringUtils.hasText(tDistributor.getSponsorCode()) && sponsor.isEmpty()){
+			sponsor = null;
+			return new ResponseData(true,"上级经销商编号填写有误，数据库查无记录");
 		}
 		//设置上级ID
-		tDistributor.setSponsorId(dist.get(0).getId());
+		tDistributor.setSponsorId(sponsor.get(0).getId());
 		//设置层数
-		tDistributor.setFloors(dist.get(0).getFloors()+1);
+		tDistributor.setFloors(sponsor.get(0).getFloors()+1);
 		dist = null;
-		//生成编号
-		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		String distributorCode = sequenceAchieve.getDistributorCode(tDistributorDao);
-		tDistributor.setDistributorCode(distributorCode);
 		//初始化星级为一星
 		tDistributor.setRankId(102001L);
 		//当前时间
@@ -120,11 +110,11 @@ public class TDistributorController extends BaseController {
 	@ResponseBody
 	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
-		//上级编号未填写且数据库有经销商记录，则报请填写上级编号的异常
-		if(!StringUtils.hasText(tDistributor.getSponsorCode())){
-			return new ResponseData(true,"上级编号不得为空，请填写上级编号");
+		if(!tDistributorService.findEntity(tDistributor.getId()).getDistributorCode().equals(tDistributor.getDistributorCode())){
+			if(!tDistributorService.findByProperty("distributorCode", tDistributor.getDistributorCode()).isEmpty()){
+				return new ResponseData(true,"编号不能更新数据库已经存在的其它编号");
+			}
 		}
-		//上级编号是否填写正确
 		if(StringUtils.hasText(tDistributor.getSponsorCode()) && 
 				tDistributorService.findByProperty("distributorCode", tDistributor.getSponsorCode()).isEmpty()){
 			return new ResponseData(true,"上级编号填写有误，数据库查无记录");

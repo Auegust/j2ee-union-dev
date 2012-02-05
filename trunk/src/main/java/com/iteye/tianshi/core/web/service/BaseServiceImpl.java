@@ -95,7 +95,7 @@ abstract public class BaseServiceImpl<E, PK extends Serializable> implements Bas
 		this.getGenericDao().createOrUpdate(entity);
 	}
 	
-	@Transactional
+	@Transactional(readOnly=false)
 	public E deleteEntity(PK id) {
 		E entity = this.getGenericDao().find(id);
 		

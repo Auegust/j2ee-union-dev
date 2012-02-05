@@ -58,7 +58,7 @@ public class TDistributor extends BaseEntity implements Serializable {
 	@Column(name="rank_id")
 	private Long  rankId;
 	
-	@Transient
+	@Column(name="rankId_Name")
 	private String rankId_Name;
 
 	@Column(name="shop_id")
@@ -69,7 +69,8 @@ public class TDistributor extends BaseEntity implements Serializable {
 	
 	@Transient
 	private String shop_Code;
-	@Transient
+	
+	@Column(name="shop_Name")
 	private String shop_Name;
 
     public String getShop_Name() {

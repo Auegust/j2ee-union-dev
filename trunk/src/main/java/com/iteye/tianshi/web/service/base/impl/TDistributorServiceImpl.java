@@ -83,7 +83,6 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 			tDistributor.setCreateTime((Date)map.get("create_time"));
 			tDistributor.setAddress(map.get("address").toString());
 			tDistributor.setTelephone(map.get("telephone").toString());
-			tDistributor.setRemark(map.get("remark").toString());
 			tDistributor.setSponsorCode(map.get("sponsor_code").toString());
 			tDistributor.setFloors(Integer.valueOf(map.get("floors").toString()));
 			list.add(tDistributor);
@@ -102,6 +101,7 @@ public class TDistributorServiceImpl extends BaseServiceImpl<TDistributor, Long>
 			sql.append("and floors=").append(floors);
 		}
 		List<Map<String, Object>> templist = this.distributorDao.getJdbcTemplate().queryForList(sql.toString());
+		sql = null;
 		List<TDistributor> list = new ArrayList<TDistributor>(templist.size());
 		for(Map<String,Object> map : templist){
 			TDistributor tDistributor = new TDistributor();

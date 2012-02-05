@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +39,8 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
  * 经销商业绩表
  * 
  */
+@Controller
+@RequestMapping("/grade")
 public class TDistributorGradeController extends BaseController {
 	@Autowired
 	TDistributorGradeDao tDistributorGradeDao;
@@ -151,13 +154,13 @@ public class TDistributorGradeController extends BaseController {
 		String endDate = curYear + curMon + "25";// 结束日期
 		String startDate = "";// 开始日期
 		StringBuilder sql = new StringBuilder(
-				"SELECT distributor_id ,distributor_code, MAX(pv) AS maxChange ,sum(sale_number * pv) as SUM_PV ,sum(sale_number * bv) as SUM_BV ,floors FROM t_product_list where create_time>'");
+				"SELECT distributor_id ,distributor_code, Max(PV) AS maxChange ,SUM(sale_number * pv) as SUM_PV ,SUM(sale_number * bv) as SUM_BV ,floors FROM t_product_list where create_time>'");
 		if (curMon.equals("01")) {
 			//当月一月
 			startDate = (Integer.valueOf(curYear) - 1) + "" + "1225"; 	
 		} else {
 			//上月25号
-			startDate = curYear + (Integer.valueOf(curMon) - 1) + "25"; 
+			startDate = curYear + (String.format("%02d", Integer.valueOf(curMon) - 1)) + "25"; 
 		}
 		/**根据经销商分组和按层级排序*/ 
 		sql.append(startDate + "' and create_time<'").append(
@@ -167,13 +170,16 @@ public class TDistributorGradeController extends BaseController {
 		List<Map<String, Object>> tglist = tDistributorGradeDao.getJdbcTemplate().queryForList(sql.toString());
 		/**查询出所有经销商，按层级降序查询，并且初始化他们的个人业绩为零*/
 		List<TDistributor> allDistributors = tDistributorService.findByPropertysAndOrder(new String[]{}, new String[]{}, new Object[]{}, "floors", SQLOrderMode.DESC);
+		TDistributorGrade tgGrade = null;
 		for(TDistributor it : allDistributors){
 			String distributorCode = it.getDistributorCode();
-			if(distributorCode.equals("-1000000")) //顶级不纳入计算
+			if(distributorCode.equals(ConstantUtil._top_)) //顶级不纳入计算
 				continue;
-			TDistributorGrade tgGrade = new TDistributorGrade();
+			tgGrade = new TDistributorGrade();
 			/**ID*/
 			tgGrade.setDistributorId(it.getId());
+			/**Code*/
+			tgGrade.setDistributorCode(distributorCode);
 			/**个人业绩（当月）**/
 			tgGrade.setPersonAchieve(0D);
 			/**个人业绩奖金（当月），是根据职级计算奖金用的**/
@@ -183,13 +189,13 @@ public class TDistributorGradeController extends BaseController {
 			/**计算日期*/
 			tgGrade.setAchieveDate(new Date());
 			tgMap.put(distributorCode, tgGrade);
-			tgGrade = null;
 		}
+		tgGrade = null;
 		/**将当月购买产品即具有个人业绩的经销商进行计算，而没有业绩的经销商的个人业绩归零（他们只有累计业绩）**/
 		for(Map<String, Object> map:tglist){
 			/**经销商编号**/
 			String distributor_code = map.get("distributor_code").toString();
-			TDistributorGrade tgGrade = tgMap.get(distributor_code);
+			tgGrade = tgMap.get(distributor_code);
 			/**个人业绩（当月）**/
 			tgGrade.setPersonAchieve((Double)map.get("SUM_PV")); 
 			/**个人业绩奖金（当月）**/
@@ -198,9 +204,15 @@ public class TDistributorGradeController extends BaseController {
 			tgGrade.setMaxChange((Double)map.get("maxChange"));
 			/**先将新加入的经销商的业绩（已计算出个人业绩和计算日期）拷贝到历史表*/
 			if(tDistributorGradeHisService.findByProperty("distributorCode", distributor_code).isEmpty()){
-				tDistributorGradeHisService.createOrUpdate(tgGrade.getHisGradeCopy());
+				TDistributorGradeHis his = tgGrade.getHisGradeCopy();
+				his.setAccuPAchieve(0D);
+				his.setAccuAchieve(0D);
+				tDistributorGradeHisService.createOrUpdate(his);
+				his = null;
 			}
+			map = null;
 		}
+		tgGrade = null;
 		tglist = null;
 		/**
 		 * 取到销售网络中的最后一层
@@ -219,15 +231,14 @@ public class TDistributorGradeController extends BaseController {
 		 * X值是指当月的本人整网业绩，
 		 * Y值是指该直销商的同职级及以上职级下线同月的整网业绩。
 		 */
+		List<TDistributor> dirchildList = null;
+		List<TDistributor> indirchildList = null;  
 		for (TDistributor dist : allDistributors) {
 			/**最后一层，或者 非最后一层，但没有下线的经销商，  只需考虑自己的个人累计 业绩即可**/
 			String distributorCode = dist.getDistributorCode();
-			if(distributorCode.equals("-1000000")) //顶级不纳入计算
+			if(distributorCode.equals(ConstantUtil._top_)) //顶级不纳入计算
 				continue;
 			boolean noChild = tDistributorService.findByProperty("sponsor_code", distributorCode).isEmpty();
-			TDistributorGrade tgGrade = null;
-			List<TDistributor> dirchildList = null;
-			List<TDistributor> indirchildList = null;  
 			if (dist.getFloors()==lastfloor || noChild) {
 				tgGrade = tgMap.get(distributorCode);
 				/**个人业绩*/
@@ -247,13 +258,12 @@ public class TDistributorGradeController extends BaseController {
 				/**小组业绩**/
 				tgGrade.setCellAchieve(tgGrade.getPersonAchieve());
 			}else{/**从倒数第二层开始要考虑下线的个人累计pv部分和自己的个人累计pv部分**/
-				Long distributorId = dist.getId();
 				tgGrade = tgMap.get(distributorCode);
 				double personAchevePV = tgGrade.getPersonAchieve();/**该经销商的本月个人业绩**/
 				double personAcheveBV = tgGrade.getBonusAchieve();/**该经销商的本月个人业绩————奖金**/
 				int dirfloors = dist.getFloors()+1;/**直接下线层级**/
-				dirchildList = tDistributorService.findAllDirChildrenDistributors(distributorId, dirfloors);/**所有直接子节点**/
-				indirchildList = tDistributorService.findAllIndirChildrenDistributors(distributorId, dirfloors);/**所有间接子节点**/
+				dirchildList = tDistributorService.findAllDirChildrenDistributors(dist.getId(), dirfloors);/**所有直接子节点**/
+				indirchildList = tDistributorService.findAllIndirChildrenDistributors(dist.getId(), dirfloors);/**所有间接子节点**/
 				double directAchieve_self = personAchevePV>200D?(personAchevePV-200D):0D;/**本人个人累计业绩大于200PV部分。**/
 				double directAchieve_self_BV = personAcheveBV>200D?(personAcheveBV-200D):0D;/**本人个人累计业绩大于200PV部分————奖金。**/
 				double directAchieve_down = 0D;/**所有直接下线个人累计业绩小于或等于200PV部分。**/
@@ -273,16 +283,19 @@ public class TDistributorGradeController extends BaseController {
 					directAchieve_down_BV += dirchildPersonalAcheveBV<=200D?dirchildPersonalAcheveBV:200D; //奖金
 					/**用于算整网业绩用的 */
 					dirnetAchieve += dirchildPersonalAchevePV;
+					tDistributor = null;
 				}
 				for(TDistributor tDistributor:indirchildList){
-					/**间接下线个人业绩之和*/
+//					/**间接下线个人业绩之和*/
 					indirectAchieve_indirdown += tgMap.get(tDistributor.getDistributorCode()).getPersonAchieve();
-					/**用于算整网业绩用的 */
-					indirnetAchieve += indirectAchieve_indirdown;
+//					/**用于算整网业绩用的 */
+//					indirnetAchieve += indirectAchieve_indirdown;
+					indirnetAchieve +=tgMap.get(tDistributor.getDistributorCode()).getPersonAchieve();
+					tDistributor = null;
 				}
 				/**直接业绩**/
 				tgGrade.setDirectAchieve(directAchieve_self+directAchieve_down);
-				tgGrade.setDirectAchieve_BV(directAchieve_self_BV+directAchieve_down_BV); //奖金
+				tgGrade.setDirectAchieve_BV(directAchieve_self_BV + directAchieve_down_BV); //奖金
 				/**间接业绩**/
 				tgGrade.setIndirectAchieve(indirectAchieve_dirdown+indirectAchieve_indirdown);
 				/**整网业绩 == 个人业绩+直接下线+间接下线 */
@@ -299,10 +312,13 @@ public class TDistributorGradeController extends BaseController {
 			}else{
 				/**计算经销商职级和小组业绩*/
 				tDistributorGradeService.findRank(dist , distributorCode ,maxChange , tgGrade , tgMap , dirchildList);
+				if(distributorCode.equals("000001")){
+					System.out.println(tgGrade);
+				}
 			}
-			dirchildList = null;
-			indirchildList = null;
 		}
+		dirchildList = null;
+		indirchildList = null;
 		
 		/**计算经销商累计个人业绩以及累计业绩**/
 		List<TDistributorGradeHis> hisList = tDistributorGradeHisService.findAllEntity();
@@ -313,8 +329,8 @@ public class TDistributorGradeController extends BaseController {
 		double personAchieve_bleow200 = 0D;
 		for (TDistributorGradeHis his : hisList) {
 			distributorCode = his.getDistributorCode();
-			TDistributorGrade tgGrade = tgMap.get(distributorCode);
-			/**分两种情况：1.该名经销商当月没有购买产品即在历史表中有记录业绩归零  2.该名经销商购买了产品，其业绩可以正常纳入计算*/
+			tgGrade = tgMap.get(distributorCode);
+			/**分两种情况：1.该名经销商当月没有购买产品说明在历史表中有记录，业绩归零  2.该名经销商购买了产品，其业绩可以正常纳入计算*/
 			accuPAchieve = his.getAccuPAchieve() + tgGrade.getPersonAchieve();
 			/**累计个人业绩**/
 			tgGrade.setAccuPAchieve(accuPAchieve);
@@ -330,6 +346,7 @@ public class TDistributorGradeController extends BaseController {
 			tDistributorService.findEntity(tgGrade.getDistributorId()).setRankId(tgGrade.getRank());
 			his = null;
 		}
+		tgGrade = null;
 		hisList = null;
 		
 		/**计算奖金，（直接奖，间接奖，领导奖，荣衔奖，特别奖，国际奖）其中BonusAchieve是计算奖金的累计*/
@@ -355,24 +372,28 @@ public class TDistributorGradeController extends BaseController {
 		cfgLowAchieve.put(ConstantUtil._lev_s_2, 300D);
 		cfgLowAchieve.put(ConstantUtil._lev_s_3, 300D);
 		/**遍历经销商，当前经销商已有职级等信息*/
-		List<TDistributor> indirchildList = null;
-		List<TDistributor> dirchildList = null;
 		TBounsConf bouns = null;
+		TDistributorBoun distBonus = null;
 		for (TDistributor dist : allDistributors) {
-			TDistributorBoun distBonus = new TDistributorBoun();
+			String distbutorCode = dist.getDistributorCode();
+			if(ConstantUtil._top_.equals(distbutorCode)){
+				continue;
+			}
+			distBonus = new TDistributorBoun();
 			/**经销商编码*/
-			distBonus.setDistributorCode(dist.getDistributorCode());
+			distBonus.setDistributorCode(distbutorCode);
+			distbutorCode = null;
 			/**经销商ID*/
 			distBonus.setDistributorId(dist.getId());
 			/**计算日期*/
 			distBonus.setBounsDate(new Date());
-			TDistributorGrade tgGrade = tgMap.get(dist.getDistributorCode());/**业绩*/
+			tgGrade = tgMap.get(dist.getDistributorCode());/**业绩*/
 			Long rank = dist.getRankId(); /**职级*/
 			bouns = bonusCfgMap.get(rank); /**职级对应的奖金分类*/
 			/**计算之前，必须满足本月个人累计PV的最低消费额度****/
 			if(tgGrade.getPersonAchieve()>=cfgLowAchieve.get(rank)){
 					/***********************计算直接奖金***************/
-					distBonus.setDirectBouns(tgGrade.getDirectAchieve_BV()* bouns.getDirectP());
+					distBonus.setDirectBouns(tgGrade.getDirectAchieve_BV()* bouns.getDirectP()/100);
 					/***********************计算间接奖金，见①和②***************************/
 					/**查询出所有直接下线*/
 					dirchildList = tDistributorService.findAllDirChildrenDistributors(dist.getId(), dist.getFloors()+1);
@@ -408,6 +429,7 @@ public class TDistributorGradeController extends BaseController {
 						}else{
 							indirectBouns +=  selfAchieve*(bouns.getDirectP()-bonusCfgMap.get(tgMap.get(indirChild.getSponsorCode()).getRank()).getDirectP());
 						}
+						indirChild = null;
 					}
 					distBonus.setIndirectBouns(directBouns + indirectBouns); /**①+②*/
 					/************************计算完毕************************/
@@ -417,7 +439,9 @@ public class TDistributorGradeController extends BaseController {
 			distributorBounService.insertEntity(distBonus);
 			/**保存奖金历史表*/
 			distributorBounsHisService.insertEntity(distBonus.copyToHis());
+			dist = null;
 		}
+		distBonus = null;
 		dirchildList = null;
 		indirchildList = null;
 		bouns = null;
