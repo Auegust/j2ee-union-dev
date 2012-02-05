@@ -5,10 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.iteye.tianshi.core.util.ConstantUtil;
 import com.iteye.tianshi.core.web.model.BaseEntity;
@@ -19,9 +23,8 @@ import com.iteye.tianshi.core.web.model.BaseEntity;
  */
 @Entity
 @Table(name = "t_distributor_grade")
-public class TDistributorGrade  extends BaseEntity implements Serializable {
+public class TDistributorGrade extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	
 	//累计业绩
 	@Column(name = "accu_achieve")
@@ -346,7 +349,6 @@ public class TDistributorGrade  extends BaseEntity implements Serializable {
 		his.setCheckFlag(checkFlag);
 		//审核人
 		his.setCheckMan(checkMan);
-		//his.setId(this.getId());
 		his.setIndirectAchieve(indirectAchieve);
 		his.setRemark(remark);
 		his.setRank(rank);
@@ -362,5 +364,4 @@ public class TDistributorGrade  extends BaseEntity implements Serializable {
 	public Double getDirectAchieve_BV() {
 		return directAchieve_BV;
 	}
-
 }

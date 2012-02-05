@@ -14,7 +14,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.iteye.tianshi.core.spring.SpringApplicationContextHolder;
 import com.iteye.tianshi.web.controller.base.TDistributorGradeController;
-import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 
 /**

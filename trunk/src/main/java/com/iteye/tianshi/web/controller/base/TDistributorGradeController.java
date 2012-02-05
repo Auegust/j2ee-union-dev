@@ -286,10 +286,9 @@ public class TDistributorGradeController extends BaseController {
 					tDistributor = null;
 				}
 				for(TDistributor tDistributor:indirchildList){
-//					/**间接下线个人业绩之和*/
+					/**间接下线个人业绩之和*/
 					indirectAchieve_indirdown += tgMap.get(tDistributor.getDistributorCode()).getPersonAchieve();
-//					/**用于算整网业绩用的 */
-//					indirnetAchieve += indirectAchieve_indirdown;
+					/**用于算整网业绩用的 */
 					indirnetAchieve +=tgMap.get(tDistributor.getDistributorCode()).getPersonAchieve();
 					tDistributor = null;
 				}
@@ -374,20 +373,23 @@ public class TDistributorGradeController extends BaseController {
 		/**遍历经销商，当前经销商已有职级等信息*/
 		TBounsConf bouns = null;
 		TDistributorBoun distBonus = null;
+		String distbutorCode = null;
 		for (TDistributor dist : allDistributors) {
-			String distbutorCode = dist.getDistributorCode();
+			distbutorCode = dist.getDistributorCode();
+			if(distbutorCode.equals("000001")){
+				System.out.println("");
+			}
 			if(ConstantUtil._top_.equals(distbutorCode)){
 				continue;
 			}
 			distBonus = new TDistributorBoun();
 			/**经销商编码*/
 			distBonus.setDistributorCode(distbutorCode);
-			distbutorCode = null;
 			/**经销商ID*/
 			distBonus.setDistributorId(dist.getId());
 			/**计算日期*/
 			distBonus.setBounsDate(new Date());
-			tgGrade = tgMap.get(dist.getDistributorCode());/**业绩*/
+			tgGrade = tgMap.get(distbutorCode);/**业绩*/
 			Long rank = dist.getRankId(); /**职级*/
 			bouns = bonusCfgMap.get(rank); /**职级对应的奖金分类*/
 			/**计算之前，必须满足本月个人累计PV的最低消费额度****/
@@ -405,9 +407,10 @@ public class TDistributorGradeController extends BaseController {
 							continue;
 						}else{
 							/**获取当前节点直接奖比例*/
-							double dirChildBonus = bonusCfgMap.get(dirChild.getRankId()).getDirectP();
+							double dirChildBonus = bonusCfgMap.get(dirChild.getRankId()).getDirectP()/100;
 							/**累计当前的直接下线的间接奖*/
-							directBouns += ((dirChild.getBonusAchieve()-200D )>200D?(dirChild.getBonusAchieve()-200D ):0D)* (bouns.getDirectP() - dirChildBonus);
+							double dir = tgMap.get(dirChild.getDistributorCode()).getBonusAchieve();
+							directBouns += (dir>200D?(dir-200D ):0D)* (bouns.getDirectP()/100 - dirChildBonus); //TODO:误差
 						}
 					}
 					/**查询出所有间接下线*/
@@ -416,18 +419,18 @@ public class TDistributorGradeController extends BaseController {
 					double indirectBouns = 0D;
 					for(TDistributor indirChild: indirchildList){
 						/**获取当前节点直接奖比例*/
-						double dirChildBonus = bonusCfgMap.get(indirChild.getRankId()).getDirectP();
+						double dirChildBonus = bonusCfgMap.get(indirChild.getRankId()).getDirectP()/100;
 						/**indirChild本身的个人累计*/
-						double selfAchieve = indirChild.getBonusAchieve();
+						double selfAchieve = tgMap.get(indirChild.getDistributorCode()).getBonusAchieve();
 						/**大于200的情况*/
 						if(selfAchieve>200 && indirChild.getRankId()<rank){
 							/***超过200的部分*/
-							indirectBouns += (selfAchieve-200D )* (bouns.getDirectP() - dirChildBonus);
+							indirectBouns += (selfAchieve-200D )* (bouns.getDirectP()/100 - dirChildBonus);
 							/**等于200的部分，需要获取上级经销商的职级奖比例*/
-							indirectBouns +=  200D*(bouns.getDirectP()-bonusCfgMap.get(tgMap.get(indirChild.getSponsorCode()).getRank()).getDirectP());
+							indirectBouns +=  200D*(bouns.getDirectP()/100-bonusCfgMap.get(tgMap.get(indirChild.getSponsorCode()).getRank()).getDirectP()/100);
 						/**小于等于200的情况*/
 						}else{
-							indirectBouns +=  selfAchieve*(bouns.getDirectP()-bonusCfgMap.get(tgMap.get(indirChild.getSponsorCode()).getRank()).getDirectP());
+							indirectBouns +=  selfAchieve*(bouns.getDirectP()/100-bonusCfgMap.get(tgMap.get(indirChild.getSponsorCode()).getRank()).getDirectP()/100);
 						}
 						indirChild = null;
 					}
