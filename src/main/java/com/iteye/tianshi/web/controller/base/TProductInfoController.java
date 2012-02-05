@@ -16,9 +16,7 @@ import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.DictionaryHolder;
 import com.iteye.tianshi.core.util.ResponseData;
-import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
-import com.iteye.tianshi.web.dao.base.TProductInfoDao;
 import com.iteye.tianshi.web.model.base.TProductInfo;
 import com.iteye.tianshi.web.service.base.TProductInfoService;
 
@@ -33,8 +31,6 @@ import com.iteye.tianshi.web.service.base.TProductInfoService;
 public class TProductInfoController extends BaseController {
 	@Autowired
 	TProductInfoService tProductInfoService;
-	@Autowired
-	private TProductInfoDao tProductInfoDao;
 	
 	@RequestMapping("/index")
 	public String index() {
@@ -63,9 +59,6 @@ public class TProductInfoController extends BaseController {
 	@RequestMapping(value = "/insertTProductInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTProductInfo(TProductInfo tProductInfo) throws Exception {
-		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		String tProductInfoCode = sequenceAchieve.getTProductInfoCode(tProductInfoDao);
-		tProductInfo.setProductCode(tProductInfoCode);
 		tProductInfoService.insertEntity(tProductInfo);
 		return ResponseData.SUCCESS_NO_DATA;
 	}

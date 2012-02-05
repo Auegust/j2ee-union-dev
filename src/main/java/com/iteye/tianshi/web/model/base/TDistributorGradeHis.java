@@ -5,15 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.iteye.tianshi.core.util.ConstantUtil;
+import com.iteye.tianshi.core.web.model.BaseEntity;
 
 /**
  * 
@@ -21,23 +18,16 @@ import com.iteye.tianshi.core.util.ConstantUtil;
  */
 @Entity
 @Table(name = "t_distributor_grade_his")
-public class TDistributorGradeHis implements Serializable {
+public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	
-	@Id
-	@Column(name="res_id")
-    @GeneratedValue(generator = "tableGenerator")     
-	@GenericGenerator(name = "tableGenerator", strategy="assigned")
-	private Long id;
 	
 	//累计业绩
 	@Column(name = "accu_achieve")
-	private Double accuAchieve;
+	private Double accuAchieve=0D;
 	
 	//累计个人业绩
 	@Column(name = "accu_p_achieve")
-	private Double accuPAchieve;
+	private Double accuPAchieve=0D;
 	
 	//日期
 	@Temporal(TemporalType.TIMESTAMP)
@@ -50,7 +40,7 @@ public class TDistributorGradeHis implements Serializable {
 	
 	//个人业绩奖金
 	@Column(name = "bonus_achieve")
-	private Double bonusAchieve;
+	private Double bonusAchieve=0D;
 	
 	//审核标志
 	@Column(name = "check_flag")
@@ -62,19 +52,19 @@ public class TDistributorGradeHis implements Serializable {
 	
 	//直接业绩
 	@Column(name = "direct_achieve")
-	private Double directAchieve;
+	private Double directAchieve=0D;
 	
 	//间接业绩
 	@Column(name = "indirect_achieve")
-	private Double indirectAchieve;
+	private Double indirectAchieve=0D;
 	
 	//整网业绩
 	@Column(name = "net_achieve")
-	private Double netAchieve;
+	private Double netAchieve=0D;
 	
 	//个人业绩
 	@Column(name = "person_achieve")
-	private Double personAchieve;
+	private Double personAchieve=0D;
 	
 	//备注
 	private String remark;
@@ -304,14 +294,6 @@ public class TDistributorGradeHis implements Serializable {
 	 */
 	public void setFloors(int floors) {
 		this.floors = floors;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public void setBonusAchieve(Double bonusAchieve) {

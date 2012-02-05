@@ -41,8 +41,8 @@ public class TProductDetail extends BaseEntity implements Serializable {
 	@Column(name = "book")
 	private Integer book;
 	
-	@Column(name = "sale_price")
-	private Double salePrice;
+	@Column(name = "product_price")
+	private Double productPrice;
 	
 	@Column(name = "sum_price")
 	private Double sumPrice;
@@ -198,14 +198,6 @@ public class TProductDetail extends BaseEntity implements Serializable {
 		return this.saleTime;
 	}
 
-	public Double getSalePrice() {
-		return salePrice;
-	}
-
-	public void setSalePrice(Double salePrice) {
-		this.salePrice = salePrice;
-	}
-
 	public void setSaleTime(Date saleTime) {
 		this.saleTime = saleTime;
 	}
@@ -240,6 +232,14 @@ public class TProductDetail extends BaseEntity implements Serializable {
 
 	public Integer getBook() {
 		return book;
+	}
+
+	public void setProductPrice(Double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public Double getProductPrice() {
+		return productPrice;
 	}
 	
 	

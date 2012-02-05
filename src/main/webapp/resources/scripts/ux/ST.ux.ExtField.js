@@ -186,7 +186,8 @@ var productCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
 		        {name: 'productName'},
 		        {name: 'productCode'},
 		        {name: 'productBv'},
-		        {name: 'productPv'}
+		        {name: 'productPv'},
+		        {name: 'productPrice'}
 		    ],
 		    baseParams:{start:0, limit:8}
 	    })
@@ -213,7 +214,7 @@ function usMoneyFunc(value, p, record){
  * 比例转换
  */
 function percentageFunc(value, p, record){
-	if(value == 0){
+	if(value == 0 || typeof(value) =="string"){
 		return  value+" %";
 	}else{
 		return  "<b><font color=red>"+value+" %"+"</font></b>";

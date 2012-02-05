@@ -49,6 +49,9 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 	public void findRank(TDistributor dist , String distributorCode ,double maxChange , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList){
 		double personAchieve = tgGrade.getPersonAchieve(); //个人累计即个人业绩（当月）
 		double netAchieve = tgGrade.getNetAchieve();		//累计即整网
+		if(distributorCode.equals("000003")){
+			System.out.println("");
+		}
 		/**下面分别针对星级的条件进行判断*/
 		if(dirchildList == null){ /**经销商无下线，小组业绩==个人业绩==整网业绩，之前已经计算过了*/
 			/**（1）一次性购买大于或等于1000PV （2）个人累计大于或等于1000PV */
@@ -60,7 +63,7 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 				dist.setRankId(ConstantUtil._lev_3);
 				tgGrade.setRank(ConstantUtil._lev_3); //3*
 			/**（1）一次性购买大于或等于100PV */
-			}else if(maxChange>=100){
+			}else if(maxChange>=100 || personAchieve>=100){
 				dist.setRankId(ConstantUtil._lev_2);
 				tgGrade.setRank(ConstantUtil._lev_2); //2*
 			/** 个人购买  《天狮事业锦囊》一套*/
@@ -181,7 +184,7 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 				dist.setRankId(ConstantUtil._lev_3);
 				tgGrade.setRank(ConstantUtil._lev_3);
 			/**一次性购买产品额大于或等于100PV*/
-			}else if(maxChange>=100D){
+			}else if(maxChange>=100D || personAchieve>=100){
 				dist.setRankId(ConstantUtil._lev_2);
 				tgGrade.setRank(ConstantUtil._lev_2);
 			/** 个人购买  《天狮事业锦囊》一套*/
@@ -203,6 +206,9 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 	 * @param dirchildList 直接下线	
 	 */
 	public void findCellGrade(String distributorCode , double netAchieve , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList){
+		if(distributorCode.equals("000001")){
+			System.out.println("");
+		}
 		double cellGrade = 0L;
 		Long rank = tgGrade.getRank();
 		for(TDistributor child: dirchildList){
@@ -220,19 +226,22 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 			return childGrade.getNetAchieve();
 		}else{
 			/**查询直接下线*/
-			List<TDistributor> direChildList =tDistributorService.findByProperty("sponsorCode", child.getSponsorCode());
+			List<TDistributor> direChildList =tDistributorService.findByProperty("sponsorCode", child.getDistributorCode());
 			if(direChildList.isEmpty()){
+				direChildList = null;
 				return -1D; /**未找到*/
 			}else{
 				/**初始化未找到*/
 				double result = -1D;
 				/**直接下线找到了，就立刻返回，不再继续往下层查找*/
 				for(TDistributor ch : direChildList){/**职级必须从tgGrade对象里获取，因为此时的经销商并未入库，等所有计算好后，遍历历史表一并入库*/
-					result = findMaxRankUnderNet(tgMap.get(ch.getDistributorCode()).getRank(),ch,tgMap);
+					//Long sub_rank = tgMap.get(ch.getSponsorCode()).getRank();
+					result = findMaxRankUnderNet(rank,ch,tgMap);
 					if(result>=0D){ /**整网业绩有可能为零，所以发现为零，也说明找到了职级较大的*/
 						break;
 					}
 				}
+				direChildList = null;
 				return result;
 			}
 		}

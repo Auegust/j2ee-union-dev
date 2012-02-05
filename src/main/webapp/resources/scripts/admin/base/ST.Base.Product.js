@@ -14,7 +14,7 @@ ST.base.productView = Ext.extend(ST.ux.ViewGrid, {
     gridTitle: "产品列表",
     formbarTitle:"产品查询",
 	girdColumns: [  {header: 'ID', dataIndex: 'id', hideGrid: true, hideForm: 'add', hidden:true ,readOnly: true},
-		            {header: '产品编号', dataIndex: 'productCode', hideForm:'add',readOnly: true},
+		            {header: '产品编号', dataIndex: 'productCode', allowBlank:false,remoteSort:true,sortable:true},
 		            {header: '产品名称', dataIndex: 'productName', allowBlank:false},
 		            {header: '产品价格', dataIndex: 'productPrice',allowBlank:false,hideGrid:true,
 		            	regex : /^\d{0,8}\.{0,1}(\d{1,2})?$/,regexText:"请输入有效价格，保留两位精度!"},

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
-import com.iteye.tianshi.core.util.SequenceAchieve;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TShopInfoDao;
 import com.iteye.tianshi.web.model.base.TShopInfo;
@@ -49,13 +48,9 @@ public class TShopInfoController extends BaseController {
 	@RequestMapping(value = "/insertTShopInfo", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseData insertTShopInfo(TShopInfo tShopInfo) throws Exception {
-		if(StringUtils.hasText(tShopInfo.getShopOwner()) 
-				&& tDistributorService.findByProperty("distributorCode", tShopInfo.getShopOwner()).isEmpty()){
-			return new ResponseData(true,"经销商编码填写有误，数据库无此记录");
+		if(!tShopInfoService.findByProperty("shopCode", tShopInfo.getShopCode()).isEmpty()){
+			return new ResponseData(true , "专卖店编码不能重复！");
 		}
-		SequenceAchieve sequenceAchieve = SequenceAchieve.getInstance();
-		String shopCode = sequenceAchieve.getTShopInfoCode(tShopInfoDao);
-		tShopInfo.setShopCode(shopCode);
 		tShopInfo.setCreateTime(new Date());
 		tShopInfoService.insertEntity(tShopInfo);
 		return new ResponseData(true,"ok");
