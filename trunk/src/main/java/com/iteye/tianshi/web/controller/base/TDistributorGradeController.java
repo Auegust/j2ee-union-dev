@@ -186,6 +186,7 @@ public class TDistributorGradeController extends BaseController {
 			tgGrade.setBonusAchieve(0D);
 			/**当月最大消费*/
 			tgGrade.setMaxChange(0D);
+			
 			/**计算日期*/
 			tgGrade.setAchieveDate(new Date());
 			tgMap.put(distributorCode, tgGrade);
@@ -311,9 +312,6 @@ public class TDistributorGradeController extends BaseController {
 			}else{
 				/**计算经销商职级和小组业绩*/
 				tDistributorGradeService.findRank(dist , distributorCode ,maxChange , tgGrade , tgMap , dirchildList);
-				if(distributorCode.equals("000001")){
-					System.out.println(tgGrade);
-				}
 			}
 		}
 		dirchildList = null;
@@ -377,7 +375,7 @@ public class TDistributorGradeController extends BaseController {
 		for (TDistributor dist : allDistributors) {
 			distbutorCode = dist.getDistributorCode();
 			if(distbutorCode.equals("000001")){
-				System.out.println("");
+				System.out.println("---ponit---");/**断点，查看A的职级，小组业绩信息*/
 			}
 			if(ConstantUtil._top_.equals(distbutorCode)){
 				continue;
@@ -410,7 +408,7 @@ public class TDistributorGradeController extends BaseController {
 							double dirChildBonus = bonusCfgMap.get(dirChild.getRankId()).getDirectP()/100;
 							/**累计当前的直接下线的间接奖*/
 							double dir = tgMap.get(dirChild.getDistributorCode()).getBonusAchieve();
-							directBouns += (dir>200D?(dir-200D ):0D)* (bouns.getDirectP()/100 - dirChildBonus); //TODO:误差
+							directBouns += (dir>200D?(dir-200D ):0D)* (bouns.getDirectP()/100 - dirChildBonus);
 						}
 					}
 					/**查询出所有间接下线*/
@@ -435,6 +433,9 @@ public class TDistributorGradeController extends BaseController {
 						indirChild = null;
 					}
 					distBonus.setIndirectBouns(directBouns + indirectBouns); /**①+②*/
+					/**领导奖计算*/
+					double leadership = tDistributorGradeService.calcLeaderShip(dist,rank,bonusCfgMap,dirchildList,tgMap);
+					distBonus.setLeaderBouns(leadership);
 					/************************计算完毕************************/
 			}
 			
@@ -451,17 +452,6 @@ public class TDistributorGradeController extends BaseController {
 		allDistributors = null;
 		tgMap = null;
 		bonusCfgMap = null;
-		return true;
-	}
-	
-	/**
-	 * 奖金计算
-	 * @return
-	 */
-	
-	public boolean test() {
-		List<Map<String, Object>> oo = tDistributorGradeDao.getJdbcTemplate().queryForList("SELECT * FROM t_bouns_conf ");
-		System.out.println(oo.size());
 		return true;
 	}
 }
