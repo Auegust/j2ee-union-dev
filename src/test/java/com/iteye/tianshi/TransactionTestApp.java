@@ -14,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.iteye.tianshi.core.spring.SpringApplicationContextHolder;
 import com.iteye.tianshi.web.controller.base.TDistributorGradeController;
+import com.iteye.tianshi.web.dao.base.TDistributorDao;
 import com.iteye.tianshi.web.service.base.TDistributorService;
 
 /**
@@ -26,6 +27,9 @@ public class TransactionTestApp extends
 		AbstractTransactionalJUnit4SpringContextTests {
 	@Autowired    
 	TDistributorService tDistributorService;
+	
+	@Autowired    
+	TDistributorDao tDistributorDao;
 //	CacheManager cacheManager; 
 //	@Autowired		
 //	UserDao userdao;
@@ -34,7 +38,14 @@ public class TransactionTestApp extends
 		/****
 		 * 测试业绩及奖金计算
 		 */
-		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus();		
+		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus();	
+//		Integer floors = 3;
+//		StrBuilder sql = new StrBuilder("select distributor_code FROM tianshi.t_distributor WHERE FIND_IN_SET(res_id,tianshi.getChildLst(").append(3+")) ");
+//		if (floors!=null) {
+//			sql.append("and floors=").append(floors);
+//		}
+//		List<String> list = tDistributorDao.getJdbcTemplate().queryForList(sql.toString(),String.class);
+//		System.out.println(list.size());
 		// List<TDistributor>  dirchildList = tDistributorService.findAllDirChildrenDistributors(0L, 2);
 //		 for(TDistributor o :dirchildList){
 //			 System.out.println("---"+o.getDistributorCode());

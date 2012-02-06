@@ -38,6 +38,8 @@ public class TDistributor extends BaseEntity implements Serializable {
 	@Column(name="bankAcc")
 	private Integer bankAcc;
 	
+	@Transient
+	private Double cellAchieve=0D;  /**小组业绩*/
 
 	private String remark;
 
@@ -189,6 +191,12 @@ public class TDistributor extends BaseEntity implements Serializable {
 	}
 	public Integer getBankAcc() {
 		return bankAcc;
+	}
+	public void setCellAchieve(Double cellAchieve) {
+		this.cellAchieve = cellAchieve;
+	}
+	public Double getCellAchieve() {
+		return cellAchieve;
 	}
 	
 }
