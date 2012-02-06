@@ -18,7 +18,7 @@ ST.base.distributorView = Ext.extend(ST.ux.ViewGrid, {
 		            {header: '经销商编号', dataIndex: 'distributorCode', allowBlank:false,regex: /^[\w\d]{6}$/,regexText:"编号由6位字母或数字组成!",remoteSort:true,sortable:true},
 		            {header: '上级编号', dataIndex: 'sponsorCode', allowBlank:false},  //输入上级编号的时候需要去数据库验证，数据库无记录的情况新增可以为空
 		            {header: '经销商名称', dataIndex: 'distributorName', allowBlank:false},
-		            {header: '职级',  dataIndex: 'rankId', hidden:true ,hideGrid:true},
+		            {header: '职级',  dataIndex: 'rankId', hidden:true ,hideGrid:true,sortable:true,remoteSort:true},
 		            {header: '职级',  dataIndex: 'rankId_Name', hideForm:'all',sortable:true,remoteSort:true},
 		            {header: '上级ID', dataIndex: 'sponsorId',hideGrid:true ,hidden:true},
 		            {header: '上级名称', dataIndex: 'sponsor_Name', hideForm:'all'},

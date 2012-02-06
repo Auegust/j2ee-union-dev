@@ -23,6 +23,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
@@ -142,11 +143,11 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 			createOrUpdate(entity);
 		}
 	}
-
 	public void delete(E entity) {
 		super.getHibernateTemplate().delete(entity);
 	}
 
+	@Transactional(readOnly=false)
 	public void delete(Collection<E> entities) {
 		for(E entity : entities) {
 			delete(entity);
