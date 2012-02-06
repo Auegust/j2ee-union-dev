@@ -427,7 +427,7 @@ public class TDistributorGradeController extends BaseController {
 						/**indirChild本身的个人累计*/
 						double selfAchieve = tgMap.get(indirChild.getDistributorCode()).getBonusAchieve();
 						/**大于200的情况*/
-						if(selfAchieve>200 && indirChild.getRankId()<rank){
+						if(selfAchieve>200 && indirChild.getRankId()<=rank){
 							/***超过200的部分*/
 							indirectBouns += (selfAchieve-200D )* (bouns.getDirectP()/100 - dirChildBonus);
 							/**等于200的部分，需要获取上级经销商的职级奖比例*/
@@ -438,7 +438,7 @@ public class TDistributorGradeController extends BaseController {
 						}
 						indirChild = null;
 					}
-					distBonus.setIndirectBouns(directBouns + indirectBouns); /**①+②*/
+					distBonus.setIndirectBouns((directBouns + indirectBouns)<0D?0D:(directBouns + indirectBouns)); /**①+②*/
 					/**领导奖计算*/
 					double leadership = tDistributorGradeService.calcLeaderShip(dist,rank,bonusCfgMap,dirchildList,tgMap);
 					distBonus.setLeaderBouns(leadership);
