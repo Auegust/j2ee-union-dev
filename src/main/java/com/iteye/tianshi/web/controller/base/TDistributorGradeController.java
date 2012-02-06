@@ -162,6 +162,15 @@ public class TDistributorGradeController extends BaseController {
 			//上月25号
 			startDate = curYear + (String.format("%02d", Integer.valueOf(curMon) - 1)) + "25"; 
 		}
+		/**计算之前，清空业绩表，奖金表，历史业绩表和历史奖金表按当月时间清除*/
+		String grade_sql = "TRUNCATE TABLE tianshi.t_distributor_bouns";
+		String bouns_sql = "TRUNCATE TABLE tianshi.t_distributor_grade";
+		String grade_his_sql = "DELETE  FROM  tianshi.t_distributor_grade WHERE achieve_date>"+startDate+" and achieve_date<"+endDate;
+		String bouns_his_sql = "DELETE  FROM  tianshi.t_distributor_bouns_his WHERE bouns_date>"+startDate+" and bouns_date<"+endDate;
+		tDistributorGradeDao.getJdbcTemplate().execute(grade_sql);
+		tDistributorGradeDao.getJdbcTemplate().execute(bouns_sql);
+		tDistributorGradeDao.getJdbcTemplate().execute(grade_his_sql);
+		tDistributorGradeDao.getJdbcTemplate().execute(bouns_his_sql);
 		/**根据经销商分组和按层级排序*/ 
 		sql.append(startDate + "' and create_time<'").append(
 				endDate + "' group by distributor_code order by floors desc");
@@ -374,9 +383,6 @@ public class TDistributorGradeController extends BaseController {
 		String distbutorCode = null;
 		for (TDistributor dist : allDistributors) {
 			distbutorCode = dist.getDistributorCode();
-			if(distbutorCode.equals("000001")){
-				System.out.println("---ponit---");/**断点，查看A的职级，小组业绩信息*/
-			}
 			if(ConstantUtil._top_.equals(distbutorCode)){
 				continue;
 			}

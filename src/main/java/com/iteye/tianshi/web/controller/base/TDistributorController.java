@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.TriggersRemove;
-import com.googlecode.ehcache.annotations.When;
 import com.iteye.tianshi.core.page.Page;
 import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ResponseData;
@@ -26,6 +23,7 @@ import com.iteye.tianshi.web.service.base.TDistributorService;
 import com.iteye.tianshi.web.service.base.TShopInfoService;
 
 /**
+ * 
  * 经销商管理界面的业务方法
  * 
  */
@@ -55,7 +53,6 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/insertTDistributor", method = RequestMethod.POST)
 	@ResponseBody
-	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData insertTDistributor(TDistributor tDistributor)
 			throws Exception {
 		List<TDistributor> dist = tDistributorService.findByProperty("distributorCode", tDistributor.getDistributorCode());
@@ -93,7 +90,6 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteTDistributor", method = RequestMethod.POST)
 	@ResponseBody
-	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData deleteUser(Long id) {
 		tDistributorService.deleteAllCascadeTable(id);
 		tDistributorService.deleteEntity(id);
@@ -108,7 +104,6 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/updateTDistributor", method = RequestMethod.POST)
 	@ResponseBody
-	@TriggersRemove(cacheName = "distributorCache", when = When.AFTER_METHOD_INVOCATION, removeAll = true)
 	public ResponseData updateTDistributor(TDistributor tDistributor) {
 		if(!tDistributorService.findEntity(tDistributor.getId()).getDistributorCode().equals(tDistributor.getDistributorCode())){
 			if(!tDistributorService.findByProperty("distributorCode", tDistributor.getDistributorCode()).isEmpty()){
@@ -135,7 +130,6 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping(value = "/loadDistributor", method = RequestMethod.POST)
 	@ResponseBody
-	@Cacheable(cacheName="distributorCache")
 	public TDistributor loadDistributor(Long id) {
 		TDistributor tDistributor = tDistributorService.findEntity(id);
 		return tDistributor;
@@ -149,7 +143,6 @@ public class TDistributorController extends BaseController {
 	 */
 	@RequestMapping("/pageQueryTDistributors")
 	@ResponseBody
-	@Cacheable(cacheName="distributorCache")
 	public Page<TDistributor> pageQueryDistributor(
 			@RequestParam("start") int startIndex,
 			@RequestParam("limit") int pageSize, TDistributor tDistributor,
