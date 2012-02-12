@@ -1,5 +1,7 @@
 package com.iteye.tianshi.core.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class RandomUtil {
@@ -39,5 +41,16 @@ public class RandomUtil {
 
       }
       return destArray.toString();
+  }
+  
+  /***
+   * 获取第二天
+   * @param curDate
+   * @return
+   */
+  public static Date getNextDate(Date curDate){
+      Calendar cal = Calendar.getInstance();
+      cal.setTimeInMillis(curDate.getTime()+ 24*60*60*1000);
+      return cal.getTime();
   }
 }
