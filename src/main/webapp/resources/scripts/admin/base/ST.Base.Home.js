@@ -162,7 +162,7 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			rootVisible: false
 		});
 		var panel3 =  new Ext.tree.TreePanel({
-			title: '查询统计',
+			title: '系统计算',
 			layout: "fit",
 			animate: true,
 			border: false,
@@ -170,13 +170,9 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			autoScroll: true,
 			root: new Ext.tree.AsyncTreeNode({
 				children : [{
-	                text : "经销商查询",  
-	                action: "./application/index",
+	                text : "业绩及奖金计算",  
+	                action: "./web/calc",
 	                leaf : true
-	            },{  
-	                text : "奖金查询",  
-	                action: "./recommend/index",
-	                leaf : true 
 	            }]
 			}),
 			listeners: {
