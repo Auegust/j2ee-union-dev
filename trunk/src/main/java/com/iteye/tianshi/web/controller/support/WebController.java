@@ -48,4 +48,9 @@ public class WebController extends BaseController {
 	public List<TShopInfo> findAllShop() {
 		return tShopInfoService.findAllEntity();
 	}	
+	
+	@RequestMapping("/calc")
+	public String index(){
+		return "admin/base/calc";
+	}
 }
