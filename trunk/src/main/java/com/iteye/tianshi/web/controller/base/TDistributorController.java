@@ -148,6 +148,9 @@ public class TDistributorController extends BaseController {
 			@RequestParam("limit") int pageSize, TDistributor tDistributor,
 			@RequestParam(required = false) String sort,
 			@RequestParam(required = false) String dir) {
+		if(StringUtils.hasText(sort) && sort.equals("rankId_Name")){
+			sort = "rankId";
+		}
 		PageRequest<TDistributor> pageRequest = new PageRequest<TDistributor>(
 				startIndex, pageSize);
 		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
