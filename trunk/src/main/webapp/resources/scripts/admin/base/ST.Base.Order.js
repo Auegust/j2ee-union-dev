@@ -100,8 +100,8 @@ ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 				            }
 			            }}, 
 			            {xtype:'textfield',fieldLabel: '产品名称', name: 'productName',readOnly:true,emptyText:'与编号联动'},
-		                {xtype:'datetimefield', format: 'Y-m-d', editable: true, fieldLabel: '开始日期', name: 'startTime'},
-		                {xtype:'datetimefield', format: 'Y-m-d', editable: true, fieldLabel: '结束日期', name: 'endTime' },
+		                {xtype:'datetimefield', format: 'Y/m/d', editable: true, fieldLabel: '开始日期', name: 'startTime'},
+		                {xtype:'datetimefield', format: 'Y/m/d', editable: true, fieldLabel: '结束日期', name: 'endTime' },
 		                {xtype:'textfield',fieldLabel: 'book', name: 'book'}
 		               ]
 		    }],
