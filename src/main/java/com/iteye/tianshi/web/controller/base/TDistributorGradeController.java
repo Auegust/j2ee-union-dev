@@ -1,5 +1,7 @@
 package com.iteye.tianshi.web.controller.base;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -145,6 +148,7 @@ public class TDistributorGradeController extends BaseController {
 	/**
 	 * 计算经销商业绩表，并且算出职级，历史记录只能查询前一个月的，因为每次计算完毕，更新历史业绩表会覆盖上一个月的历史业绩表
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/calc")
 	@ResponseBody
 	public boolean calcGradeAndBonus() {
@@ -153,6 +157,8 @@ public class TDistributorGradeController extends BaseController {
 		String curMon = new SimpleDateFormat("yyyyMMdd").format(new Date()).substring(4, 6);
 		String endDate = curYear + curMon + "25";// 结束日期
 		String startDate = "";// 开始日期
+		//当月批次查询
+		String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
 		StringBuilder sql = new StringBuilder(
 				"SELECT distributor_id ,distributor_code, Max(PV) AS maxChange ,SUM(sale_number * pv) as SUM_PV ,SUM(sale_number * bv) as SUM_BV ,floors FROM t_product_list where create_time>'");
 		if (curMon.equals("01")) {
@@ -165,7 +171,7 @@ public class TDistributorGradeController extends BaseController {
 		/**计算之前，清空业绩表，奖金表，历史业绩表和历史奖金表按当月时间清除*/
 		String grade_sql = "TRUNCATE TABLE tianshi.t_distributor_bouns";
 		String bouns_sql = "TRUNCATE TABLE tianshi.t_distributor_grade";
-		String grade_his_sql = "DELETE  FROM  tianshi.t_distributor_grade WHERE achieve_date>"+startDate+" and achieve_date<"+endDate;
+		String grade_his_sql = "DELETE  FROM  tianshi.t_distributor_grade_his WHERE achieve_date>"+startDate+" and achieve_date<"+endDate;
 		String bouns_his_sql = "DELETE  FROM  tianshi.t_distributor_bouns_his WHERE bouns_date>"+startDate+" and bouns_date<"+endDate;
 		tDistributorGradeDao.getJdbcTemplate().execute(grade_sql);
 		tDistributorGradeDao.getJdbcTemplate().execute(bouns_sql);
@@ -180,6 +186,13 @@ public class TDistributorGradeController extends BaseController {
 		/**查询出所有经销商，按层级降序查询，并且初始化他们的个人业绩为零*/
 		List<TDistributor> allDistributors = tDistributorService.findByPropertysAndOrder(new String[]{}, new String[]{}, new Object[]{}, "floors", SQLOrderMode.DESC);
 		TDistributorGrade tgGrade = null;
+		/**指定当月批次*/
+		int oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch,new RowMapper(){
+			@Override
+			public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
+				return rs.getInt(1);
+			}
+		});
 		for(TDistributor it : allDistributors){
 			String distributorCode = it.getDistributorCode();
 			if(distributorCode.equals(ConstantUtil._top_)) //顶级不纳入计算
@@ -199,6 +212,10 @@ public class TDistributorGradeController extends BaseController {
 			/**计算日期*/
 			tgGrade.setAchieveDate(new Date());
 			tgMap.put(distributorCode, tgGrade);
+			TDistributorGradeHis his = tgGrade.getHisGradeCopy();
+			/**将当月的业绩备份到历史表，无论是新用户还是老用户*/
+			his.setBatchNo(oldbatchNo+1); /**批次号+1代表新月份计算后的备份*/
+			tDistributorGradeHisService.insertEntity(his); 
 		}
 		tgGrade = null;
 		/**将当月购买产品即具有个人业绩的经销商进行计算，而没有业绩的经销商的个人业绩归零（他们只有累计业绩）**/
@@ -212,14 +229,6 @@ public class TDistributorGradeController extends BaseController {
 			tgGrade.setBonusAchieve((Double)map.get("SUM_BV"));
 			/**当月最大消费*/
 			tgGrade.setMaxChange((Double)map.get("maxChange"));
-			/**先将新加入的经销商的业绩（已计算出个人业绩和计算日期）拷贝到历史表*/
-			if(tDistributorGradeHisService.findByProperty("distributorCode", distributor_code).isEmpty()){
-				TDistributorGradeHis his = tgGrade.getHisGradeCopy();
-				his.setAccuPAchieve(0D);
-				his.setAccuAchieve(0D);
-				tDistributorGradeHisService.createOrUpdate(his);
-				his = null;
-			}
 			map = null;
 		}
 		tgGrade = null;
@@ -325,33 +334,56 @@ public class TDistributorGradeController extends BaseController {
 		}
 		dirchildList = null;
 		indirchildList = null;
-		
+		/**次月的经销商历史业绩，当然肯定没有当月新加入的*/
+		List<TDistributorGradeHis> hisLastMonList = tDistributorGradeHisService.findByProperty("batchNo",oldbatchNo);
+		Map<String,TDistributorGradeHis> hisMap = new HashMap<String, TDistributorGradeHis>(hisLastMonList.size());
+		if(!hisLastMonList.isEmpty()){
+			for(TDistributorGradeHis his:hisLastMonList){
+				hisMap.put(his.getDistributorCode(), his);
+				his = null;
+			}
+		}
+		hisLastMonList = null;
 		/**计算经销商累计个人业绩以及累计业绩**/
-		List<TDistributorGradeHis> hisList = tDistributorGradeHisService.findAllEntity();
+		List<TDistributorGradeHis> hisList = tDistributorGradeHisService.findByProperty("batchNo",oldbatchNo+1);
 		/**遍历历史表是因为历史表已经被初始化了，包括两部分，第一部分是以前存在的经销商，第二部分是新增加的经销商*/
 		String distributorCode = null;
 		double accuPAchieve = 0D;
 		double personAchieve_self = 0D;
+		double accuAchieve = 0D;
 		double personAchieve_bleow200 = 0D;
 		for (TDistributorGradeHis his : hisList) {
 			distributorCode = his.getDistributorCode();
 			tgGrade = tgMap.get(distributorCode);
-			/**分两种情况：1.该名经销商当月没有购买产品说明在历史表中有记录，业绩归零  2.该名经销商购买了产品，其业绩可以正常纳入计算*/
-			accuPAchieve = his.getAccuPAchieve() + tgGrade.getPersonAchieve();
+			/**计算累计业绩，与个人累计业绩*/
+			if(oldbatchNo==0 || !hisMap.containsKey(distributorCode)){
+				/**第一个月才开始统计，或当月新加入的经销商，他们的个人累计业绩是当月的累计业绩*/
+				accuPAchieve = tgGrade.getPersonAchieve();
+			}else {
+				/**否则是次月 + 当月的累计业绩*/
+				double hislastMon = hisMap.get(distributorCode).getAccuPAchieve();
+				accuPAchieve = hislastMon + tgGrade.getPersonAchieve();
+				accuAchieve = hisMap.get(distributorCode).getAccuAchieve();
+			}
 			/**累计个人业绩**/
 			tgGrade.setAccuPAchieve(accuPAchieve);
 			/**累计业绩  == 个人业绩小于200部分+直接+间接+历史累计**/
 			personAchieve_self = tgGrade.getPersonAchieve();
 			personAchieve_bleow200=personAchieve_self<=200D?personAchieve_self:200D;
-			tgGrade.setAccuAchieve(personAchieve_bleow200 + tgGrade.getDirectAchieve() + tgGrade.getIndirectAchieve() + his.getAccuAchieve());
-			/**累计个人业绩--入历史库*/
-			tDistributorGradeHisService.createOrUpdate(tgGrade.getHisGradeCopy());
+			tgGrade.setAccuAchieve(personAchieve_bleow200 + tgGrade.getDirectAchieve() + tgGrade.getIndirectAchieve() + accuAchieve);
+			/**累计业绩入库*/
+			TDistributorGradeHis copyHis = tgGrade.getHisGradeCopy();
+			copyHis.setId(his.getId());
+			copyHis.setBatchNo(oldbatchNo+1);
+			tDistributorGradeHisService.updateEntity(copyHis);
+			copyHis = null;
 			/**经销商业绩保存*/
-			tDistributorGradeService.createOrUpdate(tgGrade);
+			tDistributorGradeService.insertEntity(tgGrade);
 			/**经销商职级保存*/
 			tDistributorService.findEntity(tgGrade.getDistributorId()).setRankId(tgGrade.getRank());
 			his = null;
 		}
+		hisMap = null;
 		tgGrade = null;
 		hisList = null;
 		

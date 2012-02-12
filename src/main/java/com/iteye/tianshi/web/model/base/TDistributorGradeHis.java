@@ -77,6 +77,10 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	@Column(name = "distributor_code")
 	private String distributorCode;
 	
+	//历史业绩表月份的标志位 
+	@Column(name="batch_no")
+	private Integer batchNo;
+	
 	//默认1星
 	private Long rank = ConstantUtil._lev_1;
 	
@@ -302,5 +306,13 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 
 	public Double getBonusAchieve() {
 		return bonusAchieve;
+	}
+
+	public void setBatchNo(Integer batchNo) {
+		this.batchNo = batchNo;
+	}
+
+	public Integer getBatchNo() {
+		return batchNo;
 	}
 }
