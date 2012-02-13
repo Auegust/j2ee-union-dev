@@ -46,7 +46,7 @@ public class TDistributor extends BaseEntity implements Serializable {
 	@Column(name="sponsor_id")
 	private Long sponsorId;
 	
-	@Transient
+	@Column(name="sponsor_name")
 	private String sponsor_Name;
 	
 	@Transient
