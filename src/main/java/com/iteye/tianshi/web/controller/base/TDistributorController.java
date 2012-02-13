@@ -67,6 +67,8 @@ public class TDistributorController extends BaseController {
 		}
 		//设置上级ID
 		tDistributor.setSponsorId(sponsor.get(0).getId());
+		//设置上级名称
+		tDistributor.setSponsor_Name(sponsor.get(0).getDistributorName());
 		//设置层数
 		tDistributor.setFloors(sponsor.get(0).getFloors()+1);
 		dist = null;
