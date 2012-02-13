@@ -3,7 +3,6 @@ package com.iteye.tianshi.web.controller.base;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +151,7 @@ public class TDistributorGradeController extends BaseController {
 	 * 计算经销商业绩表，并且算出职级，历史记录只能查询前一个月的，因为每次计算完毕，更新历史业绩表会覆盖上一个月的历史业绩表
 	 * @param endDate 2012-02-14T00:00:00
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"rawtypes" })
 	@RequestMapping("/calc")
 	@ResponseBody
 	public ResponseData calcGradeAndBonus(@RequestParam(required = true)String  endDate) {
@@ -171,7 +170,7 @@ public class TDistributorGradeController extends BaseController {
 			}
 			/**当月批次查询*/
 			String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
-			int oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch,new RowMapper(){
+			int oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForInt(sql_batch,new RowMapper(){
 				@Override
 				public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
 					return rs.getInt(1);
@@ -195,7 +194,7 @@ public class TDistributorGradeController extends BaseController {
 					/**取系统最大日期的第二天*/
 					startDate = new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil.getNextDate(dayMax));
 				}
-				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch,new RowMapper(){
+				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForInt(sql_batch,new RowMapper(){
 					@Override
 					public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
 						return rs.getInt(1);
