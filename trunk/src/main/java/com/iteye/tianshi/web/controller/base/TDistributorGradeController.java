@@ -1,7 +1,5 @@
 package com.iteye.tianshi.web.controller.base;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +25,7 @@ import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
 import com.iteye.tianshi.web.model.base.TBounsConf;
 import com.iteye.tianshi.web.model.base.TDistributor;
 import com.iteye.tianshi.web.model.base.TDistributorBoun;
+import com.iteye.tianshi.web.model.base.TDistributorBounsHis;
 import com.iteye.tianshi.web.model.base.TDistributorGrade;
 import com.iteye.tianshi.web.model.base.TDistributorGradeHis;
 import com.iteye.tianshi.web.model.base.TShopInfo;
@@ -151,7 +149,6 @@ public class TDistributorGradeController extends BaseController {
 	 * 计算经销商业绩表，并且算出职级，历史记录只能查询前一个月的，因为每次计算完毕，更新历史业绩表会覆盖上一个月的历史业绩表
 	 * @param endDate 2012-02-14T00:00:00
 	 */
-	@SuppressWarnings({"rawtypes" })
 	@RequestMapping("/calc")
 	@ResponseBody
 	public ResponseData calcGradeAndBonus(@RequestParam(required = true)String  endDate) {
@@ -170,18 +167,17 @@ public class TDistributorGradeController extends BaseController {
 			}
 			/**当月批次查询*/
 			String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
-			int oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForInt(sql_batch,new RowMapper(){
-				@Override
-				public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
-					return rs.getInt(1);
-				}
-			});
+			Integer oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch, Integer.class);
+			if(oldbatchNo == null){
+				oldbatchNo =0;
+			}
+			System.out.println(oldbatchNo);
 			/***计算过一次了，必须清空后重新计算*/
 			if(dayMax!=null && endDate.substring(0, 10).equals(dayMax.toString().substring(0, 10))){
 				/**计算之前，清空业绩表，奖金表，历史业绩表和历史奖金表按当月时间清除*/
 				String bouns_sql = "TRUNCATE TABLE tianshi.t_distributor_bouns";
 				String grade_sql = "TRUNCATE TABLE tianshi.t_distributor_grade";
-				String bouns_his_sql = "TRUNCATE TABLE tianshi.t_distributor_bouns_his";
+				String bouns_his_sql = "DELETE  FROM  tianshi.t_distributor_bouns_his WHERE batch_no="+oldbatchNo;
 				String grade_his_sql = "DELETE  FROM  tianshi.t_distributor_grade_his WHERE batch_no="+oldbatchNo;
 				tDistributorGradeDao.getJdbcTemplate().execute(grade_sql);
 				tDistributorGradeDao.getJdbcTemplate().execute(bouns_sql);
@@ -194,12 +190,10 @@ public class TDistributorGradeController extends BaseController {
 					/**取系统最大日期的第二天*/
 					startDate = new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil.getNextDate(dayMax));
 				}
-				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForInt(sql_batch,new RowMapper(){
-					@Override
-					public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
-						return rs.getInt(1);
-					}
-				});
+				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch, Integer.class);
+				if(oldbatchNo == null){
+					oldbatchNo =0;
+				}
 			}
 			
 			StringBuilder sql = new StringBuilder(
@@ -501,7 +495,10 @@ public class TDistributorGradeController extends BaseController {
 				/**保存经销商奖金表*/
 				distributorBounService.insertEntity(distBonus);
 				/**保存奖金历史表*/
-				distributorBounsHisService.insertEntity(distBonus.copyToHis());
+				TDistributorBounsHis  hisBonus = distBonus.copyToHis();
+				hisBonus.setBatchNo(oldbatchNo+1);
+				distributorBounsHisService.insertEntity(hisBonus);
+				hisBonus = null;
 				dist = null;
 			}
 			distBonus = null;
@@ -513,6 +510,7 @@ public class TDistributorGradeController extends BaseController {
 			bonusCfgMap = null;
 			return new ResponseData(true, "计算完毕！可以去<font size=4 color=red>报表管理</font>查看相关报表");
 		}catch(Exception e){
+			e.printStackTrace();
 			return new ResponseData(true,"计算出现未知错误，请及时反馈！");
 		}finally{
 			

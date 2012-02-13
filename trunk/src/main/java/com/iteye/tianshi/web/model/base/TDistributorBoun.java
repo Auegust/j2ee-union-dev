@@ -234,7 +234,6 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 		his.setDistributorCode(distributorCode);
 		his.setDistributorId(distributorId);
 		his.setHonorBouns(honorBouns);
-		his.setId(this.getId());
 		his.setIndirectBouns(indirectBouns);
 		his.setInternatialBouns(internatialBouns);
 		his.setInternatialBouns(internatialBouns);
