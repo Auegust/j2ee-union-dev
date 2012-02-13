@@ -208,12 +208,20 @@ var HomePage = Ext.extend(Ext.Viewport, {
 			autoScroll: true,
 			root: new Ext.tree.AsyncTreeNode({
 				children : [{
-	                text : "测试报表-001",  
+	                text : "Network Distributor",  
 	                action: Home.param.test001,
 	                leaf : true
 	            },{
-	                text : "测试报表-002",  
+	                text : "NetWork Information",  
 	                action: Home.param.test002,
+	                leaf : true
+	            },{
+	                text : "Bonus Item",  
+	                action: Home.param.test003,
+	                leaf : true
+	            },{
+	                text : "Bonus List ",  
+	                action: Home.param.test004,
 	                leaf : true
 	            }]
 			}),

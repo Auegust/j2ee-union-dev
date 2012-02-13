@@ -6,6 +6,9 @@
 package com.iteye.tianshi;
 
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,18 +41,19 @@ public class TransactionTestApp extends
 		/****
 		 * 测试业绩及奖金计算
 		 */
-		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus();	
-//		Integer floors = 3;
-//		StrBuilder sql = new StrBuilder("select distributor_code FROM tianshi.t_distributor WHERE FIND_IN_SET(res_id,tianshi.getChildLst(").append(3+")) ");
-//		if (floors!=null) {
-//			sql.append("and floors=").append(floors);
-//		}
-//		List<String> list = tDistributorDao.getJdbcTemplate().queryForList(sql.toString(),String.class);
-//		System.out.println(list.size());
-		// List<TDistributor>  dirchildList = tDistributorService.findAllDirChildrenDistributors(0L, 2);
-//		 for(TDistributor o :dirchildList){
-//			 System.out.println("---"+o.getDistributorCode());
-//		 }
+//		String sql_startdate = "SELECT MAX(achieve_date) FROM tianshi.t_distributor_grade_his";
+//		Date d = tDistributorDao.getJdbcTemplate().queryForObject(sql_startdate, Date.class);
+//		System.out.println(d);
+//		new SimpleDateFormat("yyyy-MM-dd").format(endDate).equals(dayMax.toString()
+		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus("2012-02-12T00:00:00");	
+//		String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
+//		int maxBatchNo = tDistributorDao.getJdbcTemplate().queryForObject(sql_batch,new RowMapper(){
+//			@Override
+//			public Object mapRow(ResultSet rs, int rowNumber) throws SQLException {
+//				return rs.getInt(1);
+//			}
+//		});
+//		System.out.println(maxBatchNo);
 	}
 	
 //	/***

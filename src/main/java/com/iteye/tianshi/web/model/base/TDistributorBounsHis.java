@@ -5,13 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.iteye.tianshi.core.web.model.BaseEntity;
 
 
 /**
@@ -20,14 +18,14 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name="t_distributor_bouns_his")
-public class TDistributorBounsHis implements Serializable {
+public class TDistributorBounsHis extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@Column(name="res_id")
-    @GeneratedValue(generator = "tableGenerator")     
-	@GenericGenerator(name = "tableGenerator", strategy="assigned")
-	private Long id;
+//
+//	@Id
+//	@Column(name="res_id")
+//    @GeneratedValue(generator = "tableGenerator")     
+//	@GenericGenerator(name = "tableGenerator", strategy="assigned")
+//	private Long id;
 	
 	@Column(name="adjust_bouns")
 	private Double adjustBouns;
@@ -78,6 +76,10 @@ public class TDistributorBounsHis implements Serializable {
 	@Column(name="special_bouns")
 	private Double specialBouns;
 
+	//历史奖金表月份的标志位 
+	@Column(name="batch_no")
+	private Integer batchNo;
+	
 	private Double tax;
 
     public TDistributorBounsHis() {
@@ -219,12 +221,11 @@ public class TDistributorBounsHis implements Serializable {
 		return distributorCode;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setBatchNo(Integer batchNo) {
+		this.batchNo = batchNo;
 	}
 
-	public Long getId() {
-		return id;
+	public Integer getBatchNo() {
+		return batchNo;
 	}
-
 }
