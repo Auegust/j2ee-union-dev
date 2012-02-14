@@ -216,11 +216,11 @@ var HomePage = Ext.extend(Ext.Viewport, {
 	                action: Home.param.test002,
 	                leaf : true
 	            },{
-	                text : "Bonus Item",  
+	                text : "Bonus List",  
 	                action: Home.param.test003,
 	                leaf : true
 	            },{
-	                text : "Bonus List ",  
+	                text : "Bonus Item ",  
 	                action: Home.param.test004,
 	                leaf : true
 	            }]
