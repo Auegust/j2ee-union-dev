@@ -84,11 +84,11 @@
 	{
 %>
 		<BR>
-		<LABEL FOR="<%= encodedParameterName + "_radio_null" %>" CLASS="birtviewer_hidden_label">Null Value</LABEL>	
+		<LABEL FOR="<%= encodedParameterName + "_radio_null" %>" CLASS="birtviewer_hidden_label">允许为空</LABEL>	
 		<INPUT TYPE="RADIO"
 			ID="<%= encodedParameterName + "_radio_null"%>"
 			VALUE="<%= encodedParameterName %>"
-			<%= ( parameterBean.getValue( ) == null )? "CHECKED" : "" %>> Null Value
+			<%= ( parameterBean.getValue( ) == null )? "CHECKED" : "" %>> 允许为空
 <%
 	}
 %>
