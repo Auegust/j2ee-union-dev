@@ -24,14 +24,14 @@
             </structure>
         </scalar-parameter>
         <scalar-parameter name="beginTime" id="670">
-            <text-property name="helpText">FORMAT：2002-12-20</text-property>
-            <text-property name="promptText">请输入查询时间</text-property>
+            <text-property name="helpText">格式：1970-01-01</text-property>
+            <text-property name="promptText">请输入查询时间【格式：1970-01-01】，默认当前时间</text-property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">1970-01-01</value>
+                <value type="constant">new Date()</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>

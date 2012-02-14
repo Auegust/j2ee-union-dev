@@ -660,7 +660,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>tszx-china</finalName>
+		<finalName>angel</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>

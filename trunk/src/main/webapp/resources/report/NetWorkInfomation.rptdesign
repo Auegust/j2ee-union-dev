@@ -12,7 +12,7 @@
             <text-property name="helpText">查询经销商编号</text-property>
             <text-property name="promptText">请输入查询的经销商编号</text-property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
@@ -23,18 +23,19 @@
             <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
-                <property name="category">Unformatted</property>
+                <property name="category">></property>
+                <property name="pattern">></property>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="beginTime" id="670">
-            <text-property name="helpText">FORMAT：2002-12-20</text-property>
-            <text-property name="promptText">请输入查询时间</text-property>
+            <text-property name="helpText">【格式：1970-01-01】</text-property>
+            <text-property name="promptText">请输入查询时间【格式：1970-01-01】，默认当前时间</text-property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">1970-01-01</value>
+                <value type="constant">new Date()</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -441,24 +442,6 @@ if ( url != null ) {
                     </label>
                 </cell>
             </row>
-            <row id="877">
-                <cell id="878"/>
-                <cell id="883">
-                    <text-data id="898">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">right</property>
-                        <expression name="valueExpr">new String("Distributor ID: ")+params["distributorCode"].value</expression>
-                        <property name="contentType">html</property>
-                    </text-data>
-                </cell>
-                <cell id="880">
-                    <property name="textAlign">center</property>
-                    <text id="900">
-                        <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<B>Year/Month/Day :<value-of format="YYYY/MM/dd">new Date()</value-of><B>]]></text-property>
-                    </text>
-                </cell>
-            </row>
         </grid>
         <table id="749">
             <property name="fontFamily">"仿宋"</property>
@@ -597,9 +580,11 @@ if ( url != null ) {
             <column id="813"/>
             <column id="816"/>
             <column id="814">
+                <property name="width">1.6354166666666667in</property>
                 <property name="repeat">1</property>
             </column>
             <column id="815">
+                <property name="width">0.90625in</property>
                 <property name="repeat">1</property>
             </column>
             <column id="818"/>
@@ -615,6 +600,158 @@ if ( url != null ) {
             </column>
             <column id="820"/>
             <header>
+                <row id="901">
+                    <property name="height">0.4479166666666667in</property>
+                    <property name="masterPage">Simple MasterPage</property>
+                    <property name="pageBreakInside">auto</property>
+                    <cell id="902">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <property name="backgroundAttachment">scroll</property>
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="backgroundPositionX">0%</property>
+                        <property name="backgroundPositionY">0%</property>
+                        <property name="backgroundRepeat">repeat</property>
+                        <property name="fontFamily">"宋体"</property>
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">normal</property>
+                        <property name="fontStyle">normal</property>
+                        <property name="fontVariant">normal</property>
+                        <property name="color">black</property>
+                        <property name="textLineThrough">none</property>
+                        <property name="textOverline">none</property>
+                        <property name="textUnderline">none</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="marginTop">0pt</property>
+                        <property name="marginLeft">0pt</property>
+                        <property name="marginBottom">0pt</property>
+                        <property name="marginRight">0pt</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingLeft">1pt</property>
+                        <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
+                        <property name="textAlign">center</property>
+                        <property name="letterSpacing">normal</property>
+                        <property name="lineHeight">normal</property>
+                        <property name="orphans">2</property>
+                        <property name="textTransform">none</property>
+                        <property name="whiteSpace">normal</property>
+                        <property name="widows">2</property>
+                        <property name="wordSpacing">normal</property>
+                        <property name="display">block</property>
+                        <property name="pageBreakAfter">auto</property>
+                        <property name="pageBreakBefore">auto</property>
+                        <property name="pageBreakInside">auto</property>
+                        <property name="showIfBlank">false</property>
+                        <property name="canShrink">false</property>
+                        <property name="overflow">hidden</property>
+                        <text-data id="898">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">right</property>
+                            <expression name="valueExpr">new String("Distributor ID: ")+params["distributorCode"].value</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="916">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
+                        <property name="backgroundAttachment">scroll</property>
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="backgroundPositionX">0%</property>
+                        <property name="backgroundPositionY">0%</property>
+                        <property name="backgroundRepeat">repeat</property>
+                        <property name="fontFamily">"宋体"</property>
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">normal</property>
+                        <property name="fontStyle">normal</property>
+                        <property name="fontVariant">normal</property>
+                        <property name="color">black</property>
+                        <property name="textLineThrough">none</property>
+                        <property name="textOverline">none</property>
+                        <property name="textUnderline">none</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="marginTop">0pt</property>
+                        <property name="marginLeft">0pt</property>
+                        <property name="marginBottom">0pt</property>
+                        <property name="marginRight">0pt</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingLeft">1pt</property>
+                        <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
+                        <property name="textAlign">center</property>
+                        <property name="letterSpacing">normal</property>
+                        <property name="lineHeight">normal</property>
+                        <property name="orphans">2</property>
+                        <property name="textTransform">none</property>
+                        <property name="whiteSpace">normal</property>
+                        <property name="widows">2</property>
+                        <property name="wordSpacing">normal</property>
+                        <property name="display">block</property>
+                        <property name="pageBreakAfter">auto</property>
+                        <property name="pageBreakBefore">auto</property>
+                        <property name="pageBreakInside">auto</property>
+                        <property name="showIfBlank">false</property>
+                        <property name="canShrink">false</property>
+                        <property name="overflow">hidden</property>
+                        <text id="900">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<B>Year/Month/Day :<value-of format="YYYY/MM/dd">new Date()</value-of><B>]]></text-property>
+                        </text>
+                    </cell>
+                    <cell id="920">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <property name="backgroundAttachment">scroll</property>
+                        <property name="backgroundColor">#FFFFFF</property>
+                        <property name="backgroundPositionX">0%</property>
+                        <property name="backgroundPositionY">0%</property>
+                        <property name="backgroundRepeat">repeat</property>
+                        <property name="fontFamily">"宋体"</property>
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">normal</property>
+                        <property name="fontStyle">normal</property>
+                        <property name="fontVariant">normal</property>
+                        <property name="color">black</property>
+                        <property name="textLineThrough">none</property>
+                        <property name="textOverline">none</property>
+                        <property name="textUnderline">none</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="marginTop">0pt</property>
+                        <property name="marginLeft">0pt</property>
+                        <property name="marginBottom">0pt</property>
+                        <property name="marginRight">0pt</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingLeft">1pt</property>
+                        <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
+                        <property name="textAlign">center</property>
+                        <property name="letterSpacing">normal</property>
+                        <property name="lineHeight">normal</property>
+                        <property name="orphans">2</property>
+                        <property name="textTransform">none</property>
+                        <property name="whiteSpace">normal</property>
+                        <property name="widows">2</property>
+                        <property name="wordSpacing">normal</property>
+                        <property name="display">block</property>
+                        <property name="pageBreakAfter">auto</property>
+                        <property name="pageBreakBefore">auto</property>
+                        <property name="pageBreakInside">auto</property>
+                        <property name="showIfBlank">false</property>
+                        <property name="canShrink">false</property>
+                        <property name="overflow">hidden</property>
+                        <text-data id="913">
+                            <property name="textAlign">right</property>
+                            <expression name="valueExpr">new String("Total  Records : ")+row["Aggregation"]</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                </row>
                 <row id="750">
                     <cell id="751">
                         <property name="backgroundAttachment">scroll</property>
