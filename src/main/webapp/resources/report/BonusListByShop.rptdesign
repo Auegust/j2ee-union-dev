@@ -31,14 +31,14 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">new Date()</value>
+                <value type="javascript">new Date()</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
             <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
-                <property name="category">></property>
+                <property name="category">Custom</property>
                 <property name="pattern">></property>
             </structure>
         </scalar-parameter>
