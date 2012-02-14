@@ -186,6 +186,10 @@ WHERE h.distributor_code=t.dist_code ]]></xml-property>
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
             <property name="textAlign">center</property>
             <property name="verticalAlign">middle</property>
         </style>
