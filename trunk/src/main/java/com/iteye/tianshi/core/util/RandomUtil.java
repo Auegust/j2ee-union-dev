@@ -53,4 +53,9 @@ public class RandomUtil {
       cal.setTimeInMillis(curDate.getTime()+ 24*60*60*1000);
       return cal.getTime();
   }
+  
+  /**
+   * 初始化的时候定时器默认开启
+   */
+  public static boolean clock =false;
 }

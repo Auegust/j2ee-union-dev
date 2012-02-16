@@ -10,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iteye.tianshi.core.page.Page;
-import com.iteye.tianshi.core.page.PageRequest;
 import com.iteye.tianshi.core.util.ConstantUtil;
 import com.iteye.tianshi.core.util.RandomUtil;
 import com.iteye.tianshi.core.util.ResponseData;
@@ -28,7 +25,6 @@ import com.iteye.tianshi.web.model.base.TDistributorBoun;
 import com.iteye.tianshi.web.model.base.TDistributorBounsHis;
 import com.iteye.tianshi.web.model.base.TDistributorGrade;
 import com.iteye.tianshi.web.model.base.TDistributorGradeHis;
-import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TBounsConfService;
 import com.iteye.tianshi.web.service.base.TDistributorBounService;
 import com.iteye.tianshi.web.service.base.TDistributorBounsHisService;
@@ -76,15 +72,15 @@ public class TDistributorGradeController extends BaseController {
 	 * 获取所有专卖店信息
 	 * 
 	 */
-	@RequestMapping(value = "/getAllTShopInfos", method = RequestMethod.POST)
-	public List<TShopInfo> getAllTShopInfos() {
-		return tShopInfoService.findAllEntity();
-	}
-
-	@RequestMapping(value = "/getTDistributors", method = RequestMethod.POST)
-	public TDistributor getTDistributors(Long id) {
-		return tDistributorService.findEntity(id);
-	}
+//	@RequestMapping(value = "/getAllTShopInfos", method = RequestMethod.POST)
+//	public List<TShopInfo> getAllTShopInfos() {
+//		return tShopInfoService.findAllEntity();
+//	}
+//
+//	@RequestMapping(value = "/getTDistributors", method = RequestMethod.POST)
+//	public TDistributor getTDistributors(Long id) {
+//		return tDistributorService.findEntity(id);
+//	}
 
 	/**
 	 * 经销商业绩分页查询
@@ -92,58 +88,58 @@ public class TDistributorGradeController extends BaseController {
 	 * @param pageRequest
 	 * @return
 	 */
-	@RequestMapping("/pageQueryDistributorGrade")
-	@ResponseBody
-	public Page<TDistributorGrade> pageQueryDistributorGrade(
-			@RequestParam("start") int startIndex,
-			@RequestParam("limit") int pageSize,
-			@RequestParam(required = false) String distributorCode,
-			@RequestParam(required = false) String shopCode,
-			@RequestParam(required = false) Date startTime,
-			@RequestParam(required = false) Date endTime,
-			@RequestParam(required = false) String sort,
-			@RequestParam(required = false) String dir) {
-		PageRequest<TDistributorGrade> pageRequest = new PageRequest<TDistributorGrade>(
-				startIndex, pageSize);
-		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
-			pageRequest.setSortColumns(sort + " " + dir);
-		pageRequest.setStartTime(startTime);
-		pageRequest.setEndTime(endTime);
-		pageRequest.setTimeField("saleTime");
-		Map<String, Object> filters = pageRequest.getFilters();
-		// 根据编号查询
-		if (StringUtils.hasText(distributorCode)) {
-			filters.put("distributorCode", distributorCode);
-		}
-		// 根据商铺查询
-		if (StringUtils.hasText(shopCode)) {
-			StringBuilder distributorCodes = new StringBuilder(
-					"distributorCode in(");
-			List<TDistributor> list = tDistributorService.findByProperty(
-					"shopCode", shopCode);
-			int count = 0;
-			int size = list.size() - 1;
-			for (TDistributor tDistributor : list) {
-				if (count++ < size) {
-					distributorCodes.append("'").append(
-							tDistributor.getDistributorCode()).append("',");
-				} else {
-					distributorCodes.append("'").append(
-							tDistributor.getDistributorCode()).append("')");
-				}
-			}
-			pageRequest.setExtraCondition(distributorCodes.toString());
-		}
-		Page<TDistributorGrade> page = tDistributorGradeService
-				.findAllForPage(pageRequest);
-		// 将主键ID转换成名称回显
-		for (TDistributorGrade dist : page.getResult()) {
-			String distributorName = getTDistributors(dist.getDistributorId())
-					.getDistributorName();
-			dist.setDistributorName(distributorName);
-		}
-		return page;
-	}
+//	@RequestMapping("/pageQueryDistributorGrade")
+//	@ResponseBody
+//	public Page<TDistributorGrade> pageQueryDistributorGrade(
+//			@RequestParam("start") int startIndex,
+//			@RequestParam("limit") int pageSize,
+//			@RequestParam(required = false) String distributorCode,
+//			@RequestParam(required = false) String shopCode,
+//			@RequestParam(required = false) Date startTime,
+//			@RequestParam(required = false) Date endTime,
+//			@RequestParam(required = false) String sort,
+//			@RequestParam(required = false) String dir) {
+//		PageRequest<TDistributorGrade> pageRequest = new PageRequest<TDistributorGrade>(
+//				startIndex, pageSize);
+//		if (StringUtils.hasText(sort) && StringUtils.hasText(dir))
+//			pageRequest.setSortColumns(sort + " " + dir);
+//		pageRequest.setStartTime(startTime);
+//		pageRequest.setEndTime(endTime);
+//		pageRequest.setTimeField("saleTime");
+//		Map<String, Object> filters = pageRequest.getFilters();
+//		// 根据编号查询
+//		if (StringUtils.hasText(distributorCode)) {
+//			filters.put("distributorCode", distributorCode);
+//		}
+//		// 根据商铺查询
+//		if (StringUtils.hasText(shopCode)) {
+//			StringBuilder distributorCodes = new StringBuilder(
+//					"distributorCode in(");
+//			List<TDistributor> list = tDistributorService.findByProperty(
+//					"shopCode", shopCode);
+//			int count = 0;
+//			int size = list.size() - 1;
+//			for (TDistributor tDistributor : list) {
+//				if (count++ < size) {
+//					distributorCodes.append("'").append(
+//							tDistributor.getDistributorCode()).append("',");
+//				} else {
+//					distributorCodes.append("'").append(
+//							tDistributor.getDistributorCode()).append("')");
+//				}
+//			}
+//			pageRequest.setExtraCondition(distributorCodes.toString());
+//		}
+//		Page<TDistributorGrade> page = tDistributorGradeService
+//				.findAllForPage(pageRequest);
+//		// 将主键ID转换成名称回显
+//		for (TDistributorGrade dist : page.getResult()) {
+//			String distributorName = getTDistributors(dist.getDistributorId())
+//					.getDistributorName();
+//			dist.setDistributorName(distributorName);
+//		}
+//		return page;
+//	}
 
 	/**
 	 * 计算经销商业绩表，并且算出职级，历史记录只能查询前一个月的，因为每次计算完毕，更新历史业绩表会覆盖上一个月的历史业绩表
@@ -151,7 +147,10 @@ public class TDistributorGradeController extends BaseController {
 	 */
 	@RequestMapping("/calc")
 	@ResponseBody
-	public ResponseData calcGradeAndBonus(@RequestParam(required = true)String  endDate) {
+	public ResponseData calcGradeAndBonus(@RequestParam(required = false)String  endDate) {
+		if(!StringUtils.hasText(endDate)){
+			endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		}
 		try{
 			String now = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).substring(0, 10);
 			String d_end =  endDate.substring(0, 10);
@@ -171,7 +170,6 @@ public class TDistributorGradeController extends BaseController {
 			if(oldbatchNo == null){
 				oldbatchNo =0;
 			}
-			System.out.println(oldbatchNo);
 			/***计算过一次了，必须清空后重新计算*/
 			if(dayMax!=null && endDate.substring(0, 10).equals(dayMax.toString().substring(0, 10))){
 				/**计算之前，清空业绩表，奖金表，历史业绩表和历史奖金表按当月时间清除*/

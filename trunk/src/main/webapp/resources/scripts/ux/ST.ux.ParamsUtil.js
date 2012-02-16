@@ -1,6 +1,9 @@
 Ext.namespace('Home');
 Ext.namespace('Home.param');
 
+/**全局变量**/
+Home.param.close=false;
+
 /*********
  * 报表管理
  */
