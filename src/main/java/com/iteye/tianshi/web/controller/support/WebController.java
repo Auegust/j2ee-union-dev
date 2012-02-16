@@ -1,14 +1,23 @@
 package com.iteye.tianshi.web.controller.support;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iteye.tianshi.core.util.RandomUtil;
 import com.iteye.tianshi.core.web.controller.BaseController;
+import com.iteye.tianshi.web.controller.base.TDistributorGradeController;
+import com.iteye.tianshi.web.dao.base.TShopInfoDao;
 import com.iteye.tianshi.web.model.base.TDistributorRank;
 import com.iteye.tianshi.web.model.base.TShopInfo;
 import com.iteye.tianshi.web.service.base.TDistributorRankService;
@@ -26,7 +35,14 @@ public class WebController extends BaseController {
 	@Autowired
 	TDistributorRankService rankService;
 	@Autowired
+	TShopInfoDao daoTest;
+	@Autowired
 	TShopInfoService tShopInfoService;
+	@Autowired(required = true)  
+	private ApplicationContext ctx;
+	@Autowired
+	TDistributorGradeController gradeClockController;
+
 	/************
 	 * 查询所有等级
 	 * @param user
@@ -52,5 +68,54 @@ public class WebController extends BaseController {
 	@RequestMapping("/calc")
 	public String index(){
 		return "admin/base/calc";
+	}
+	
+	@RequestMapping("/clock")
+	public void clock(){
+//		int count = daoTest.getJdbcTemplate().queryForInt("select count(*) from t_distributor");
+//		System.out.println("executing..."+count);
+		String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		gradeClockController.calcGradeAndBonus(endDate);
+	}
+	
+	
+	@RequestMapping("/control")
+	public void control(@RequestParam(required=true) boolean close){
+		 /**修改定时状态*/
+		 reqClockStateChange(close);
+		 /**获取定时器工厂*/
+		 SchedulerFactoryBean schedulerFactory = (SchedulerFactoryBean) ctx.getBean("&myScheduler");
+		 try {
+			 if(close){
+				 /**若未恢复，则恢复**/
+				schedulerFactory.getScheduler().resumeAll();
+				Thread.sleep(3L * 1000L); 
+			 }else{
+				 /**若未暂停，则暂停*/
+				 schedulerFactory.getScheduler().pauseAll();
+				 Thread.sleep(3L * 1000L); 
+			 }
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 获取当前定时状态
+	 * @return
+	 */
+	@RequestMapping("/getClockState")
+	@ResponseBody
+	public boolean getClockState(){
+		return RandomUtil.clock;
+	}
+	
+	/**
+	 * 修改当前定时状态
+	 */
+	private void reqClockStateChange(boolean close){
+		RandomUtil.clock = !close;
 	}
 }

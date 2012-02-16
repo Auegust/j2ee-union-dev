@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+http://www.springframework.org/schema/aop  
+http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<mvc:annotation-driven>
+	    <mvc:message-converters register-defaults="false">   
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	        	<property name="writeAcceptCharset" value="false" />
+	        	<property name="supportedMediaTypes">
+	        	    <list>
+	        	      <value>text/html;charset=utf-8</value>
+	        	    </list>
+	        	</property>
+	        </bean>
+	        <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />   
+	        <bean class="com.iteye.tianshi.core.spring.converter.MappingFastJsonHttpMessageConverter" />
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
+	<context:component-scan base-package="com.iteye.tianshi.web.controller" />
+	
+	<!--<bean id="tDistributorGradeController" class="com.iteye.tianshi.web.controller.base.TDistributorGradeController"/>
+	--><!-- 设置任务-->
+	<bean id="myJobJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="webController"></property>
+		<property name="targetMethod" value="clock"></property>
+		<!--<property name="targetObject" ref="tDistributorGradeController"></property>
+		<property name="targetMethod" value="calcGradeAndBonus"></property>
+	--></bean>
+	<bean id="myJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="myJobJobDetailBean"></property>
+		<property name="cronExpression" value="0/30 * * * * ?" />
+	</bean>
+	<!-- 定时调度 -->
+	<bean id="myScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="myJobCronTriggerBean" />
+			</list>
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">5</prop>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

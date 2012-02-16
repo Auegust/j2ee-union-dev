@@ -23,4 +23,5 @@
 	<import resource="classpath:resource-service-context.xml" />
 	<import resource="classpath:resource-dao-context.xml" />
 	<import resource="classpath:resource-cache-context.xml" />
+	<import resource="classpath:resource-clock-context.xml" />
 </beans>
