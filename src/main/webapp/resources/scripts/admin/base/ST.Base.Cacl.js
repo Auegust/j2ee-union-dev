@@ -36,7 +36,9 @@ Ext.onReady(function(){
     
     fs.addButton({
     	id : 'timmer',
-    	text :"结束定时"
+    	text :"结束定时",
+    	iconCls:"clock_stop"
+    	//iconCls: "btn-logout"	
     }, function(){
     	 	myMask.show();  
 	        Ext.Ajax.request({
@@ -45,11 +47,13 @@ Ext.onReady(function(){
     				myMask.hide(); 
     				Home.param.close = !Home.param.close;
     				if(Home.param.close){
-        				Ext.getCmp('timmer').setText("启动定时器");
+        				Ext.getCmp('timmer').setText("启动定时");
+        				Ext.getCmp('timmer').setIcon("clock_play");
         				submit.enable();
         				Ext.getCmp('ddate').enable();
     				}else{
-    					Ext.getCmp('timmer').setText("结束定时器");
+    					Ext.getCmp('timmer').setText("结束定时");
+    					Ext.getCmp('timmer').setIcon("clock_stop");
     					submit.disable();
     					Ext.getCmp('ddate').disable();
     				}
@@ -63,14 +67,19 @@ Ext.onReady(function(){
     		});	 
     });
     
-    fs.addButton('重新选择', function(){
+    fs.addButton({iconCls:'reset',text:'重新选择'}, function(){
         fs.getForm().reset();
     });
 	
     var submit = fs.addButton({
         text: '开始计算',
         disabled : true,
+        iconCls : "computer_go",
         handler: function(){
+        	if(Ext.getCmp('ddate').getValue()==""){
+        		Ext.MessageBox.alert('提示','计算时间没有填写');
+        		return;
+        	}
         	this.disable();
             fs.getForm().submit({
             		url: './../grade/calc.json',
@@ -102,11 +111,13 @@ Ext.onReady(function(){
 		success : function(response,options){
 			Home.param.close = Ext.decode(response.responseText);
 			if(Home.param.close){
-				Ext.getCmp('timmer').setText("启动定时器");
+				Ext.getCmp('timmer').setText("启动定时");
+				Ext.getCmp('timmer').setIcon("clock_play");
 	    		submit.enable();
 	    		Ext.getCmp('ddate').enable();
 			}else{
-				Ext.getCmp('timmer').setText("结束定时器");
+				Ext.getCmp('timmer').setText("结束定时");
+				Ext.getCmp('timmer').setIcon("clock_stop");
 	    		submit.disable();
 	    		Ext.getCmp('ddate').disable();
 			}

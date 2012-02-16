@@ -53,6 +53,10 @@
 	background-image:url("../images/icons/tips.jpg") !important;
 }
 
+.clock {
+	bakcground-image:url("../images/icons/clock.png") !important;
+}
+
 .btn-expand {
 	background-image:url("../images/icons/btn-expand.png") !important;
 }
@@ -103,6 +107,22 @@
 
 .refresh {
 	background-image:url("../images/icons/refresh.png") !important;
+}
+
+.computer_go {
+	background-image:url("../images/icons/computer_go.png") !important;
+}
+
+.clock_play {
+	background-image:url("../images/icons/clock_play.png") !important;
+}
+.clock_stop {
+	background-image:url("../images/icons/clock_stop.png") !important;
+}
+
+
+.reset {
+	background-image:url("../images/icons/reset.gif") !important;
 }
 
 .expand {
