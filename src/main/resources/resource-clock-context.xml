@@ -43,7 +43,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	--></bean>
 	<bean id="myJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="myJobJobDetailBean"></property>
-		<property name="cronExpression" value="0/30 * * * * ?" />
+		<!--<property name="cronExpression" value="0/30 * * * * ?" />
+		--><property name="cronExpression" value="0 0 0 25 * ?" /> <!-- 每月的25号计算奖金和业绩 -->
 	</bean>
 	<!-- 定时调度 -->
 	<bean id="myScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
