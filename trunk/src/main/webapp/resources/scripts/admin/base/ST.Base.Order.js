@@ -4,7 +4,7 @@ Ext.namespace("ST.base");
 Ext.form.Field.prototype.msgTarget = 'side';
 ST.base.orderView = Ext.extend(ST.ux.ViewGrid, {
 	dlgWidth: 700,
-	dlgHeight: 225,
+	dlgHeight: 250,
 	//isFormAutoHeight:true,
 	queryFormHeight : 155,
 	urlGridQuery: './../order/pageQueryTProductOrder.json',
