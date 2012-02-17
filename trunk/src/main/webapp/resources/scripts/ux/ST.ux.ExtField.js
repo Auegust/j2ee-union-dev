@@ -93,7 +93,7 @@ var shopCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
     displayField:'shopCode',
     tpl: new Ext.XTemplate(
     	    '<tpl for="."><div class="x-combo-list-item">',
-    	    '<font color=red>Code:{shopCode}</font> *Name:{shopName}',
+    	    '<font color=red>ID:{shopCode}</font> 名称:{shopName}',
     	    '</div></tpl>'
     	),
     mode  :'remote', 
@@ -123,7 +123,7 @@ var distCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
     enableKeyEvents:true,
     tpl: new Ext.XTemplate(
     	    '<tpl for="."><div class="x-combo-list-item">',
-    	    '<font color=red>Code:{distributorCode}</font> *Name:{distributorName}',
+    	    '<font color=red>ID:{distributorCode}</font> 名称:{distributorName}',
     	    '</div></tpl>'
     	),
     mode  :'remote', 
@@ -170,7 +170,7 @@ var productCombo = new Ext.extend(ST.ux.ExtField.ComboBox, {
     displayField:'productCode',
     tpl: new Ext.XTemplate(
     	    '<tpl for="."><div class="x-combo-list-item">',
-    	    '<font color=red>Code:{productCode}</font> *Name:{productName}',
+    	    '<font color=red>ID:{productCode}</font> 名称:{productName}',
     	    '</div></tpl>'
     	),
     mode  :'remote', 
