@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.jdbc.util.BasicFormatterImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +20,7 @@ import com.iteye.tianshi.core.web.dao.GenericDao;
  */
 abstract public class BaseServiceImpl<E, PK extends Serializable> implements BaseService<E, PK> {
 	//~ Instance fields ================================================================================================
-	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	//protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	protected BasicFormatterImpl formatter;
 	
@@ -102,7 +100,7 @@ abstract public class BaseServiceImpl<E, PK extends Serializable> implements Bas
 		if (entity != null) {
 			this.getGenericDao().delete(entity);
 		} else {
-			logger.info("delete PK={}, but not exist", id);
+			//logger.info("delete PK={}, but not exist", id);
 		}
 		return entity;
 	}

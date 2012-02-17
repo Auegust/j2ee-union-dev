@@ -16,7 +16,7 @@ Ext.apply(Ext.form.VTypes, {
 });
 ST.base.userView = Ext.extend(ST.ux.ViewGrid, {
 	dlgWidth: 360,
-	dlgHeight: 300,
+	dlgHeight: 152,
 	//资源列表查询URL
 	urlGridQuery: './../user/pageQueryUsers.json',
 	urlAdd: './../user/insertUser.json',
