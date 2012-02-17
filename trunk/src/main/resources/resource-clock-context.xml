@@ -36,15 +36,15 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	<!--<bean id="tDistributorGradeController" class="com.iteye.tianshi.web.controller.base.TDistributorGradeController"/>
 	--><!-- 设置任务-->
 	<bean id="myJobJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="webController"></property>
-		<property name="targetMethod" value="clock"></property>
-		<!--<property name="targetObject" ref="tDistributorGradeController"></property>
-		<property name="targetMethod" value="calcGradeAndBonus"></property>
-	--></bean>
+		<!-- <property name="targetObject" ref="webController"></property>
+		<property name="targetMethod" value="clock"></property> --> <!-- 测试时开启 -->
+		<property name="targetObject" ref="gradeController"></property>
+		<property name="targetMethod" value="calc"></property>
+	</bean>
 	<bean id="myJobCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="myJobJobDetailBean"></property>
-		<!--<property name="cronExpression" value="0/30 * * * * ?" />
-		--><property name="cronExpression" value="0 0 0 25 * ?" /> <!-- 每月的25号计算奖金和业绩 -->
+		<!-- <property name="cronExpression" value="0/10 * * * * ?" /> --><!-- 测试时开启 -->
+		<property name="cronExpression" value="0 0 0 25 * ?" /> <!-- 每月25日00:00时计算奖金和业绩 -->
 	</bean>
 	<!-- 定时调度 -->
 	<bean id="myScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
