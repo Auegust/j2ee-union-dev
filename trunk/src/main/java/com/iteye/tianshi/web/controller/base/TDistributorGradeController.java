@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -14,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.util.ConstantUtil;
-import com.iteye.tianshi.core.util.UtilTool;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SQLOrderMode;
+import com.iteye.tianshi.core.util.UtilTool;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.dao.base.TDistributorGradeDao;
 import com.iteye.tianshi.web.model.base.TBounsConf;
@@ -41,6 +43,7 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
 @Controller(value="gradeController")
 @RequestMapping("/grade")
 public class TDistributorGradeController extends BaseController {
+	private static Logger logger = LoggerFactory.getLogger(TDistributorGradeController.class);
 	@Autowired
 	TDistributorGradeDao tDistributorGradeDao;
 
@@ -512,8 +515,10 @@ public class TDistributorGradeController extends BaseController {
 			allDistributors = null;
 			tgMap = null;
 			bonusCfgMap = null;
+			logger.info("计算成功，当前批次号 {} ， 计算日期 {}", oldbatchNo+1 ,new Date());
 			return new ResponseData(true, "计算完毕！可以去<font size=4 color=red>报表管理</font>查看相关报表");
 		}catch(Exception e){
+			logger.error("计算失败， 计算日期 {}，请务必在当天重新计算，错误信息：{}", new Date(),e.getMessage());
 			e.printStackTrace();
 			return new ResponseData(true,"计算出现未知错误，请及时反馈！");
 		}finally{

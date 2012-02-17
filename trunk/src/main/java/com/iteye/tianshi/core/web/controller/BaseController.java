@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +23,7 @@ import com.iteye.tianshi.core.util.ResponseData;
  */
 abstract public class BaseController {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	//protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public final static String EXCEPTION_MESSAGE = "EXCEPTION_MESSAGE";
 
@@ -41,8 +39,7 @@ abstract public class BaseController {
 	
 	@ExceptionHandler()
 	public @ResponseBody String handleException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
-		logger.error(request.getRequestURI() + " 请求失败", exception);
-		
+		//logger.error(request.getRequestURI() + " 请求失败", exception);
 		if(!(request.getRequestURI().endsWith(".json") || request.getRequestURI().endsWith("Json")))
 			throw new RuntimeException(exception);
 		

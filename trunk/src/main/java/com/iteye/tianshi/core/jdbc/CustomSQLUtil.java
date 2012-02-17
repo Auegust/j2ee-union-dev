@@ -7,16 +7,13 @@ package com.iteye.tianshi.core.jdbc;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  *
  * @author   jiangzx@yahoo.com
  * @Date	 2011-6-14 下午01:41:33
  */
 public class CustomSQLUtil {
-	private static Logger logger = LoggerFactory.getLogger(CustomSQLUtil.class);
+	//private static Logger logger = LoggerFactory.getLogger(CustomSQLUtil.class);
 
 	private static CustomSQLUtil _instance = new CustomSQLUtil();
 
@@ -27,7 +24,8 @@ public class CustomSQLUtil {
 			_customSQL = new CustomSQL();
 		}
 		catch (Exception e) {
-			logger.error("", e);
+			//logger.error("", e);
+			e.printStackTrace();
 		}
 	}
 

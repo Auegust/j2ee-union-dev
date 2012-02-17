@@ -13,8 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
@@ -28,7 +26,7 @@ import freemarker.template.TemplateException;
  * @Date	 2011-6-14 下午01:41:33
  */
 public class CustomSQL {
-	private static Logger logger = LoggerFactory.getLogger(CustomSQL.class);
+	//private static Logger logger = LoggerFactory.getLogger(CustomSQL.class);
 
 	private Map<String, SQLBean> _sqlPool;
 
@@ -58,7 +56,8 @@ public class CustomSQL {
 	        configuration.setTemplateLoader(stringTemplateLoader);  
 		}
 		catch (Exception e) {
-			logger.error("", e);
+			//logger.error("", e);
+			e.printStackTrace();
 		}
 		
 	}
@@ -125,7 +124,7 @@ public class CustomSQL {
 
 		if (is == null) return;
 
-		logger.info("Loading " + source);
+		//logger.info("Loading " + source);
 
 		Document document = saxReader.read(is);
 		Element rootElement = document.getRootElement();
@@ -154,7 +153,7 @@ public class CustomSQL {
 					
 					_sqlPool.put(id, bean);
 				} else {
-					logger.warn("{} 对应 tempateType 值 {} 不正确，可选值为：simple和freeMarker", id, sqlType);
+					//logger.warn("{} 对应 tempateType 值 {} 不正确，可选值为：simple和freeMarker", id, sqlType);
 				}		
 			}
 		}

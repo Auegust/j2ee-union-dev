@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.iteye.tianshi.core.spring.SpringApplicationContextHolder;
@@ -23,7 +21,7 @@ public class DictionaryHolder {
 	/** 缓存业务字典项  */
 	private static ConcurrentMap<Long, List<TDictionary>> cacheMap = new ConcurrentHashMap<Long, List<TDictionary>>();
 	
-	private static Logger logger = LoggerFactory.getLogger(DictionaryHolder.class);
+	//private static Logger logger = LoggerFactory.getLogger(DictionaryHolder.class);
 	
 	private static TDictionaryService dictionaryService;
 	
@@ -54,7 +52,7 @@ public class DictionaryHolder {
 		
 		List<TDictionary> dictionaries = cacheMap.get(dictTypeId);
 		if(dictionaries == null) {
-			logger.info("relead {} data", dictTypeId);
+			//logger.info("relead {} data", dictTypeId);
 			dictionaries = dictionaryService.queryDictionarys(dictTypeId);
 			cacheMap.put(dictTypeId, dictionaries);
 		}

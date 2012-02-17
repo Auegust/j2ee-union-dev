@@ -131,10 +131,6 @@ var HomePage = Ext.extend(Ext.Viewport, {
 	                text : "核算参数管理",  
 	                action: "./bonus/index",
 	                leaf : true 
-	            },{  
-	                text : "其它参数配置",  
-	                action: "./comment/index",
-	                leaf : true 
 	            }]
 			}),
 			listeners: {
