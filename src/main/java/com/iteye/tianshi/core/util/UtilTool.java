@@ -44,7 +44,7 @@ public class UtilTool {
   }
   
   /***
-   * 获取第二天
+   * 获取第一分钟之后的时间
    * @param curDate
    * @return
    */

@@ -191,7 +191,7 @@ public class TDistributorGradeController extends BaseController {
 				startDate="2012-01-12";
 				dayMax = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_startdate, Date.class);
 				if(dayMax != null){
-					/**取系统最大日期的第二天*/
+					/**取系统最大日期的后一分钟，减少误差时间*/
 					startDate = new SimpleDateFormat("yyyy-MM-dd").format(UtilTool.getNextDate(dayMax));
 				}
 				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch, Integer.class);

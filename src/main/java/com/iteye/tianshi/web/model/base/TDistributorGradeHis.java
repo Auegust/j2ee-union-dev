@@ -23,11 +23,11 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 
 	//累计业绩
 	@Column(name = "accu_achieve")
-	private Double accuAchieve=0D;
+	private Double accuAchieve=0d;
 	
 	//累计个人业绩
 	@Column(name = "accu_p_achieve")
-	private Double accuPAchieve=0D;
+	private Double accuPAchieve=0d;
 	
 	//日期
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,11 +36,11 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	
 	//小组业绩
 	@Column(name = "cell_achieve")
-	private Double cellAchieve;
+	private Double cellAchieve=0d;
 	
 	//个人业绩奖金
 	@Column(name = "bonus_achieve")
-	private Double bonusAchieve=0D;
+	private Double bonusAchieve=0d;
 	
 	//审核标志
 	@Column(name = "check_flag")
@@ -52,11 +52,11 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	
 	//直接业绩
 	@Column(name = "direct_achieve")
-	private Double directAchieve=0D;
+	private Double directAchieve=0d;
 	
 	//间接业绩
 	@Column(name = "indirect_achieve")
-	private Double indirectAchieve=0D;
+	private Double indirectAchieve=0d;
 	
 	//整网业绩
 	@Column(name = "net_achieve")
@@ -64,7 +64,7 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	
 	//个人业绩
 	@Column(name = "person_achieve")
-	private Double personAchieve=0D;
+	private Double personAchieve=0d;
 	
 	//备注
 	private String remark;
@@ -85,7 +85,7 @@ public class TDistributorGradeHis extends BaseEntity implements Serializable {
 	private Long rank = ConstantUtil._lev_1;
 	
 	//当月最大消费
-	private Double maxChange = 0D;
+	private Double maxChange = 0d;
 	
 	public Long getRank() {
 		return rank;
