@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class RandomUtil {
+public class UtilTool {
 	
   public static long getLong(){
 	  return Long.parseLong(getString());

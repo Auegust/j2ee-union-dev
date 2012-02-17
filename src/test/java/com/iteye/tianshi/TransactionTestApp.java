@@ -45,7 +45,7 @@ public class TransactionTestApp extends
 //		Date d = tDistributorDao.getJdbcTemplate().queryForObject(sql_startdate, Date.class);
 //		System.out.println(d);
 //		new SimpleDateFormat("yyyy-MM-dd").format(endDate).equals(dayMax.toString()
-		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calcGradeAndBonus("2012-02-12T00:00:00");	
+		 SpringApplicationContextHolder.getBean(TDistributorGradeController.class).calc("2012-02-12T00:00:00");	
 //		String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
 //		int maxBatchNo = tDistributorDao.getJdbcTemplate().queryForObject(sql_batch,new RowMapper(){
 //			@Override

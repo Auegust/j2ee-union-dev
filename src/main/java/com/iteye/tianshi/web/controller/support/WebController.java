@@ -1,7 +1,5 @@
 package com.iteye.tianshi.web.controller.support;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.quartz.SchedulerException;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iteye.tianshi.core.util.RandomUtil;
+import com.iteye.tianshi.core.util.UtilTool;
 import com.iteye.tianshi.core.web.controller.BaseController;
 import com.iteye.tianshi.web.controller.base.TDistributorGradeController;
 import com.iteye.tianshi.web.dao.base.TShopInfoDao;
@@ -72,10 +70,11 @@ public class WebController extends BaseController {
 	
 	@RequestMapping("/clock")
 	public void clock(){
-//		int count = daoTest.getJdbcTemplate().queryForInt("select count(*) from t_distributor");
-//		System.out.println("executing..."+count);
-		String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		gradeClockController.calcGradeAndBonus(endDate);
+		/**Quartz测试用例**/
+		int count = daoTest.getJdbcTemplate().queryForInt("select count(*) from t_distributor");
+		System.out.println("executing..."+count);
+//		String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+//		gradeClockController.calc(endDate);
 	}
 	
 	
@@ -109,13 +108,13 @@ public class WebController extends BaseController {
 	@RequestMapping("/getClockState")
 	@ResponseBody
 	public boolean getClockState(){
-		return RandomUtil.clock;
+		return UtilTool.clock;
 	}
 	
 	/**
 	 * 修改当前定时状态
 	 */
 	private void reqClockStateChange(boolean close){
-		RandomUtil.clock = !close;
+		UtilTool.clock = !close;
 	}
 }

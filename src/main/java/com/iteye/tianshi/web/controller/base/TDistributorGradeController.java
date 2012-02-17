@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iteye.tianshi.core.util.ConstantUtil;
-import com.iteye.tianshi.core.util.RandomUtil;
+import com.iteye.tianshi.core.util.UtilTool;
 import com.iteye.tianshi.core.util.ResponseData;
 import com.iteye.tianshi.core.util.SQLOrderMode;
 import com.iteye.tianshi.core.web.controller.BaseController;
@@ -38,7 +38,7 @@ import com.iteye.tianshi.web.service.base.TShopInfoService;
  * 经销商业绩表
  * 
  */
-@Controller
+@Controller(value="gradeController")
 @RequestMapping("/grade")
 public class TDistributorGradeController extends BaseController {
 	@Autowired
@@ -140,14 +140,20 @@ public class TDistributorGradeController extends BaseController {
 //		}
 //		return page;
 //	}
-
+	
+	/**任务调度调用计算的接口*/
+	public ResponseData calc() {
+		String now = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		return calc(now);
+	}
+	
 	/**
 	 * 计算经销商业绩表，并且算出职级，历史记录只能查询前一个月的，因为每次计算完毕，更新历史业绩表会覆盖上一个月的历史业绩表
 	 * @param endDate 2012-02-14T00:00:00
 	 */
 	@RequestMapping("/calc")
 	@ResponseBody
-	public ResponseData calcGradeAndBonus(@RequestParam(required = false)String  endDate) {
+	public ResponseData calc(@RequestParam(required = false)String  endDate) {
 		if(!StringUtils.hasText(endDate)){
 			endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		}
@@ -162,7 +168,7 @@ public class TDistributorGradeController extends BaseController {
 			Date dayMax = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_startdate, Date.class);
 			if(dayMax != null){
 				/**取系统最大日期的第二天*/
-				startDate = new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil.getNextDate(dayMax));
+				startDate = new SimpleDateFormat("yyyy-MM-dd").format(UtilTool.getNextDate(dayMax));
 			}
 			/**当月批次查询*/
 			String sql_batch  = "SELECT MAX(batch_no) FROM tianshi.t_distributor_grade_his";
@@ -186,7 +192,7 @@ public class TDistributorGradeController extends BaseController {
 				dayMax = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_startdate, Date.class);
 				if(dayMax != null){
 					/**取系统最大日期的第二天*/
-					startDate = new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil.getNextDate(dayMax));
+					startDate = new SimpleDateFormat("yyyy-MM-dd").format(UtilTool.getNextDate(dayMax));
 				}
 				oldbatchNo = tDistributorGradeDao.getJdbcTemplate().queryForObject(sql_batch, Integer.class);
 				if(oldbatchNo == null){
