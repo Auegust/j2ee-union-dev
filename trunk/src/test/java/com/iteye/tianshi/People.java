@@ -4,6 +4,13 @@ public class People {
 	private String sex;
 	private String age;
 	private String name;
+	private double number=3d;
+	public double getNumber() {
+		return number;
+	}
+	public void setNumber(double number) {
+		this.number = number;
+	}
 	public String getSex() {
 		return sex;
 	}
