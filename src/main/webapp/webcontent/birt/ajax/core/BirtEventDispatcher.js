@@ -239,6 +239,6 @@ BirtEventDispatcher.prototype =
 		str += "------end-------BirtEventDispatcher.toString------------";
 		return str;
 	}
-}
+};
 
 var birtEventDispatcher = new BirtEventDispatcher( );

@@ -43,6 +43,6 @@ BirtEvent.prototype =
 	initialize: function( )
 	{
 	}
-}
+};
 
 var birtEvent = new BirtEvent( );

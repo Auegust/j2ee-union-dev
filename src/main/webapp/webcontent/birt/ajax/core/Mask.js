@@ -192,4 +192,4 @@ Mask.prototype = {
 		}
 	}
 
-}
+};

@@ -116,6 +116,6 @@ BirtCommunicationManager.prototype =
 		birtProgressBar.__stop( );
 	    this.__active = false;
 	}
-}
+};
 
 var birtCommunicationManager = new BirtCommunicationManager( );
