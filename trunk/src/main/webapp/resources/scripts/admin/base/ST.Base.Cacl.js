@@ -38,7 +38,6 @@ Ext.onReady(function(){
     	id : 'timmer',
     	text :"结束定时",
     	iconCls:"clock_stop"
-    	//iconCls: "btn-logout"	
     }, function(){
     	 	myMask.show();  
 	        Ext.Ajax.request({
@@ -82,6 +81,7 @@ Ext.onReady(function(){
         	}
         	this.disable();
             fs.getForm().submit({
+            		timeout : 1800000, //timeout=30 min
             		url: './../grade/calc.json',
                 	waitMsg : '正在处理，请稍等...',
                     success: function(form, action) {
