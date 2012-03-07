@@ -77,6 +77,6 @@ BirtSoapResponse.prototype =
 			}
 		}
 	}
-}
+};
 
 var birtSoapResponse = new BirtSoapResponse( );

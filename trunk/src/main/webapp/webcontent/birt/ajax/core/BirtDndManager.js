@@ -103,7 +103,7 @@ BirtDndManager.prototype = {
 				this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
 			}
 			this.isDragging = true;
-		}
+		};
 	},
 	
 	/**
@@ -136,7 +136,7 @@ BirtDndManager.prototype = {
 				this.__startDragObservers(this.__mousemoveHandlerFunction, this.__dropElementFunction);
 			}
 			this.isDragging = true;
-		}
+		};
 	},
 	
 	__activateDragMask: function()
@@ -328,4 +328,4 @@ BirtDndManager.prototype = {
 		}
      }
        
-}
+};

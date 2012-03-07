@@ -351,6 +351,6 @@ BirtSoapRequest.prototype =
 		
 		return str;
 	}
-}
+};
 
 var birtSoapRequest = new BirtSoapRequest( );
