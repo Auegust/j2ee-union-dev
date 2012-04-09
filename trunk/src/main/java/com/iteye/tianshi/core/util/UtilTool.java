@@ -50,7 +50,7 @@ public class UtilTool {
    */
   public static Date getNextDate(Date curDate){
       Calendar cal = Calendar.getInstance();
-      cal.setTimeInMillis(curDate.getTime()+ 60*1000/**24*60*60*1000*/);
+      cal.setTimeInMillis(curDate.getTime()+ 1000/**24*60*60*1000*/);
       return cal.getTime();
   }
   

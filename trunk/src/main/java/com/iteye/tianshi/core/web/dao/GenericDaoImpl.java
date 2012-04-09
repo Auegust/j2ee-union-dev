@@ -23,6 +23,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -84,6 +85,7 @@ import com.iteye.tianshi.core.util.SQLOrderMode;
  * @datetime 2010-7-6 下午11:00:00
  * @author jiangzx@yahoo.com
  */
+@Transactional
 public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupport implements GenericDao<E, PK> {
 	@Autowired(required=false)
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -107,6 +109,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return clazz;
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public E find(PK id) {
 		return (E) super.getHibernateTemplate().get(this.getClazz(), id);
 	}
@@ -119,6 +122,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		super.getHibernateTemplate().delete(entity);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public E findAndLock(PK id, LockMode lockMode) {
 		E entity = (E) this.getHibernateTemplate().get(this.getClazz(), id, lockMode);
 		return entity;
@@ -147,7 +151,6 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		super.getHibernateTemplate().delete(entity);
 	}
 
-	@Transactional(readOnly=false)
 	public void delete(Collection<E> entities) {
 		for(E entity : entities) {
 			delete(entity);
@@ -198,10 +201,12 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		super.getHibernateTemplate().refresh(entity);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findAll() {
 		return this.findByPropertysAndOrder(new String[]{}, new String[]{}, new Object[]{}, null, SQLOrderMode.NOSORT);
 	}
 	
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findByOrder(String orderCol, SQLOrderMode orderMode) {
 		Assert.hasText(orderCol, "orderCol not text");
 		Assert.notNull(orderMode, "orderMode not null");
@@ -209,6 +214,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return this.findByPropertysAndOrder(new String[]{}, new String[]{}, new Object[]{}, orderCol, orderMode);
 	}
 	
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findByPropertyAndOrder(String propertyName, Object value, String orderCol, SQLOrderMode orderMode) {
 		Assert.hasText(propertyName);
 		Assert.notNull(value);
@@ -218,6 +224,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return this.findByPropertysAndOrder(new String[]{}, new String[]{propertyName}, new Object[]{value}, orderCol, orderMode);
 	}
 	
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findByPropertysAndOrder(String[] propertyNames, Object[] values, String orderCol, SQLOrderMode orderMode) {
 		Assert.state(propertyNames.length == values.length);
 		Assert.hasText(orderCol, "orderCol not text");
@@ -226,6 +233,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return this.findByPropertysAndOrder(new String[]{}, propertyNames, values, orderCol, orderMode);
 	}
 	
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	@SuppressWarnings("unchecked")
 	public List<E> findByPropertysAndOrder(String[] joinEntitys, String[] propertyNames, Object[] values, String orderCol, SQLOrderMode orderMode) {
 		StrBuilder buf = new StrBuilder();
@@ -289,6 +297,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return this.getHibernateTemplate().findByNamedParam(buf.toString(), properties, valueList.toArray());
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findByProperty(String propertyName, Object value) {
 		Assert.hasText(propertyName);
 		Assert.notNull(value);
@@ -296,12 +305,14 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return this.findByPropertysAndOrder(new String[]{}, new String[]{propertyName}, new Object[]{value}, null, SQLOrderMode.NOSORT);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<E> findByPropertys(String[] propertyNames, Object[] values) {
 		Assert.state(propertyNames.length == values.length);
 
 		return this.findByPropertysAndOrder(new String[]{}, propertyNames, values, null, SQLOrderMode.NOSORT);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public Page<E> findAllForPage(final PageRequest<E> pageRequest) {
 		StringBuilder queryString = new StringBuilder(" FROM ");
 		StringBuilder countQueryString = new StringBuilder(" FROM ");
@@ -449,42 +460,52 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 		return super.getHibernateTemplate().bulkUpdate(queryString);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> find(String queryString, Object... values) {
 		return super.getHibernateTemplate().find(queryString, values);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> find(String queryString) {
 		return super.getHibernateTemplate().find(queryString);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> findByNamedParam(String queryString, String[] paramNames, Object[] values) {
 		return super.getHibernateTemplate().findByNamedParam(queryString, paramNames, values);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> findByNamedQuery(String queryName, Object[] values) {
 		return super.getHibernateTemplate().findByNamedQuery(queryName, values);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> findByNamedQuery(String queryName) {
 		return super.getHibernateTemplate().findByNamedQuery(queryName);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<?> findByNamedQueryAndNamedParam(String queryName, String[] paramNames, Object[] values) {
 		return super.getHibernateTemplate().findByNamedQueryAndNamedParam(queryName, paramNames, values);
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public Long queryForLong(String queryString, Object... values) {
 		return DataAccessUtils.longResult(getHibernateTemplate().find(queryString, values));
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public Long queryForLong(String queryString) {
 		return queryForLong(queryString, new Object[] {});
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public <T> T queryForObject(Class<T> requiredType, String queryString) {
 		return queryForObject(requiredType, queryString, new Object[] {});
 	}
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public <T> T queryForObject(Class<T> requiredType, String queryString, Object... values) {
 		return DataAccessUtils.objectResult(getHibernateTemplate().find(queryString, values), requiredType);
 	}
@@ -514,6 +535,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 
 	//--------------------------------------------private methods--------------------------------------------------
 
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	@SuppressWarnings("unchecked")
 	public <T> Page<T> executeQueryForPage(final PageRequest<T> pageRequest, Query query, Query countQuery) {
 		Page<T> page = new Page<T>(pageRequest, ((Number) countQuery.uniqueResult()).intValue());
@@ -542,6 +564,7 @@ public class GenericDaoImpl<E, PK extends Serializable> extends HibernateDaoSupp
 	/**
 	 * 增加多个字段的排序方法
 	 */
+	@Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	@SuppressWarnings("unchecked")
 	public List<E> findByPropertysAndOrders(String[] joinEntitys, String[] propertyNames, Object[] values, String[] orderCol, SQLOrderMode orderMode) {
 		StrBuilder buf = new StrBuilder();
