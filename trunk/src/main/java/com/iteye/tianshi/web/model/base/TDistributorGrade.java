@@ -319,8 +319,8 @@ public class TDistributorGrade extends BaseEntity implements Serializable {
 		return bonusAchieve;
 	}
 	
-	public TDistributorGradeHis getHisGradeCopy(){
-		TDistributorGradeHis his = new TDistributorGradeHis();
+	public TDistributorGradeHis getHisGradeCopy(TDistributorGradeHis his){
+		//TDistributorGradeHis his = new TDistributorGradeHis();
 		//个人业绩
 		his.setPersonAchieve(personAchieve);
 		//累计业绩

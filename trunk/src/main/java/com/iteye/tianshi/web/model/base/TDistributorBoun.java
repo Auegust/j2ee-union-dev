@@ -223,8 +223,7 @@ public class TDistributorBoun extends BaseEntity implements Serializable {
 		return distributorCode;
 	}
 	
-	public TDistributorBounsHis copyToHis(){
-		TDistributorBounsHis his = new TDistributorBounsHis();
+	public TDistributorBounsHis copyToHis(TDistributorBounsHis his){
 		his.setAdjustBouns(adjustBouns);
 		his.setBounsDate(bounsDate);
 		his.setCheckFlag(checkFlag);
