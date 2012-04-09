@@ -742,7 +742,7 @@
 				<version>7.4.2.v20110526</version>
 				<configuration>
 					<webAppConfig>
-						<contextPath>/run</contextPath>
+						<contextPath>/angel</contextPath>
 					</webAppConfig>
 					<classesDirectories>
 						<classesDirecty>${project.basedir}\target\classes</classesDirecty>
