@@ -219,6 +219,7 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 				tgGrade.setNetAchieve(tgGrade.getPersonAchieve());
 				/**小组业绩**/
 				tgGrade.setCellAchieve(tgGrade.getPersonAchieve());
+				dirchildList = null;  //bug fixed 20120409
 			}else{/**从倒数第二层开始要考虑下线的个人累计pv部分和自己的个人累计pv部分**/
 				tgGrade = tgMap.get(distributorCode);
 				double personAchevePV = tgGrade.getPersonAchieve();/**该经销商的本月个人业绩**/
@@ -611,8 +612,8 @@ public class TDistributorGradeServiceImpl extends BaseServiceImpl<TDistributorGr
 	/**
 	 * 	计算经销商小组业绩（X-Y）
 	 * @param netAchieve   整网业绩
-	 * @param tgGrade	        当前经销商业绩
-	 * @param tgMap	                   业绩缓存（因为在计算过下线以及本人的职级后传入，所以当前缓存内已经包含他们的职级）
+	 * @param tgGrade	          当前经销商业绩
+	 * @param tgMap	                        业绩缓存（因为在计算过下线以及本人的职级后传入，所以当前缓存内已经包含他们的职级）
 	 * @param dirchildList 直接下线	
 	 */
 	private void findCellGrade(TDistributor dist ,String distributorCode , double netAchieve , TDistributorGrade tgGrade , Map<String, TDistributorGrade> tgMap ,List<TDistributor> dirchildList){
